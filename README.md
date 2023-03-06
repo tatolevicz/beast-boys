@@ -1,18 +1,40 @@
-BeastBoys
+# BeastBoys
 
-BeastBoys is a is a collection of helpers classes built over Boost::Beast, designed to make it easier to open WebSocket streams and REST requests. This library is intended to simplify the implementation of real-time communication and API interactions in modern C++ projects.
+> Only tested on macos for now.
 
-Features
+BeastBoys is a is a collection of helpers classes built over boost::beast, designed to make it easier to open WebSocket streams and REST requests. This library is intended to simplify the implementation of real-time communication and API interactions in modern C++ projects.
+
+## Required packages
+
+You will need to install [boost](http://boost.org)  and [openssl](https://www.openssl.org).
+
+Below some instructions how to do it:
+
+MACOS -> install it using brew:
+```
+brew install boost
+brew install openssl@1.1
+```
+
+WINDOWS: 
+
+```
+TODO
+```
+
+## Features
+
 Simple and intuitive API
+
 WebSocket client implementation (using SSL or not)
+
 REST client implementation
+
 Lightweight
-Installation
-BeastBoys is a cmake project, just check the dependencies below and you're ready to go!
 
-Dependencies:
 
-boost::beast
-openssl
+## Authors
 
-[continue]
+* **Tato Levicz** - [@tatolevicz](https://github.com/tatolevicz)
+
+
