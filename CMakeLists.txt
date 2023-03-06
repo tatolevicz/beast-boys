@@ -1,18 +1,22 @@
 cmake_minimum_required(VERSION 3.12)
+
+#to supress rapidjson warning
+cmake_policy(SET CMP0000 NEW)
+
 project(beast_boys VERSION 1.0 LANGUAGES CXX )
 
 set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_SHARED_LIBS OFF)
 
-
+#subdirectories
 add_subdirectory(rapidjson)
-
+add_subdirectory(fmt)
 
 include(beast_boys.cmake)
 
 #CHANGE THIS TO YOUR VERSION/FOLDER #####################
-set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1s)
+set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1s)
 
 add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES})
 
