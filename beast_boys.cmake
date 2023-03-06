@@ -12,6 +12,8 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Resolver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Resolver.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Stream.cpp
@@ -26,13 +28,28 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Receiver.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Sender.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Sender.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/RestApi.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/NetworkRequestSettings.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/NetworkRequestSettings.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/NetworkTypes.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/RestApiResponse.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/RestApiResponse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl/BoostInternalImpl.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl/BoostInternalImpl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl/ResponseHelper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl/ResponseHelper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/RespApi.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/beastboys
 )
 
 set(BEAST_BOYS_FOLDERS
-     ${CMAKE_CURRENT_SOURCE_DIR}
-     ${CMAKE_CURRENT_SOURCE_DIR}/Common
-     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi
-     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common
-     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common
+    ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl
 )

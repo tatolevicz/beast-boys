@@ -5,12 +5,19 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_SHARED_LIBS OFF)
 
+
+add_subdirectory(rapidjson)
+
+
 include(beast_boys.cmake)
 
 #CHANGE THIS TO YOUR VERSION/FOLDER #####################
 set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1s)
 
 add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES})
+
+target_compile_options(${PROJECT_NAME} PRIVATE -Wno-dev)
+
 
 find_package(OpenSSL REQUIRED)
 
@@ -31,14 +38,15 @@ else()
     message(FATAL_ERROR "Boost not found please install it!")
 endif()
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+        ${BEAST_BOYS_FOLDERS}
+        )
+
 target_link_libraries(${PROJECT_NAME} PUBLIC
     OpenSSL::SSL
     OpenSSL::Crypto
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        ${BEAST_BOYS_FOLDERS}
-        )
 
 # SETUP EXAMPLES -----------------------------------
 add_subdirectory(Examples/Streamer)
