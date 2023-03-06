@@ -12,7 +12,7 @@ add_subdirectory(rapidjson)
 include(beast_boys.cmake)
 
 #CHANGE THIS TO YOUR VERSION/FOLDER #####################
-set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1s)
+set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1s)
 
 add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES})
 
