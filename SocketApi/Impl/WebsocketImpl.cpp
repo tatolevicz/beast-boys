@@ -78,10 +78,6 @@ std::weak_ptr<Stream>  WebsocketImpl::openStream(std::string baseUrl,
     return stream;
 }
 
-bool WebsocketImpl::hasWork() {
-    return !_ioc.stopped();
-}
-
 WebsocketImpl::~WebsocketImpl(){
     _destructorCalled = true;
     _ioc.stop();

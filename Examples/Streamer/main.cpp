@@ -3,11 +3,10 @@
 //
 
 #include <iostream>
-#include "WebsocketImpl.h"
-#include "Stream.h"
+#include <beastboys>
 
 int main(){
-    std::shared_ptr<bb::network::ws::WebsocketImpl> impl(new bb::network::ws::WebsocketImpl());
+    std::shared_ptr<bb::network::ws::Websocket> impl(new bb::network::ws::Websocket());
 
     auto stream2 = impl->openStream("localhost","1234","", false, [](bool success, const std::string& data){
         if(success)

@@ -22,9 +22,11 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/TargetHandShaker.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Streamer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Streamer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/beastboys
 )
 
 set(BEAST_BOYS_FOLDERS
+     ${CMAKE_CURRENT_SOURCE_DIR}
      ${CMAKE_CURRENT_SOURCE_DIR}/Common
      ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi
      ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common

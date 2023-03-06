@@ -36,9 +36,6 @@ public:
     std::shared_ptr<boost::asio::io_context::work> _work{nullptr};
     bool _destructorCalled = false;
 
-    bool hasWork();
-
-
 private:
     void restartContext();
 
