@@ -25,9 +25,13 @@ TODO
 ## Features
 
 Simple and intuitive API
+
 WebSocket client implementation (using SSL or not)
+
 REST client implementation
+
 Lightweight
+
 
 ## Authors
 
