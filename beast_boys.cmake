@@ -1,6 +1,6 @@
 set(BEAST_BOYS_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Websocket.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Websocket.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketTypes.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.h

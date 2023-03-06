@@ -8,14 +8,14 @@
 #include "WebsocketTypes.h"
 
 namespace bb{
-namespace network{
-namespace ws{
 
-    class WebsocketImpl;
-    class Stream;
-    class Websocket{
+    namespace network::ws {
+        class WebsocketImpl;
+        class Stream;
+    }
+    class Streamer{
     public:
-        Websocket();
+        Streamer();
         /**
          * Create a stream and call the cb when with json data provided
          *
@@ -30,18 +30,17 @@ namespace ws{
          *                      Check the <url address> for possible errors and messages.
          * @return          :  Returns a weak pointer to the stream that could be used in a loop while the stream is alive. More in the examples.
          */
-        std::weak_ptr<Stream> openStream(std::string baseUrl,
+        std::weak_ptr<network::ws::Stream> openStream(std::string baseUrl,
                                          std::string port,
                                          std::string endPoint,
                                          bool usesSSL,
-                                         StreamCB cb);
+                                         network::ws::StreamCB cb);
 
 
     private:
-        std::shared_ptr<WebsocketImpl> _impl{nullptr};
+        std::shared_ptr<network::ws::WebsocketImpl> _impl{nullptr};
     };
 
 }
-}
-}
+
 #endif //BINANCEBEAST_WEBSOCKET_H

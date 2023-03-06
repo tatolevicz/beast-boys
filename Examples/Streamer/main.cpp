@@ -6,16 +6,16 @@
 #include <beastboys>
 
 int main(){
-    std::shared_ptr<bb::network::ws::Websocket> impl(new bb::network::ws::Websocket());
+    std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
-    auto stream2 = impl->openStream("localhost","1234","", false, [](bool success, const std::string& data){
+    auto stream = streamer->openStream("localhost","1234","", false, [](bool success, const std::string& data){
         if(success)
             std::cout << data;
         else
             std::cout << "Stream closed with error: " << data << "\n\n";
     });
 
-    while(stream2.lock()){
+    while(stream.lock()){
 
     }
 
