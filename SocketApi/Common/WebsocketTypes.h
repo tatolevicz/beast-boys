@@ -14,6 +14,7 @@ namespace network {
 namespace ws {
 
 using StreamCB = std::function<void(bool success, const std::string& data)>;
+using SendMessageCB = std::function<void(bool success)>;
 //Todo:: create other types (bytes, text, html, etc...)
 
 }

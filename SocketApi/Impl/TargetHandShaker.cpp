@@ -3,7 +3,7 @@
 //
 
 #include "TargetHandShaker.h"
-#include "Streamer.h"
+#include "Receiver.h"
 
 namespace bb {
 namespace network {
@@ -24,7 +24,7 @@ void TargetHandShaker::onHandShake(boost::system::error_code ec) {
         return;
     }
 
-    std::make_shared<Streamer>(std::move(_sharedState), std::move(_stream))->run();
+    std::make_shared<Receiver>(std::move(_sharedState), std::move(_stream))->run();
 }
 
 

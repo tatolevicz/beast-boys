@@ -11,12 +11,12 @@ namespace bb {
 namespace network {
 namespace ws {
 
-class Streamer : public std::enable_shared_from_this<Streamer> {
+class Receiver : public std::enable_shared_from_this<Receiver> {
 public:
-    Streamer(std::shared_ptr<SharedState> state, std::shared_ptr<Stream> stream);
-    ~Streamer();
+    Receiver(std::shared_ptr<SharedState> state, std::shared_ptr<Stream> stream);
+    ~Receiver();
     void run();
-    void onStream(boost::system::error_code ec, std::size_t bytes);
+    void onReceive(boost::system::error_code ec, std::size_t bytes);
 private:
     std::shared_ptr<Stream> _stream;
     std::shared_ptr<SharedState> _sharedState{nullptr};

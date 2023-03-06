@@ -1,6 +1,8 @@
 set(BEAST_BOYS_FILES
-        ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Messenger.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Messenger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketTypes.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.h
@@ -20,8 +22,10 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SSLHandShaker.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/TargetHandShaker.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/TargetHandShaker.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Streamer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Streamer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Receiver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Receiver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Sender.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Sender.h
     ${CMAKE_CURRENT_SOURCE_DIR}/beastboys
 )
 
