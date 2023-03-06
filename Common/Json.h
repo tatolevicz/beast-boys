@@ -2,8 +2,8 @@
 // Created by Arthur Abel Motelevicz on 19/03/22.
 //
 
-#ifndef BOTBUILDER_JSON_H
-#define BOTBUILDER_JSON_H
+#ifndef BEASTBOYS_JSON_H
+#define BEASTBOYS_JSON_H
 
 #include <iostream>
 #include <string>
@@ -194,4 +194,4 @@ namespace bb {
     };
 }
 
-#endif //BOTBUILDER_JSON_H
+#endif //BEASTBOYS_JSON_H

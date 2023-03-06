@@ -124,7 +124,7 @@ namespace bb {
 
             NetworkRequestSettings &
             NetworkRequestSettings::setBody(const rapidjson::Document &document) {
-                return setBody(Json::toString(document));
+                return setBody(bb::Json::toString(document));
             }
 
             NetworkRequestSettings &

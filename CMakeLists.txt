@@ -15,11 +15,13 @@ add_subdirectory(fmt)
 
 include(beast_boys.cmake)
 
+#TODO: export OPENSSL_ROOT as environment var
 #CHANGE THIS TO YOUR VERSION/FOLDER #####################
 set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1s)
 
 add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES})
 
+#to supress rapidjson warning
 target_compile_options(${PROJECT_NAME} PRIVATE -Wno-dev)
 
 
@@ -49,6 +51,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_link_libraries(${PROJECT_NAME} PUBLIC
     OpenSSL::SSL
     OpenSSL::Crypto
+    fmt
 )
 
 
