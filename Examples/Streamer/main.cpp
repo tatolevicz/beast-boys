@@ -19,7 +19,7 @@ int main(){
     });
 
     bool sent = false;
-    std::shared_ptr<bb::Messenger> messenger  = std::make_unique<bb::Messenger>();
+    auto messenger  = std::make_unique<bb::Messenger>();
 
     while(stream.lock()){
         // Do other stuff while the data is coming in callback

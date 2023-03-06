@@ -25,16 +25,16 @@ endif()
 find_package(Boost REQUIRED)
 if (${Boost_FOUND})
     target_include_directories( ${PROJECT_NAME} PUBLIC
-            ${Boost_INCLUDE_DIRS}
-            )
+        ${Boost_INCLUDE_DIRS}
+    )
 else()
     message(FATAL_ERROR "Boost not found please install it!")
 endif()
 
-target_link_libraries( ${PROJECT_NAME} PUBLIC
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        )
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    OpenSSL::SSL
+    OpenSSL::Crypto
+)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${BEAST_BOYS_FOLDERS}
