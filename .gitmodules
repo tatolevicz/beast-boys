@@ -1,3 +1,6 @@
 [submodule "rapidjson"]
 	path = rapidjson
 	url = https://github.com/Tencent/rapidjson
+[submodule "fmt"]
+	path = fmt
+	url = git@github.com:fmtlib/fmt.git
