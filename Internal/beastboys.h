@@ -9,5 +9,8 @@
 #include "Streamer.h"
 #include "Messenger.h"
 #include "Stream.h"
+#include "RestApi.h"
+#include "NetworkRequestSettings.h"
+
 
 #endif //BEAST_BOYS_BEASTBOYS_H
