@@ -2,8 +2,8 @@
 // Created by Arthur Motelevicz on 16/02/23.
 //
 
-#ifndef BROKERAPP_NETWORKTYPES_H
-#define BROKERAPP_NETWORKTYPES_H
+#ifndef BINANCEBEAST_NETWORKTYPES_H
+#define BINANCEBEAST_NETWORKTYPES_H
 
 #include "Json.h"
 #include <boost/variant.hpp>
@@ -39,4 +39,4 @@ namespace bb {
         }
     }
 }
-#endif //BROKERAPP_NETWORKTYPES_H
+#endif //BINANCEBEAST_NETWORKTYPES_H
