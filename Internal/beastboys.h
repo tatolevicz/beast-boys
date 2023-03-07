@@ -5,6 +5,7 @@
 #ifndef BEAST_BOYS_BEASTBOYS_H
 #define BEAST_BOYS_BEASTBOYS_H
 
+#include "NetworkTypes.h"
 #include "WebsocketTypes.h"
 #include "Streamer.h"
 #include "Messenger.h"
