@@ -76,7 +76,7 @@ namespace bb {
 
         static void set(rapidjson::Document &document, const std::string &key, float floatValue);
 
-        static void set(rapidjson::Document &document, const std::string &key, int64_t longValue);
+        static void set(rapidjson::Document &document, const std::string &key, uint64_t longValue);
 
         static void set(rapidjson::Document &document, const std::string &key, double doubleValue);
 
@@ -111,7 +111,7 @@ namespace bb {
         set(rapidjson::Document &document, rapidjson::Value &object, const std::string &key, float floatValue);
 
         static void
-        set(rapidjson::Document &document, rapidjson::Value &object, const std::string &key, int64_t int64Value);
+        set(rapidjson::Document &document, rapidjson::Value &object, const std::string &key, uint64_t uint64Value);
 
         static void
         set(rapidjson::Document &document, rapidjson::Value &object, const std::string &key, double doubleValue);

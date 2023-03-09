@@ -147,10 +147,10 @@ void bb::Json::set(rapidjson::Document& document, rapidjson::Value& object, cons
     object.AddMember(name, floatValue, document.GetAllocator());
 }
 
-void bb::Json::set(rapidjson::Document& document, rapidjson::Value& object, const std::string& key, int64_t int64Value)
+void bb::Json::set(rapidjson::Document& document, rapidjson::Value& object, const std::string& key, uint64_t uint64Value)
 {
     rapidjson::Value name(key.c_str(), (unsigned int)key.size(), document.GetAllocator());
-    object.AddMember(name, (int64_t)int64Value, document.GetAllocator());
+    object.AddMember(name, uint64Value, document.GetAllocator());
 }
 
 void bb::Json::set(rapidjson::Document& document, rapidjson::Value& object, const std::string& key, double doubleValue)
@@ -206,9 +206,9 @@ void bb::Json::set(rapidjson::Document& document, const std::string& key, float 
     set(document, document, key, floatValue);
 }
 
-void bb::Json::set(rapidjson::Document& document, const std::string& key, int64_t int64Value)
+void bb::Json::set(rapidjson::Document& document, const std::string& key, uint64_t uint64Value)
 {
-    set(document, document, key, int64Value);
+    set(document, document, key, uint64Value);
 }
 
 void bb::Json::set(rapidjson::Document& document, const std::string& key, double doubleValue)
