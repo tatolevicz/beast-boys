@@ -8,8 +8,6 @@ set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1t)
 
 set(BUILD_SHARED_LIBS OFF)
 
-#comentario no cmake
-
 #Install dependencies shell command
 execute_process(COMMAND bash "${CMAKE_CURRENT_SOURCE_DIR}/install_dependencies_on_build.sh" RESULT_VARIABLE added_dependencies)
 
