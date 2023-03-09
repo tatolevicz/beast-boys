@@ -9,12 +9,12 @@ set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1t)
 set(BUILD_SHARED_LIBS OFF)
 
 #Install dependencies shell command
-execute_process(COMMAND bash "${CMAKE_CURRENT_SOURCE_DIR}/install_dependencies_on_build.sh" RESULT_VARIABLE added_dependencies)
+execute_process(COMMAND bash "${CMAKE_CURRENT_SOURCE_DIR}/install_dependencies_on_build.sh" RESULT_VARIABLE added_dependencies_result)
 
-if(${added_dependencies} EQUAL 0)
+if(${added_dependencies_result} EQUAL 0)
     message("Dependencies added with success!")
 else()
-    message(FATAL_ERROR "Error trying to install dependencies: ${added_dependencies}")
+    message(FATAL_ERROR "Error trying to install dependencies: ${added_dependencies_result}")
 endif()
 
 # -- EXTERNAL subdirectories --------------------

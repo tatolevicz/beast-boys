@@ -44,7 +44,8 @@ set(BEAST_BOYS_FILES
 
 set(BEAST_BOYS_FOLDERS
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/external
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/rapidjson/include
     ${CMAKE_CURRENT_SOURCE_DIR}/fmt/include
     ${CMAKE_CURRENT_SOURCE_DIR}/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi
