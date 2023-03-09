@@ -12,6 +12,7 @@
 #include "Stream.h"
 #include "RestApi.h"
 #include "NetworkRequestSettings.h"
+#include "CryptoHelper.h"
 
 
 #endif //BEAST_BOYS_BEASTBOYS_H
