@@ -21,24 +21,24 @@ int main(){
     bool sent = false;
     auto messenger  = std::make_unique<bb::Messenger>();
 
-    while(stream.lock()){
+    while(stream.use_count() > 1){
         // Do other stuff while the data is coming in callback
         std::this_thread::sleep_for(std::chrono::seconds(3));
 //        std::cout << "\nWorking.. \n";
 
-        if(!sent)
-        {
-            messenger->sendMassage(stream.lock(),
-                                   "{\n\"method\": \"SUBSCRIBE\",\n\"params\":\n[\n\"btcusdt@trade\"\n],\n\"id\": 1\n}",
-            [](bool success){
-                if(success)
-                    std::cout << "Msg enviada com sucesso!\n";
-                else
-                    std::cerr << "Msg nao enviada!\n";
-            });
-
-            sent = true;
-        }
+//        if(!sent)
+//        {
+//            messenger->sendMassage(stream.lock(),
+//                                   "{\n\"method\": \"SUBSCRIBE\",\n\"params\":\n[\n\"btcusdt@trade\"\n],\n\"id\": 1\n}",
+//            [](bool success){
+//                if(success)
+//                    std::cout << "Msg enviada com sucesso!\n";
+//                else
+//                    std::cerr << "Msg nao enviada!\n";
+//            });
+//
+//            sent = true;
+//        }
 
     }
 

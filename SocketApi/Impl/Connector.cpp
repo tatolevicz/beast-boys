@@ -42,11 +42,11 @@ void Connector::onConnect(boost::system::error_code ec, boost::asio::ip::tcp::re
             return;
         }
 
-        std::make_shared<SSLHandShaker>(std::move(_sharedState), std::move(_stream))->run();
+        std::make_shared<SSLHandShaker>(std::move(_sharedState), _stream)->run();
         return;
     }
 
-    std::make_shared<TargetHandShaker>(std::move(_sharedState), std::move(_stream))->run();
+    std::make_shared<TargetHandShaker>(std::move(_sharedState), _stream)->run();
 }
 
 void Connector::run(boost::asio::ip::tcp::resolver::results_type results){

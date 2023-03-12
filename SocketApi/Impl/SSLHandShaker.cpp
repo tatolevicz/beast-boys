@@ -22,7 +22,7 @@ void SSLHandShaker::onHandShake(boost::system::error_code ec) {
         REPORT_ASIO_ERROR_(ec)
         return;
     }
-    std::make_shared<TargetHandShaker>(std::move(_sharedState), std::move(_stream))->run();
+    std::make_shared<TargetHandShaker>(std::move(_sharedState), _stream)->run();
 }
 
 
