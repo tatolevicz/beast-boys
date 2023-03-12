@@ -41,7 +41,7 @@ void WebsocketImpl::restartContext(){
     _work = std::make_shared<boost::asio::io_context::work>(_ioc);
 }
 
-std::shared_ptr<Stream>  WebsocketImpl::openStream(std::string baseUrl,
+std::weak_ptr<Stream>  WebsocketImpl::openStream(std::string baseUrl,
                               std::string port,
                               std::string endPoint,
                               bool usesSSL,

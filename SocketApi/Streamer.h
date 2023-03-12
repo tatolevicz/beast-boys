@@ -30,7 +30,7 @@ namespace bb{
          *                      Check the <url address> for possible errors and messages.
          * @return          :  Returns a weak pointer to the stream that could be used in a loop while the stream is alive. More in the examples.
          */
-        std::shared_ptr<network::ws::Stream> openStream(std::string baseUrl,
+        std::weak_ptr<network::ws::Stream> openStream(std::string baseUrl,
                                          std::string port,
                                          std::string endPoint,
                                          bool usesSSL,

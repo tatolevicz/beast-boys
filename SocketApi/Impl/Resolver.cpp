@@ -23,7 +23,7 @@ void Resolver::onResolve(boost::system::error_code ec, boost::asio::ip::tcp::res
         REPORT_ASIO_ERROR_(ec)
         return;
     }
-    std::make_shared<Connector>(std::move(_sharedState), _stream)->run(std::move(res));
+    std::make_shared<Connector>(std::move(_sharedState), std::move(_stream))->run(std::move(res));
 }
 
 

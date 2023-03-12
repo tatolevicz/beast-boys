@@ -12,7 +12,7 @@ Streamer::Streamer(){
     _impl = std::make_shared<network::ws::WebsocketImpl>();
 }
 
-std::shared_ptr<network::ws::Stream>  Streamer::openStream(std::string baseUrl,
+std::weak_ptr<network::ws::Stream>  Streamer::openStream(std::string baseUrl,
                                                          std::string port,
                                                          std::string endPoint,
                                                          bool usesSSL,

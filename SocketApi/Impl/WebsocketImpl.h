@@ -22,7 +22,7 @@ class SharedState;
 class WebsocketImpl{
 public:
     WebsocketImpl();
-    std::shared_ptr<Stream> openStream(std::string baseUrl,
+    std::weak_ptr<Stream> openStream(std::string baseUrl,
                     std::string port,
                     std::string endPoint,
                     bool usesSSL,

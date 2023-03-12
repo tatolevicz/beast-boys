@@ -24,7 +24,7 @@ void TargetHandShaker::onHandShake(boost::system::error_code ec) {
         return;
     }
 
-    std::make_shared<Receiver>(std::move(_sharedState), _stream)->run();
+    std::make_shared<Receiver>(std::move(_sharedState), std::move(_stream))->run();
 }
 
 
