@@ -15,23 +15,25 @@ namespace bb{
     class Messenger{
     public:
         Messenger();
-        /**
-         * Send a message to the stream
-         *
-         * @param baseUrl   :  expected a base url for: wss://<base_url>:<port>/<endpoint>
-         * @param port      :  expected a port for: wss://<base_url>:<port>/<endpoint> -> if an empty port is passed so 443 will be used
-         * @param endPoint  :  expected an endPoint for: wss://<base_url>:<port><endpoint> ->
-         *                     *Note the lack of slash between the port and endpoint so provide it with the endpoint ex: "/something/great"
-         *                     if an empty target is passed so "/" will be used .
-         *
-         * @param usesSSL   :  if the socket url is "wss://" pass true, if it is just "ws://" pass false to it. Default value is true.
-         * @param cb        :  callback called when data is arrives at the stream. The cb signature is (bool success, const std::string& data).
-         *                      Check the <url address> for possible errors and messages.
-         * @return          :  Returns a weak pointer to the stream that could be used in a loop while the stream is alive. More in the examples.
-         */
+
         void sendMassage(const std::shared_ptr<network::ws::Stream>& stream,
                          const std::string& message,
                          network::ws::SendMessageCB cb = nullptr);
+
+        //TODO:: fazer metodos para receber ping e enviar pong
+        //exemplo do control callback da pong message na BINAPI
+//        m_ws.control_callback(
+//        [this]
+//        (boost::beast::websocket::frame_type kind, boost::beast::string_view payload) mutable {
+//            (void)kind; (void) payload;
+//            //std::cout << "control_callback(" << this << "): kind=" << static_cast<int>(kind) << ", payload=" << payload.data() << std::endl;
+//            m_ws.async_pong(
+//                    boost::beast::websocket::ping_data{}
+//                    ,[](boost::beast::error_code ec)
+//                    { (void)ec; /*std::cout << "control_callback_cb(" << this << "): ec=" << ec << std::endl;*/ }
+//            );
+//        }
+//        );
 
     private:
     };
