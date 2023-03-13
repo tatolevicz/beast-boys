@@ -24,7 +24,6 @@ namespace bb {
                 JSON
             };
 
-            using NetworkResponse = DataResponse<std::string>;
             using PostCallback = std::function<bool(const char *fl, int ec, std::string errmsg, std::string res,
                                                     int http_result_code)>;
             using ResponseCallback = std::function<void(const NetworkResponse &)>;

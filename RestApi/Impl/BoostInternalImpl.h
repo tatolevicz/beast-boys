@@ -39,7 +39,7 @@ public:
             typename Args = typename boost::callable_traits::args<CB>::type,
             typename R = typename std::tuple_element<3, Args>::type
     >
-    DataResponse<std::string> post(NetworkRequestSettings &settings,
+    NetworkResponse post(NetworkRequestSettings &settings,
                                    boost::beast::http::verb action,
                                    CB cb) {
         static_assert(std::tuple_size<Args>::value == 5, "callback signature is wrong!");
@@ -56,7 +56,7 @@ public:
             settings.setEndPoint(starget);
         }
 
-        DataResponse<std::string> r{};
+        NetworkResponse r{};
         if (settings.getTaskExecutionType() == TaskExecutionType::SYNCH) {
             try {
                 r = syncPost(settings, action, std::move(data));
@@ -85,11 +85,11 @@ public:
         return r;
     }
 
-    DataResponse<std::string>
+    NetworkResponse
     syncPost(const NetworkRequestSettings &settings, boost::beast::http::verb action, std::string data);
 
     //example method not using ssl (not used in the project but can be util in the future)
-    DataResponse<std::string>
+    NetworkResponse
     sendHttpRequest(const NetworkRequestSettings &settings, boost::beast::http::verb action,
                     std::string data);
 

@@ -21,8 +21,8 @@ _timeout(timeout),
 _apictx(std::make_unique<boost::asio::io_context>()),
 _pimpl(std::make_unique<BoostInternalImpl>(*_apictx, std::move(port), timeout))
 {
-    _errorCodes.insert_or_assign("statusCode", "message");
-    _errorCodes.insert_or_assign("code", "msg");
+//    _errorCodes.insert_or_assign("statusCode", "message");
+//    _errorCodes.insert_or_assign("code", "msg");
 }
 
 NetworkResponse RestApi::post(NetworkRequestSettings &settings, const ResponseCallback &cb) {
@@ -108,7 +108,7 @@ void RestApi::runAsync() {
     worker.detach();
 }
 
-void RestApi::validateResponse(int http_result_code, Response &response) {
+void RestApi::validateResponse(int http_result_code, NetworkResponse &response) {
     switch (http_result_code) {
         case (int) boost::beast::http::status::ok:
         case (int) boost::beast::http::status::created:
@@ -118,13 +118,11 @@ void RestApi::validateResponse(int http_result_code, Response &response) {
         case (int) boost::beast::http::status::partial_content: {
             response.http_result_code = http_result_code;
             response.message = "Http success!";
-            response.reply.clear();
             break;
         }
         default: {
             response.http_result_code = http_result_code;
             response.message = "Http response error!";
-            response.reply.clear();
         }
     }
 }

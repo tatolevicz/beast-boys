@@ -46,11 +46,10 @@ private:
 
     void runAsync();
 
-    void validateResponse(int http_result_code, Response& response);
+    void validateResponse(int http_result_code, NetworkResponse& response);
 
     std::unique_ptr<boost::asio::io_context> _apictx;
     std::unique_ptr<BoostInternalImpl> _pimpl;
-    std::map<std::string, std::string> _errorCodes;
 };
 
 

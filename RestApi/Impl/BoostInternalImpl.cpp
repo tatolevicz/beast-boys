@@ -29,10 +29,10 @@ namespace bb {
                 return _responseHelper.get();
             }
 
-            DataResponse<std::string> BoostInternalImpl::syncPost(const NetworkRequestSettings &settings,
+            NetworkResponse BoostInternalImpl::syncPost(const NetworkRequestSettings &settings,
                                                                   boost::beast::http::verb action,
                                                                   std::string data) {
-                DataResponse<std::string> res{};
+                NetworkResponse res{};
 
                 boost::asio::ssl::stream<boost::asio::ip::tcp::socket> ssl_stream(m_ioctx, m_ssl_ctx);
 
@@ -124,10 +124,10 @@ namespace bb {
 
 
             //example method not using ssl
-            DataResponse<std::string> BoostInternalImpl::sendHttpRequest(const NetworkRequestSettings &settings,
+            NetworkResponse BoostInternalImpl::sendHttpRequest(const NetworkRequestSettings &settings,
                                                                          boost::beast::http::verb action,
                                                                          std::string data) {
-                DataResponse<std::string> res{};
+                NetworkResponse res{};
 
                 // These objects perform our I/O
                 boost::asio::ip::tcp::resolver resolver{m_ioctx};
