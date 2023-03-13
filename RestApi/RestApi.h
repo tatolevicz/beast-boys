@@ -32,13 +32,12 @@ public:
 
     NetworkResponse del(NetworkRequestSettings& settings, const ResponseCallback& cb = nullptr) ;
 
-    NetworkFileResponse downloadFile(NetworkRequestSettings& settings,
-                                     const std::string& path,
-                                     const FileResponseCallback& cb = nullptr);
+    NetworkResponse downloadFile(NetworkRequestSettings& settings,
+                                 const std::string& path,
+                                 const ResponseCallback& cb);
 
 private:
     NetworkResponse execute(NetworkRequestSettings& settings, const RequestType type, const ResponseCallback& cb);
-    NetworkFileResponse execute(NetworkRequestSettings& settings, const RequestType type, const FileResponseCallback& cb);
 
     std::string _port;
     std::size_t _timeout;
@@ -47,10 +46,7 @@ private:
 
     void runAsync();
 
-    DataResponse<rapidjson::Document> validateJson(const std::string& data);
-    void validateJson(const std::string& data, NetworkResponse& httpResponse);
     void validateResponse(int http_result_code, Response& response);
-    void validateData(const std::string& data, DataResponse<std::string>& res);
 
     std::unique_ptr<boost::asio::io_context> _apictx;
     std::unique_ptr<BoostInternalImpl> _pimpl;

@@ -21,8 +21,8 @@ void exampleGettingUserListenKey(){
             .setFullUrl("https://testnet.binance.vision/api/v3/userDataStream");
 
     _restApi->post(settings, [](const bb::network::rest::NetworkResponse& response) {
-        if(response.isHttpOk()){
-            std::cout << "Data user: " << bb::Json::stringfy(response.data) <<  "\n";
+        if(response.isOk()){
+            std::cout << "Data user: " << response.data <<  "\n";
         }
         else{
             std::cout << "Data user OK error!" << "\n";

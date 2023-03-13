@@ -24,12 +24,10 @@ namespace bb {
                 JSON
             };
 
-            using NetworkResponse = DataResponse<rapidjson::Document>;
-            using NetworkFileResponse = DataResponse<std::string>;
+            using NetworkResponse = DataResponse<std::string>;
             using PostCallback = std::function<bool(const char *fl, int ec, std::string errmsg, std::string res,
                                                     int http_result_code)>;
             using ResponseCallback = std::function<void(const NetworkResponse &)>;
-            using FileResponseCallback = std::function<void(const NetworkFileResponse &)>;
             using valType = boost::variant<std::size_t, const char *, std::string>;
             using kvType = std::pair<std::string, std::string>;
             using ListData = std::vector<kvType>;

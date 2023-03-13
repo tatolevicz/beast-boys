@@ -12,16 +12,13 @@ namespace bb {
         namespace rest {
 
             struct Response {
-                int code{0};
                 int http_result_code{-1};
                 std::string message;
                 std::string reply;
 
-                Response(const int pCode = 0, const std::string &msg = "", int http_result_code_value = -1);
+                Response(const std::string &msg = "", int http_result_code_value = -1);
 
                 bool isOk() const;
-
-                bool isHttpOk() const;
 
             };
 
@@ -29,9 +26,9 @@ namespace bb {
             struct DataResponse : Response {
                 T data;
 
-                DataResponse(const int pCode = 0, const std::string &msg = "", int http_result_code_value = -1)
-                        : Response(
-                        pCode, msg, http_result_code_value) {}
+                DataResponse(const std::string &msg = "", int http_result_code_value = -1)
+                        : Response(msg, http_result_code_value)
+                {}
             };
         }
     }
