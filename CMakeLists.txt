@@ -1,23 +1,32 @@
 cmake_minimum_required(VERSION 3.12)
+
 project(beast_boys VERSION 1.0 LANGUAGES CXX )
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1t)
+
 set(BUILD_SHARED_LIBS OFF)
 
+#Check if dependencies are installed
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external)
+    message(FATAL_ERROR "Dependencies not installed! Please run ./install_dependencies.sh")
+endif()
+#-----------------------------------
 
-add_subdirectory(rapidjson)
+# -- EXTERNAL subdirectories --------------------
+#turn off rapidjson extra builds
+option(RAPIDJSON_BUILD_DOC "Build rapidjson documentation." OFF )
+option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." OFF )
+option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." OFF )
+option(RAPIDJSON_ENABLE_INSTRUMENTATION_OPT "Build rapidjson with -march or -mcpu options" OFF )
 
+add_subdirectory(external/rapidjson)
+# ----------------------------------------------
 
 include(beast_boys.cmake)
 
-#CHANGE THIS TO YOUR VERSION/FOLDER #####################
-set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1s)
-
 add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES})
-
-target_compile_options(${PROJECT_NAME} PRIVATE -Wno-dev)
-
 
 find_package(OpenSSL REQUIRED)
 

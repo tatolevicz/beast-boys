@@ -150,7 +150,7 @@ void bb::Json::set(rapidjson::Document& document, rapidjson::Value& object, cons
 void bb::Json::set(rapidjson::Document& document, rapidjson::Value& object, const std::string& key, int64_t int64Value)
 {
     rapidjson::Value name(key.c_str(), (unsigned int)key.size(), document.GetAllocator());
-    object.AddMember(name, (int64_t)int64Value, document.GetAllocator());
+    object.AddMember(name, int64Value, document.GetAllocator());
 }
 
 void bb::Json::set(rapidjson::Document& document, rapidjson::Value& object, const std::string& key, double doubleValue)

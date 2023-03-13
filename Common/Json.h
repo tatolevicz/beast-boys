@@ -2,8 +2,8 @@
 // Created by Arthur Abel Motelevicz on 19/03/22.
 //
 
-#ifndef BOTBUILDER_JSON_H
-#define BOTBUILDER_JSON_H
+#ifndef BEASTBOYS_JSON_H
+#define BEASTBOYS_JSON_H
 
 #include <iostream>
 #include <string>
@@ -76,7 +76,7 @@ namespace bb {
 
         static void set(rapidjson::Document &document, const std::string &key, float floatValue);
 
-        static void set(rapidjson::Document &document, const std::string &key, int64_t longValue);
+        static void set(rapidjson::Document &document, const std::string &key, int64_t int64Value);
 
         static void set(rapidjson::Document &document, const std::string &key, double doubleValue);
 
@@ -194,4 +194,4 @@ namespace bb {
     };
 }
 
-#endif //BOTBUILDER_JSON_H
+#endif //BEASTBOYS_JSON_H
