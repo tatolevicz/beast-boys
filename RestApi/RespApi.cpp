@@ -2,10 +2,6 @@
 // Created by Arthur Motelevicz on 01/03/23.
 //
 
-//
-// Created by Arthur Motelevicz on 16/02/23.
-//
-
 #include "RestApi.h"
 #include "BoostInternalImpl.h"
 #include <boost/asio.hpp>
@@ -13,7 +9,6 @@
 namespace bb {
 namespace network {
 namespace rest {
-
 
 RestApi::RestApi(std::string port, std::size_t timeout):
 _port(port),
