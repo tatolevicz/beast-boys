@@ -18,6 +18,7 @@ int main(){
         std::cout << data << "\n\n";
     });
 
+
     bool sent = false;
     auto messenger  = std::make_unique<bb::Messenger>();
 

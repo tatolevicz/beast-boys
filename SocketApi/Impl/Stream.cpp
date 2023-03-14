@@ -101,18 +101,22 @@ void Stream::connectionAborted(boost::system::error_code ec) const{
 
 void Stream::stop() {
     if(_usesSSL){
-        _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
-            if (_cb)
-                _cb(false, "Stream stopped by user!");
-        });
+        if(_socketSSL->is_open()) {
+            _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
+                if (_cb)
+                    _cb(false, "Stream stopped by user!");
+            });
+        }
 
         return;
     }
 
-    _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
-        if (_cb)
-            _cb(false, "Stream stopped by user!");
-    });
+    if(_socket->is_open()) {
+        _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
+            if (_cb)
+                _cb(false, "Stream stopped by user!");
+        });
+    }
 }
 
 Stream::~Stream(){
