@@ -130,17 +130,17 @@ void Stream::stop() {
                 switch (kind) {
                     case boost::beast::websocket::frame_type::ping:
                     {
-//                        std::cout << "Ping message received! Payload: "<< payload << "\n";
+                        std::cout << "Ping message received! Payload: "<< payload << "\n";
                         return;
                     }
                     case boost::beast::websocket::frame_type::pong:
                     {
-//                        std::cout << "Pong message received! Payload: "<< payload << "\n";
+                        std::cout << "Pong message received! Payload: "<< payload << "\n";
                         return;
                     }
                     case boost::beast::websocket::frame_type::close:
                     {
-//                        std::cout << "Close message received! Payload: "<< payload << "\n";
+                        std::cout << "Close message received! Payload: "<< payload << "\n";
                         if(_closeStreamCB)
                             _closeStreamCB();
 
