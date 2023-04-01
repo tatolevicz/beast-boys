@@ -18,12 +18,6 @@ _stream(std::move(stream))
 
 }
 
-void Connector::onConnectBeastSSL(boost::system::error_code ec, boost::asio::ip::tcp::resolver::results_type::endpoint_type){
-    CHECK_ASIO_ERROR_(ec)
-
-
-}
-
 void Connector::onConnect(boost::system::error_code ec, boost::asio::ip::tcp::resolver::iterator){
 
     if(ec){
@@ -31,6 +25,8 @@ void Connector::onConnect(boost::system::error_code ec, boost::asio::ip::tcp::re
         REPORT_ASIO_ERROR_(ec)
         return;
     }
+
+    _stream->setWatchControlMessages();
 
     if(_stream->usesSSL()){
         if (!SSL_set_tlsext_host_name(_stream->getSocketSSL().next_layer().native_handle(), _stream->host().c_str())) {
@@ -49,7 +45,7 @@ void Connector::onConnect(boost::system::error_code ec, boost::asio::ip::tcp::re
     std::make_shared<TargetHandShaker>(std::move(_sharedState), std::move(_stream))->run();
 }
 
-void Connector::run(boost::asio::ip::tcp::resolver::results_type results){
+void Connector::run(const boost::asio::ip::tcp::resolver::results_type& results){
     if(_stream->usesSSL()) {
         boost::asio::async_connect(_stream->getSocketSSL().next_layer().next_layer(),
         results.begin(),

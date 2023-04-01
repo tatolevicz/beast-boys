@@ -5,9 +5,7 @@
 #include "Stream.h"
 #include <iostream>
 
-namespace bb {
-namespace network {
-namespace ws {
+namespace bb::network::ws {
 
 //Stream::Stream(boost::asio::io_context &ioc, std::string host, std::string port, std::string target, bool usesSSL):
 //_ssl_context(boost::asio::ssl::context::sslv23_client),
@@ -119,13 +117,70 @@ void Stream::stop() {
     }
 }
 
-Stream::~Stream(){
-    std::cout << "Destructor stream!" << "\n";
-}
+    Stream::~Stream(){
+        std::cout << "Destructor stream!" << "\n";
+    }
 
+    void Stream::setWatchControlMessages() {
 
+        if(_usesSSL){
+            _socketSSL->control_callback(
+            [&](boost::beast::websocket::frame_type kind, boost::string_view payload)
+            {
+                switch (kind) {
+                    case boost::beast::websocket::frame_type::ping:
+                    {
+//                        std::cout << "Ping message received! Payload: "<< payload << "\n";
+                        return;
+                    }
+                    case boost::beast::websocket::frame_type::pong:
+                    {
+//                        std::cout << "Pong message received! Payload: "<< payload << "\n";
+                        return;
+                    }
+                    case boost::beast::websocket::frame_type::close:
+                    {
+//                        std::cout << "Close message received! Payload: "<< payload << "\n";
+                        if(_closeStreamCB)
+                            _closeStreamCB();
 
+                        return;
+                    }
+                }
 
-}
-}
-}
+            });
+
+            return;
+        }
+        _socket->control_callback(
+                [&](boost::beast::websocket::frame_type kind, boost::string_view payload)
+                {
+                    switch (kind) {
+                        case boost::beast::websocket::frame_type::ping:
+                        {
+//                            std::cout << "Ping message received! Payload: "<< payload << "\n";
+                            return;
+                        }
+                        case boost::beast::websocket::frame_type::pong:
+                        {
+//                            std::cout << "Pong message received! Payload: "<< payload << "\n";
+                            return;
+                        }
+                        case boost::beast::websocket::frame_type::close:
+                        {
+//                            std::cout << "Close message received! Payload: "<< payload << "\n";
+                            if(_closeStreamCB)
+                                _closeStreamCB();
+                            return;
+                        }
+                    }
+
+                });
+
+    }
+
+    void Stream::setCloseStreamCallback(const CloseStreamCallback& cb){
+        _closeStreamCB = cb;
+    }
+
+    }

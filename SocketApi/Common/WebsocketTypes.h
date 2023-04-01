@@ -9,16 +9,14 @@
 #include <boost/beast.hpp>
 #include "WebsocketResponse.h"
 
-namespace bb {
-namespace network {
-namespace ws {
+namespace bb::network::ws {
 
-using StreamCB = std::function<void(bool success, const std::string& data)>;
-using SendMessageCB = std::function<void(bool success)>;
-//Todo:: create other types (bytes, text, html, etc...)
+    using CloseStreamCallback = std::function<void(void)>;
+    using StreamCB = std::function<void(bool success, const std::string& data)>;
+    using SendMessageCB = std::function<void(bool success)>;
 
-}
-}
+    //Todo:: create other types (bytes, text, html, etc...)
+
 }
 
 

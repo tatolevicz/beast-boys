@@ -10,11 +10,13 @@
 #include <boost/beast/ssl.hpp>
 #include "WebsocketTypes.h"
 
-namespace bb {
-    namespace network {
-        namespace ws {
+namespace bb::network::ws {
+
             class Stream : public std::enable_shared_from_this<Stream> {
             public:
+
+                friend class Connector;
+
                 Stream(boost::asio::io_context &ioc,
                        std::string host,
                        std::string port,
@@ -44,7 +46,12 @@ namespace bb {
                 void connectionAborted(boost::system::error_code ec) const;
                 void stop();
 
+                void setCloseStreamCallback(const CloseStreamCallback& cb);
+
             private:
+                //should be called by the connector (that is a friend class) when the socket is connected
+                void setWatchControlMessages();
+
                 inline static uint32_t id = 0;
                 std::shared_ptr<boost::beast::websocket::stream<boost::asio::ip::tcp::socket>> _socket{nullptr};
                 std::shared_ptr<boost::beast::websocket::stream<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>> _socketSSL{nullptr};
@@ -55,11 +62,10 @@ namespace bb {
                 uint32_t _id;
                 bool _usesSSL{true};
 
-                StreamCB _cb;
+                CloseStreamCallback _closeStreamCB{nullptr};
+                StreamCB _cb{nullptr};
             };
 
         }
-    }
-}
 
 #endif //BINANCEBEAST_STREAM_H
