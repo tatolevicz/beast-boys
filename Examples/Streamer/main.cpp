@@ -5,7 +5,52 @@
 #include <iostream>
 #include <beastboys>
 
+
+std::shared_ptr< bb::network::ws::Stream> createStream(const std::shared_ptr<bb::Streamer> & streamer){
+
+    auto stream = streamer->openStream("localhost","1234","", false, [](bool success, const std::string& data){
+        if(!success) {
+            std::cout << "Stream1 closed with msg: " << data << "\n\n";
+            return;
+        }
+        
+        //Work with your streamed data here
+        std::cout << data << "\n\n";
+    });
+
+    return std::move(stream.lock());
+
+}
+void localHostStream(){
+    std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
+
+    auto stream = createStream(streamer);
+    std::function<void(void)> closeCB = [&](){
+        std::cout << "Stream CLOSE CB!!! \n";
+        stream->stop();
+        stream = createStream(streamer);
+        stream->setCloseStreamCallback(closeCB);
+    };
+
+    stream->setCloseStreamCallback(closeCB);
+
+    stream->setCloseStreamCallback([&](){
+        closeCB();
+    });
+
+    while(stream.use_count() > 1){
+        // Do other stuff while the data is coming in callback
+//        std::this_thread::sleep_for(std::chrono::seconds(3));
+    }
+
+}
+
 int main(){
+
+    localHostStream();
+
+    return 0;
+
     std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
     auto stream = streamer->openStream("stream.binance.com","9443","/ws/btcusdt@kline_1s", true, [](bool success, const std::string& data){
