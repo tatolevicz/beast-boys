@@ -31,10 +31,10 @@ void Receiver::onReceive(boost::system::error_code ec, std::size_t) {
 
     if (ec == boost::asio::error::operation_aborted) {
         // The read operation was canceled because the socket was closed
-        _stream->connectionAborted(ec);
         return;
     }
 
+    _stream->connectionAborted(ec);
     REPORT_ASIO_ERROR_(ec)
 }
 
