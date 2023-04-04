@@ -18,6 +18,7 @@ _pimpl(std::make_unique<BoostInternalImpl>(*_apictx, std::move(port), timeout))
 {
 //    _errorCodes.insert_or_assign("statusCode", "message");
 //    _errorCodes.insert_or_assign("code", "msg");
+
 }
 
 NetworkResponse RestApi::post(NetworkRequestSettings &settings, const ResponseCallback &cb) {
@@ -94,8 +95,11 @@ RestApi::execute(NetworkRequestSettings &settings, const RequestType type, const
 }
 
 void RestApi::run() {
-    _apictx->restart();
-    _apictx->run();
+    if(_apictx->stopped() || !runnedOnce) {
+        _apictx->restart();
+        _apictx->run();
+        runnedOnce = true;
+    }
 }
 
 void RestApi::runAsync() {

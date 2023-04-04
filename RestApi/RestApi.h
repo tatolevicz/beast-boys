@@ -50,6 +50,7 @@ private:
 
     std::unique_ptr<boost::asio::io_context> _apictx;
     std::unique_ptr<BoostInternalImpl> _pimpl;
+    bool runnedOnce = false;
 };
 
 
