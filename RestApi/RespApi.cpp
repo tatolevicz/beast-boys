@@ -5,22 +5,55 @@
 #include "RestApi.h"
 #include "BoostInternalImpl.h"
 #include <boost/asio.hpp>
+#include "Logger.h"
 
 namespace bb {
 namespace network {
 namespace rest {
 
-RestApi::RestApi(std::string port, std::size_t timeout):
+RestApi::RestApi(std::string port, TaskExecutionType executionType, std::size_t timeout):
 _port(port),
 _timeout(timeout),
-_apictx(std::make_unique<boost::asio::io_context>()),
-_pimpl(std::make_unique<BoostInternalImpl>(*_apictx, std::move(port), timeout))
+_pimpl(std::make_unique<BoostInternalImpl>(_ioc, std::move(port), timeout)),
+_executionType(executionType)
 {
 //    _errorCodes.insert_or_assign("statusCode", "message");
 //    _errorCodes.insert_or_assign("code", "msg");
 
+    if(_executionType == TaskExecutionType::ASYNCH)
+        startAsyncContext();
 }
 
+RestApi::~RestApi(){
+    if(_executionType == TaskExecutionType::ASYNCH) {
+        _destructorCalled = true;
+        _ioc.stop();
+        if (_worker.joinable())
+            _worker.join();
+    }
+}
+
+void RestApi::startAsyncContext(){
+    _work = std::make_shared<boost::asio::io_context::work>(_ioc);
+    _worker = std::thread([&]() {
+        while(!_destructorCalled) {
+            try {
+                _ioc.run();
+            }
+            catch (const boost::system::system_error &e) {
+                REPORT_ASIO_ERROR_(e.code())
+                restartAsyncContext();
+            }
+        }
+    });
+}
+
+
+void RestApi::restartAsyncContext(){
+    _work.reset();
+    _ioc.restart();
+    startAsyncContext();
+}
 NetworkResponse RestApi::post(NetworkRequestSettings &settings, const ResponseCallback &cb) {
     return execute(settings, RequestType::post, cb);
 }
@@ -56,7 +89,7 @@ NetworkResponse RestApi::downloadFile(NetworkRequestSettings &settings,
 NetworkResponse
 RestApi::execute(NetworkRequestSettings &settings, const RequestType type, const ResponseCallback &outCb) {
     assert(_pimpl);
-    bool async = settings.getTaskExecutionType() == TaskExecutionType::ASYNCH;
+    bool async =  _executionType == TaskExecutionType::ASYNCH;
 
     PostCallback cb = [&, outCb](
             const char *fl,
@@ -82,30 +115,28 @@ RestApi::execute(NetworkRequestSettings &settings, const RequestType type, const
 
     NetworkResponse response = _pimpl->post(settings, type, std::move(cb));
 
-    if (async) {
-        runAsync();
-    } else {
-        validateResponse(response.http_result_code, response);
+    if (async)
+        return response;
 
-        if (outCb)
-            outCb(response);
-    }
+
+    validateResponse(response.http_result_code, response);
+
+    if (outCb)
+        outCb(response);
+
 
     return response;
 }
 
 void RestApi::run() {
-    if(_apictx->stopped() || !runnedOnce) {
-        _apictx->restart();
-        _apictx->run();
-        runnedOnce = true;
-    }
+//    _ioc.restart();
+//    _ioc.run();
 }
 
-void RestApi::runAsync() {
-    std::thread worker(&RestApi::run, this);
-    worker.detach();
-}
+//void RestApi::runAsync() {
+//    std::thread worker(&RestApi::run, this);
+//    worker.detach();
+//}
 
 void RestApi::validateResponse(int http_result_code, NetworkResponse &response) {
     switch (http_result_code) {

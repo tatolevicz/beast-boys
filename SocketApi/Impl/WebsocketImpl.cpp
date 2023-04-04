@@ -20,8 +20,11 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
     _sslContext.set_default_verify_paths();
     _sslContext.set_verify_mode(boost::asio::ssl::verify_peer);
 
-    _work = std::make_shared<boost::asio::io_context::work>(_ioc);
+    startContext();
+}
 
+void WebsocketImpl::startContext(){
+    _work = std::make_shared<boost::asio::io_context::work>(_ioc);
     _worker = std::thread([&]() {
         while(!_destructorCalled) {
             try {
@@ -35,10 +38,11 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
     });
 }
 
+
 void WebsocketImpl::restartContext(){
     _work.reset();
     _ioc.restart();
-    _work = std::make_shared<boost::asio::io_context::work>(_ioc);
+    startContext();
 }
 
 std::weak_ptr<Stream>  WebsocketImpl::openStream(std::string baseUrl,

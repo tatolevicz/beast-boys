@@ -17,8 +17,8 @@ class NetworkRequestSettings;
 
 class RestApi {
 public:
-    explicit RestApi(std::string port, std::size_t timeout = 10000);
-    virtual ~RestApi() = default;
+    explicit RestApi(std::string port, TaskExecutionType executionType = TaskExecutionType::ASYNCH, std::size_t timeout = 10000);
+    virtual ~RestApi();
 
     std::size_t getTimeout() const {
         return _timeout;
@@ -37,6 +37,10 @@ public:
                                  const ResponseCallback& cb);
 
 private:
+
+    void startAsyncContext();
+    void restartAsyncContext();
+
     NetworkResponse execute(NetworkRequestSettings& settings, const RequestType type, const ResponseCallback& cb);
 
     std::string _port;
@@ -44,13 +48,16 @@ private:
 
     void run();
 
-    void runAsync();
+//    void runAsync();
 
     void validateResponse(int http_result_code, NetworkResponse& response);
 
-    std::unique_ptr<boost::asio::io_context> _apictx;
+    std::thread _worker;
+    std::shared_ptr<boost::asio::io_context::work> _work{nullptr};
+    boost::asio::io_context _ioc;
     std::unique_ptr<BoostInternalImpl> _pimpl;
-    bool runnedOnce = false;
+    bool _destructorCalled = false;
+    TaskExecutionType _executionType;
 };
 
 

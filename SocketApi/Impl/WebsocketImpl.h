@@ -37,9 +37,10 @@ public:
     bool _destructorCalled = false;
 
 private:
+    void startContext();
     void restartContext();
 
-    };
+};
 
 }
 }
