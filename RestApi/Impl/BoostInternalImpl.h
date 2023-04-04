@@ -31,6 +31,7 @@ namespace rest {
 class BoostInternalImpl {
 public:
     BoostInternalImpl(boost::asio::io_context &ioctx,
+                      TaskExecutionType executionType,
                       std::string port,
                       std::size_t timeout,
                       std::string client_api_string = "botb_boost_beast_api_impl-0.0.1");
@@ -57,7 +58,7 @@ public:
         }
 
         NetworkResponse r{};
-        if (settings.getTaskExecutionType() == TaskExecutionType::SYNCH) {
+        if (m_executionType == TaskExecutionType::SYNCH) {
             try {
                 r = syncPost(settings, action, std::move(data));
                 if (!r.data.empty() && _responseHelper->is_html(r.data.c_str())) {
@@ -143,6 +144,7 @@ private:
     boost::asio::ssl::context m_ssl_ctx;
     boost::asio::ip::tcp::resolver m_resolver;
     boost::beast::flat_buffer m_buffer;  // (Must persist between reads)
+    TaskExecutionType m_executionType;
 };
 }
 }

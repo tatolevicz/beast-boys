@@ -20,12 +20,6 @@ namespace bb {
 
                 NetworkRequestSettings &setContentType(const ContentType contentType);
 
-                NetworkRequestSettings &setApiKeyType(const std::string &apiKeyType);
-
-                NetworkRequestSettings &setApiKey(const std::string &apiKey);
-
-                NetworkRequestSettings &setTaskExecutionType(const TaskExecutionType type);
-
                 NetworkRequestSettings &setFullUrl(const std::string url);
 
                 NetworkRequestSettings &setBody(const std::string &data);
@@ -33,10 +27,6 @@ namespace bb {
                 NetworkRequestSettings &setBody(const ListData &list);
 
                 NetworkRequestSettings &setBody(const rapidjson::Document &document);
-
-                NetworkRequestSettings &setApiKey(const std::string &key, const std::string &value);
-
-                NetworkRequestSettings &setSecurityKey(const std::string &key, const std::string &value);
 
                 NetworkRequestSettings &addHeaderValue(const HeaderVariant key, const std::string &value);
 
@@ -50,14 +40,6 @@ namespace bb {
 
                 std::string getEndPoint() const;
 
-                std::string getApiKey() const;
-
-                std::string getKeyApiKey() const;
-
-                std::string getApiKeyType() const;
-
-                TaskExecutionType getTaskExecutionType() const;
-
                 const std::map<HeaderVariant, std::string> &getHeaderMap() const;
 
             private:
@@ -66,11 +48,6 @@ namespace bb {
                 std::string _endPoint;
                 std::string _apiKeyType;
                 std::string _body;
-                std::string _apiKey;
-                std::string _securityKey;
-                std::string _kapiKey;
-                std::string _ksecurityKey;
-                TaskExecutionType _taskExecutionType{TaskExecutionType::ASYNCH};
                 std::map<HeaderVariant, std::string> _headerMap;
             };
         }

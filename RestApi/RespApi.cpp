@@ -14,7 +14,7 @@ namespace rest {
 RestApi::RestApi(std::string port, TaskExecutionType executionType, std::size_t timeout):
 _port(port),
 _timeout(timeout),
-_pimpl(std::make_unique<BoostInternalImpl>(_ioc, std::move(port), timeout)),
+_pimpl(std::make_unique<BoostInternalImpl>(_ioc, executionType, std::move(port), timeout)),
 _executionType(executionType)
 {
 //    _errorCodes.insert_or_assign("statusCode", "message");

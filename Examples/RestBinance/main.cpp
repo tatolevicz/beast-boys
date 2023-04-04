@@ -15,8 +15,7 @@ void exampleGettingUserListenKey(){
 
     auto settings = bb::network::rest::NetworkRequestSettings();
 
-    settings.setTaskExecutionType(bb::network::rest::TaskExecutionType::SYNCH)
-            .addHeaderValue("X-MBX-APIKEY", testSpotApiKey)
+    settings.addHeaderValue("X-MBX-APIKEY", testSpotApiKey)
             .setContentType(bb::network::rest::ContentType::FORM)
             .setFullUrl("https://testnet.binance.vision/api/v3/userDataStream");
 

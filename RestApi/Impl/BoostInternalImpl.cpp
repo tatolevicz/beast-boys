@@ -11,10 +11,12 @@ namespace bb {
 
 
             BoostInternalImpl::BoostInternalImpl(boost::asio::io_context &ioctx,
+                                                 TaskExecutionType executionType,
                                                  std::string port,
                                                  std::size_t timeout,
                                                  std::string client_api_string) :
                     m_ioctx{ioctx},
+                    m_executionType(executionType),
                     m_port{std::move(port)},
                     m_timeout{timeout},
                     m_client_api_string{std::move(client_api_string)},
