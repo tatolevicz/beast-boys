@@ -42,8 +42,8 @@ namespace bb::network::ws {
 
                 boost::beast::websocket::stream<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>& getSocketSSL();
                 boost::beast::websocket::stream<boost::asio::ip::tcp::socket>& getSocket();
-                void feedData(const std::string& data) const;
-                void connectionAborted(boost::system::error_code ec) const;
+                void feedData(const std::string& data);
+                void connectionAborted(boost::system::error_code ec);
                 void stop();
 
                 void setCloseStreamCallback(const CloseStreamCallback& cb);

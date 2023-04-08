@@ -88,14 +88,14 @@ bool Stream::usesSSL() const {
     return _usesSSL;
 }
 
-void Stream::feedData(const std::string& data) const{
+void Stream::feedData(const std::string& data){
     if(_cb)
-        _cb(true, data);
+        _cb(true, data, this);
 }
 
-void Stream::connectionAborted(boost::system::error_code ec) const{
+void Stream::connectionAborted(boost::system::error_code ec){
     if(_cb)
-        _cb(false, ec.message());
+        _cb(false, ec.message(), this);
 }
 
 void Stream::stop() {
@@ -105,7 +105,7 @@ void Stream::stop() {
                 CHECK_ASIO_ERROR_(ec)
                 if(_wasClosed) return;
                 if (_cb)
-                    _cb(false, "Stream stopped by user!");
+                    _cb(false, "Stream stopped by user!", this);
             });
         }
 
@@ -117,7 +117,7 @@ void Stream::stop() {
             CHECK_ASIO_ERROR_(ec)
             if(_wasClosed) return;
             if (_cb)
-                _cb(false, "Stream stopped by user!");
+                _cb(false, "Stream stopped by user!", this);
         });
     }
 }
@@ -148,7 +148,7 @@ void Stream::stop() {
 //                        std::cout << "Close message received! Payload: "<< payload << "\n";
                         _wasClosed = true;
                         if(_closeStreamCB)
-                            _closeStreamCB();
+                            _closeStreamCB(this);
 
                         return;
                     }
@@ -177,7 +177,7 @@ void Stream::stop() {
 //                            std::cout << "Close message received! Payload: "<< payload << "\n";
                             _wasClosed = true;
                             if(_closeStreamCB)
-                                _closeStreamCB();
+                                _closeStreamCB(this);
                             return;
                         }
                     }

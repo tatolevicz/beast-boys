@@ -9,7 +9,7 @@ void localHostStream();
 
 std::shared_ptr< bb::network::ws::Stream> createStream(const std::shared_ptr<bb::Streamer> & streamer){
 
-    auto stream = streamer->openStream("localhost","1234","", false, [](bool success, const std::string& data){
+    auto stream = streamer->openStream("localhost","1234","", false, [](bool success, const std::string& data, auto stream){
         if(!success) {
             std::cout << "Stream1 closed with msg: " << data << "\n\n";
             //here in the client you can reschedule a reconnection routine
@@ -27,17 +27,17 @@ void localHostStream(){
     std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
     auto stream = createStream(streamer);
-    std::function<void(void)> closeCB = [&](){
+    std::function<void(bb::network::ws::Stream*)> closeCB = [&](bb::network::ws::Stream* closedStream){
         std::cout << "Stream CLOSE CB!!! \n";
-        stream->stop();
+        closedStream->stop();
         stream = createStream(streamer);
         stream->setCloseStreamCallback(closeCB);
     };
 
     stream->setCloseStreamCallback(closeCB);
 
-    stream->setCloseStreamCallback([&](){
-        closeCB();
+    stream->setCloseStreamCallback([&](bb::network::ws::Stream* closedStream){
+        closeCB(closedStream);
     });
 
     while(stream.use_count() > 1){
@@ -55,7 +55,7 @@ int main(){
 
     std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
-    auto stream = streamer->openStream("stream.binance.com","9443","/ws/btcusdt@kline_1s", true, [](bool success, const std::string& data){
+    auto stream = streamer->openStream("stream.binance.com","9443","/ws/btcusdt@kline_1s", true, [](bool success, const std::string& data, auto stream){
         if(!success) {
             std::cout << "Stream1 closed with msg: " << data << "\n\n";
             return;
