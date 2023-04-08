@@ -62,7 +62,9 @@ namespace bb::network::ws {
                 std::string _target;
                 uint32_t _id;
                 bool _usesSSL{true};
-                bool _wasClosed = false;
+                
+                //flag to handle when the stream was closed from control message close properly
+                bool _wasClosedByServer = false;
 
                 CloseStreamCallback _closeStreamCB{nullptr};
                 StreamCB _cb{nullptr};

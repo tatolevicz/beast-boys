@@ -102,8 +102,8 @@ void Stream::stop() {
     if(_usesSSL){
         if(_socketSSL->is_open()) {
             _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
-                CHECK_ASIO_ERROR_(ec)
-                if(_wasClosed) return;
+                REPORT_ASIO_ERROR_(ec)
+                if(_wasClosedByServer) return;
                 if (_cb)
                     _cb(false, "Stream stopped by user!", shared_from_this());
             });
@@ -114,8 +114,8 @@ void Stream::stop() {
 
     if(_socket->is_open()) {
         _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
-            CHECK_ASIO_ERROR_(ec)
-            if(_wasClosed) return;
+            REPORT_ASIO_ERROR_(ec)
+            if(_wasClosedByServer) return;
             if (_cb)
                 _cb(false, "Stream stopped by user!", shared_from_this());
         });
@@ -146,10 +146,11 @@ void Stream::stop() {
                     case boost::beast::websocket::frame_type::close:
                     {
 //                        std::cout << "Close message received! Payload: "<< payload << "\n";
-                        _wasClosed = true;
+                        _wasClosedByServer = true;
                         if(_closeStreamCB)
                             _closeStreamCB(shared_from_this());
 
+                        stop();
                         return;
                     }
                 }
@@ -175,9 +176,11 @@ void Stream::stop() {
                         case boost::beast::websocket::frame_type::close:
                         {
 //                            std::cout << "Close message received! Payload: "<< payload << "\n";
-                            _wasClosed = true;
+                            _wasClosedByServer = true;
                             if(_closeStreamCB)
                                 _closeStreamCB(shared_from_this());
+
+                            stop();
                             return;
                         }
                     }
@@ -191,7 +194,7 @@ void Stream::stop() {
     }
 
     bool Stream::wasClosed(){
-        return _wasClosed;
+        return _wasClosedByServer;
     }
 
     }
