@@ -5,12 +5,14 @@
 #include <iostream>
 #include <beastboys>
 
+void localHostStream();
 
 std::shared_ptr< bb::network::ws::Stream> createStream(const std::shared_ptr<bb::Streamer> & streamer){
 
     auto stream = streamer->openStream("localhost","1234","", false, [](bool success, const std::string& data){
         if(!success) {
             std::cout << "Stream1 closed with msg: " << data << "\n\n";
+            //here in the client you can reschedule a reconnection routine
             return;
         }
 

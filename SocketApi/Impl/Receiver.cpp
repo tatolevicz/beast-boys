@@ -24,7 +24,7 @@ void Receiver::onReceive(boost::system::error_code ec, std::size_t) {
     //return with no error handling if the stream was close by the control messages
     if(_stream->wasClosed()) return;
 
-    if (!ec || ec == boost::asio::error::eof) {
+    if (!ec) {
         auto msg =  boost::beast::buffers_to_string(_buffer.data());
         _stream->feedData(msg);
         _buffer.consume(_buffer.size());
@@ -32,12 +32,12 @@ void Receiver::onReceive(boost::system::error_code ec, std::size_t) {
         return;
     }
 
-    if (ec == boost::asio::error::operation_aborted) {
-        // The read operation was canceled because the socket was closed
+    if (ec == boost::asio::error::operation_aborted || ec == boost::asio::error::eof) {
+        // The read operation was canceled because the socket was closed some way
+        _stream->connectionAborted(ec);
         return;
     }
 
-    _stream->connectionAborted(ec);
     REPORT_ASIO_ERROR_(ec)
 }
 
