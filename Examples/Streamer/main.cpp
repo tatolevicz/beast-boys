@@ -13,7 +13,7 @@ std::shared_ptr< bb::network::ws::Stream> createStream(const std::shared_ptr<bb:
             std::cout << "Stream1 closed with msg: " << data << "\n\n";
             return;
         }
-        
+
         //Work with your streamed data here
         std::cout << data << "\n\n";
     });

@@ -4,6 +4,7 @@
 
 #include "Stream.h"
 #include <iostream>
+#include "Logger.h"
 
 namespace bb::network::ws {
 
@@ -101,6 +102,8 @@ void Stream::stop() {
     if(_usesSSL){
         if(_socketSSL->is_open()) {
             _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
+                CHECK_ASIO_ERROR_(ec)
+                if(_wasClosed) return;
                 if (_cb)
                     _cb(false, "Stream stopped by user!");
             });
@@ -111,6 +114,8 @@ void Stream::stop() {
 
     if(_socket->is_open()) {
         _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
+            CHECK_ASIO_ERROR_(ec)
+            if(_wasClosed) return;
             if (_cb)
                 _cb(false, "Stream stopped by user!");
         });
@@ -141,6 +146,7 @@ void Stream::stop() {
                     case boost::beast::websocket::frame_type::close:
                     {
 //                        std::cout << "Close message received! Payload: "<< payload << "\n";
+                        _wasClosed = true;
                         if(_closeStreamCB)
                             _closeStreamCB();
 
@@ -169,6 +175,7 @@ void Stream::stop() {
                         case boost::beast::websocket::frame_type::close:
                         {
 //                            std::cout << "Close message received! Payload: "<< payload << "\n";
+                            _wasClosed = true;
                             if(_closeStreamCB)
                                 _closeStreamCB();
                             return;
@@ -181,6 +188,10 @@ void Stream::stop() {
 
     void Stream::setCloseStreamCallback(const CloseStreamCallback& cb){
         _closeStreamCB = cb;
+    }
+
+    bool Stream::wasClosed(){
+        return _wasClosed;
     }
 
     }
