@@ -98,7 +98,7 @@ void Stream::connectionAborted(boost::system::error_code ec){
         _cb(false, ec.message(), shared_from_this());
 }
 
-void Stream::stop() {
+void Stream::internalStop(){
     if(_usesSSL){
         if(_socketSSL->is_open()) {
             _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
@@ -118,6 +118,11 @@ void Stream::stop() {
             std::cout << "Stream " << id << "stopped by user!\n";
         });
     }
+}
+
+void Stream::stop() {
+    _wasClosedByClient = true;
+    internalStop();
 }
 
     Stream::~Stream(){
@@ -146,7 +151,7 @@ void Stream::stop() {
                         //first flag to not call the client normal callback when shutting down
                         _wasClosedByServer = true;
                         //now stop it
-                        stop();
+                        internalStop();
 
                         if(_closeStreamCB)
                             _closeStreamCB(shared_from_this());
@@ -177,7 +182,7 @@ void Stream::stop() {
                             //first flag to not call the client normal callback when shutting down
                             _wasClosedByServer = true;
                             //now stop it
-                            stop();
+                            internalStop();
 
                             if(_closeStreamCB)
                                 _closeStreamCB(shared_from_this());
@@ -196,6 +201,10 @@ void Stream::stop() {
 
     bool Stream::wasClosedByServer(){
         return _wasClosedByServer;
+    }
+
+    bool Stream::wasClosedByClient(){
+        return _wasClosedByClient;
     }
 
     }

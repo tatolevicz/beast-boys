@@ -48,8 +48,10 @@ namespace bb::network::ws {
 
                 void setCloseStreamCallback(const CloseStreamCallback& cb);
                 bool wasClosedByServer();
+                bool wasClosedByClient();
 
             private:
+                void internalStop();
                 //should be called by the connector (that is a friend class) when the socket is connected
                 void setWatchControlMessages();
 
@@ -65,6 +67,7 @@ namespace bb::network::ws {
                 
                 //flag to handle when the stream was closed from control message close properly
                 bool _wasClosedByServer = false;
+                bool _wasClosedByClient = false;
 
                 CloseStreamCallback _closeStreamCB{nullptr};
                 StreamCB _cb{nullptr};
