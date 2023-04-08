@@ -103,8 +103,7 @@ void Stream::internalStop(){
         if(_socketSSL->is_open()) {
             _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
                 if(_wasClosedByServer) return;
-                REPORT_ASIO_ERROR_(ec)
-                std::cout << "Stream " << id << "stopped by user!\n";
+                std::cout << "Stream " << id << " stopped by user!\n";
             });
         }
 
@@ -114,8 +113,7 @@ void Stream::internalStop(){
     if(_socket->is_open()) {
         _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
             if(_wasClosedByServer) return;
-            REPORT_ASIO_ERROR_(ec)
-            std::cout << "Stream " << id << "stopped by user!\n";
+            std::cout << "Stream " << id << " stopped by user!\n";
         });
     }
 }
