@@ -47,6 +47,7 @@ namespace bb::network::ws {
                 void stop();
 
                 void setCloseStreamCallback(const CloseStreamCallback& cb);
+                bool wasClosed();
 
             private:
                 //should be called by the connector (that is a friend class) when the socket is connected
@@ -61,6 +62,7 @@ namespace bb::network::ws {
                 std::string _target;
                 uint32_t _id;
                 bool _usesSSL{true};
+                bool _wasClosed = false;
 
                 CloseStreamCallback _closeStreamCB{nullptr};
                 StreamCB _cb{nullptr};
