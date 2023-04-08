@@ -27,7 +27,7 @@ void localHostStream(){
     std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
     auto stream = createStream(streamer);
-    std::function<void(bb::network::ws::Stream*)> closeCB = [&](bb::network::ws::Stream* closedStream){
+    std::function<void(SharedStream)> closeCB = [&](SharedStream closedStream){
         std::cout << "Stream CLOSE CB!!! \n";
         closedStream->stop();
         stream = createStream(streamer);
@@ -36,7 +36,7 @@ void localHostStream(){
 
     stream->setCloseStreamCallback(closeCB);
 
-    stream->setCloseStreamCallback([&](bb::network::ws::Stream* closedStream){
+    stream->setCloseStreamCallback([&](SharedStream closedStream){
         closeCB(closedStream);
     });
 

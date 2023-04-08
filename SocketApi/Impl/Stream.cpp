@@ -90,12 +90,12 @@ bool Stream::usesSSL() const {
 
 void Stream::feedData(const std::string& data){
     if(_cb)
-        _cb(true, data, this);
+        _cb(true, data, shared_from_this());
 }
 
 void Stream::connectionAborted(boost::system::error_code ec){
     if(_cb)
-        _cb(false, ec.message(), this);
+        _cb(false, ec.message(), shared_from_this());
 }
 
 void Stream::stop() {
@@ -105,7 +105,7 @@ void Stream::stop() {
                 CHECK_ASIO_ERROR_(ec)
                 if(_wasClosed) return;
                 if (_cb)
-                    _cb(false, "Stream stopped by user!", this);
+                    _cb(false, "Stream stopped by user!", shared_from_this());
             });
         }
 
@@ -117,7 +117,7 @@ void Stream::stop() {
             CHECK_ASIO_ERROR_(ec)
             if(_wasClosed) return;
             if (_cb)
-                _cb(false, "Stream stopped by user!", this);
+                _cb(false, "Stream stopped by user!", shared_from_this());
         });
     }
 }
@@ -148,7 +148,7 @@ void Stream::stop() {
 //                        std::cout << "Close message received! Payload: "<< payload << "\n";
                         _wasClosed = true;
                         if(_closeStreamCB)
-                            _closeStreamCB(this);
+                            _closeStreamCB(shared_from_this());
 
                         return;
                     }
@@ -177,7 +177,7 @@ void Stream::stop() {
 //                            std::cout << "Close message received! Payload: "<< payload << "\n";
                             _wasClosed = true;
                             if(_closeStreamCB)
-                                _closeStreamCB(this);
+                                _closeStreamCB(shared_from_this());
                             return;
                         }
                     }
