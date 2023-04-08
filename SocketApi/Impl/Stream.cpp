@@ -102,10 +102,9 @@ void Stream::stop() {
     if(_usesSSL){
         if(_socketSSL->is_open()) {
             _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
-                REPORT_ASIO_ERROR_(ec)
                 if(_wasClosedByServer) return;
-                if (_cb)
-                    _cb(false, "Stream stopped by user!", shared_from_this());
+                REPORT_ASIO_ERROR_(ec)
+                std::cout << "Stream " << id << "stopped by user!\n";
             });
         }
 
@@ -114,10 +113,9 @@ void Stream::stop() {
 
     if(_socket->is_open()) {
         _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
-            REPORT_ASIO_ERROR_(ec)
             if(_wasClosedByServer) return;
-            if (_cb)
-                _cb(false, "Stream stopped by user!", shared_from_this());
+            REPORT_ASIO_ERROR_(ec)
+            std::cout << "Stream " << id << "stopped by user!\n";
         });
     }
 }
@@ -145,12 +143,13 @@ void Stream::stop() {
                     }
                     case boost::beast::websocket::frame_type::close:
                     {
-//                        std::cout << "Close message received! Payload: "<< payload << "\n";
+                        //first flag to not call the client normal callback when shutting down
                         _wasClosedByServer = true;
+                        //now stop it
+                        stop();
+
                         if(_closeStreamCB)
                             _closeStreamCB(shared_from_this());
-
-                        stop();
                         return;
                     }
                 }
@@ -175,12 +174,14 @@ void Stream::stop() {
                         }
                         case boost::beast::websocket::frame_type::close:
                         {
-//                            std::cout << "Close message received! Payload: "<< payload << "\n";
+                            //first flag to not call the client normal callback when shutting down
                             _wasClosedByServer = true;
+                            //now stop it
+                            stop();
+
                             if(_closeStreamCB)
                                 _closeStreamCB(shared_from_this());
 
-                            stop();
                             return;
                         }
                     }
@@ -193,7 +194,7 @@ void Stream::stop() {
         _closeStreamCB = cb;
     }
 
-    bool Stream::wasClosed(){
+    bool Stream::wasClosedByServer(){
         return _wasClosedByServer;
     }
 

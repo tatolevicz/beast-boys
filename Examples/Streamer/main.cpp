@@ -29,7 +29,6 @@ void localHostStream(){
     auto stream = createStream(streamer);
     std::function<void(SharedStream)> closeCB = [&](SharedStream closedStream){
         std::cout << "Stream CLOSE CB!!! \n";
-        closedStream->stop();
         stream = createStream(streamer);
         stream->setCloseStreamCallback(closeCB);
     };

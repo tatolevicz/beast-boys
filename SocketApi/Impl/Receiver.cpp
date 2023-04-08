@@ -22,7 +22,7 @@ Receiver::~Receiver(){
 void Receiver::onReceive(boost::system::error_code ec, std::size_t) {
 
     //return with no error handling if the stream was close by the control messages
-    if(_stream->wasClosed()) return;
+    if(_stream->wasClosedByServer()) return;
 
     if (!ec) {
         auto msg =  boost::beast::buffers_to_string(_buffer.data());

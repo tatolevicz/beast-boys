@@ -47,7 +47,7 @@ namespace bb::network::ws {
                 void stop();
 
                 void setCloseStreamCallback(const CloseStreamCallback& cb);
-                bool wasClosed();
+                bool wasClosedByServer();
 
             private:
                 //should be called by the connector (that is a friend class) when the socket is connected
