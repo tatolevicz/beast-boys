@@ -32,12 +32,12 @@ void Receiver::onReceive(boost::system::error_code ec, std::size_t) {
         return;
     }
 
-    if (ec == boost::asio::error::operation_aborted || ec == boost::asio::error::eof) {
-        // The read operation was canceled because the socket was closed some way
-        _stream->connectionAborted(ec);
-        return;
-    }
+//    if (ec == boost::asio::error::operation_aborted || ec == boost::asio::error::eof) {
+//        // The read operation was canceled because the socket was closed some way
+//        return;
+//    }
 
+    _stream->connectionAborted(ec);
     REPORT_ASIO_ERROR_(ec)
 }
 
