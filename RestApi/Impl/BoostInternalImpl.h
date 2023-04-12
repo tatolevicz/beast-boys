@@ -78,6 +78,8 @@ public:
                     std::move(data),
                     std::make_shared<invoker_type>(std::move(cb))
             };
+            std::lock_guard<std::mutex> lg(_insertItemMutex);
+
             m_async_requests.push(std::move(item));
 
             asyncPost();
@@ -145,6 +147,7 @@ private:
     boost::asio::ip::tcp::resolver m_resolver;
     boost::beast::flat_buffer m_buffer;  // (Must persist between reads)
     TaskExecutionType m_executionType;
+    std::mutex _insertItemMutex;
 };
 }
 }
