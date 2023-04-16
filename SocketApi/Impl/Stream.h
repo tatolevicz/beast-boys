@@ -47,6 +47,8 @@ namespace bb::network::ws {
                 void stop();
 
                 void setCloseStreamCallback(const CloseStreamCallback& cb);
+                void setPongStreamCallback(const PongStreamCallback& cb);
+                void setPingStreamCallback(const PingStreamCallback& cb);
                 bool wasClosedByServer();
                 bool wasClosedByClient();
 
@@ -70,6 +72,8 @@ namespace bb::network::ws {
                 bool _wasClosedByClient = false;
 
                 CloseStreamCallback _closeStreamCB{nullptr};
+                PongStreamCallback _pongStreamCB{nullptr};
+                PingStreamCallback _pingStreamCB{nullptr};
                 StreamCB _cb{nullptr};
             };
 
