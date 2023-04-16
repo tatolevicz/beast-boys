@@ -181,6 +181,14 @@ void Stream::ping(const std::string& payload) {
         _closeStreamCB = cb;
     }
 
+    void Stream::setPongStreamCallback(const PongStreamCallback& cb){
+        _pongStreamCB = cb;
+    }
+
+    void Stream::setPingStreamCallback(const PingStreamCallback& cb){
+        _pingStreamCB = cb;
+    }
+
     bool Stream::wasClosedByServer(){
         return _wasClosedByServer;
     }
