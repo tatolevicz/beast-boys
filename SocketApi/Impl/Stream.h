@@ -45,6 +45,7 @@ namespace bb::network::ws {
                 void feedData(const std::string& data);
                 void connectionAborted(boost::system::error_code ec);
                 void stop();
+                void stopWithCloseCallbackTriggered();
 
                 //should be at max 125 bytes
                 void ping(const std::string& payload = "no payload");

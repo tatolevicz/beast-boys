@@ -123,14 +123,16 @@ void Stream::stop() {
     internalStop();
 }
 
+void Stream::stopWithCloseCallbackTriggered() {
+    stop();
+    if(_closeStreamCB)
+        _closeStreamCB(shared_from_this());
+}
+
 void Stream::ping(const std::string& payload) {
 
     auto pingCb = [&](boost::system::error_code ec) {
-        if (ec) {
-            std::cerr << "Erro ao enviar ping: " << ec.message() << std::endl;
-        } else {
-            std::cout << "Ping enviado com sucesso" << std::endl;
-        }
+        REPORT_ASIO_ERROR_(ec)
     };
 
     if(_usesSSL) {
