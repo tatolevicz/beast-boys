@@ -149,11 +149,15 @@ void Stream::ping(const std::string& payload) {
         auto controlCB = [&](boost::beast::websocket::frame_type kind, boost::string_view payload) {
             switch (kind) {
                 case boost::beast::websocket::frame_type::ping: {
-                    std::cout << "Ping message received! Payload: " << payload << "\n";
+//                    std::cout << "Ping message received! Payload: " << payload << "\n";
+                    if (_pingStreamCB)
+                        _pingStreamCB(shared_from_this());
                     return;
                 }
                 case boost::beast::websocket::frame_type::pong: {
-                    std::cout << "Pong message received! Payload: " << payload << "\n";
+//                    std::cout << "Pong message received! Payload: " << payload << "\n";
+                    if (_pongStreamCB)
+                        _pongStreamCB(shared_from_this());
                     return;
                 }
                 case boost::beast::websocket::frame_type::close: {
