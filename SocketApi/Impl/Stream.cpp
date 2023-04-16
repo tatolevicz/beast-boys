@@ -123,74 +123,58 @@ void Stream::stop() {
     internalStop();
 }
 
+void Stream::ping(const std::string& payload) {
+
+    auto pingCb = [&](boost::system::error_code ec) {
+        if (ec) {
+            std::cerr << "Erro ao enviar ping: " << ec.message() << std::endl;
+        } else {
+            std::cout << "Ping enviado com sucesso" << std::endl;
+        }
+    };
+
+    if(_usesSSL) {
+        _socketSSL->async_ping(payload.c_str(),pingCb);
+        return;
+    }
+    _socket->async_ping(payload.c_str(),pingCb);
+}
+
     Stream::~Stream(){
         std::cout << "Destructor stream!" << "\n";
     }
 
     void Stream::setWatchControlMessages() {
 
-        if(_usesSSL){
-            _socketSSL->control_callback(
-            [&](boost::beast::websocket::frame_type kind, boost::string_view payload)
-            {
-                switch (kind) {
-                    case boost::beast::websocket::frame_type::ping:
-                    {
-                        std::cout << "Ping message received! Payload: "<< payload << "\n";
-                        return;
-                    }
-                    case boost::beast::websocket::frame_type::pong:
-                    {
-                        std::cout << "Pong message received! Payload: "<< payload << "\n";
-                        return;
-                    }
-                    case boost::beast::websocket::frame_type::close:
-                    {
-                        //first flag to not call the client normal callback when shutting down
-                        _wasClosedByServer = true;
-                        //now stop it
-                        internalStop();
-
-                        if(_closeStreamCB)
-                            _closeStreamCB(shared_from_this());
-                        return;
-                    }
+        auto controlCB = [&](boost::beast::websocket::frame_type kind, boost::string_view payload) {
+            switch (kind) {
+                case boost::beast::websocket::frame_type::ping: {
+                    std::cout << "Ping message received! Payload: " << payload << "\n";
+                    return;
                 }
+                case boost::beast::websocket::frame_type::pong: {
+                    std::cout << "Pong message received! Payload: " << payload << "\n";
+                    return;
+                }
+                case boost::beast::websocket::frame_type::close: {
+                    //first flag to not call the client normal callback when shutting down
+                    _wasClosedByServer = true;
+                    //now stop it
+                    internalStop();
+                    if (_closeStreamCB)
+                        _closeStreamCB(shared_from_this());
 
-            });
+                    return;
+                }
+            }
+        };
 
+        if(_usesSSL){
+            _socketSSL->control_callback(controlCB);
             return;
         }
-        _socket->control_callback(
-                [&](boost::beast::websocket::frame_type kind, boost::string_view payload)
-                {
-                    switch (kind) {
-                        case boost::beast::websocket::frame_type::ping:
-                        {
-//                            std::cout << "Ping message received! Payload: "<< payload << "\n";
-                            return;
-                        }
-                        case boost::beast::websocket::frame_type::pong:
-                        {
-//                            std::cout << "Pong message received! Payload: "<< payload << "\n";
-                            return;
-                        }
-                        case boost::beast::websocket::frame_type::close:
-                        {
-                            //first flag to not call the client normal callback when shutting down
-                            _wasClosedByServer = true;
-                            //now stop it
-                            internalStop();
 
-                            if(_closeStreamCB)
-                                _closeStreamCB(shared_from_this());
-
-                            return;
-                        }
-                    }
-
-                });
-
+        _socket->control_callback(controlCB);
     }
 
     void Stream::setCloseStreamCallback(const CloseStreamCallback& cb){

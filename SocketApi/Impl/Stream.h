@@ -46,6 +46,9 @@ namespace bb::network::ws {
                 void connectionAborted(boost::system::error_code ec);
                 void stop();
 
+                //should be at max 125 bytes
+                void ping(const std::string& payload = "no payload");
+
                 void setCloseStreamCallback(const CloseStreamCallback& cb);
                 bool wasClosedByServer();
                 bool wasClosedByClient();
