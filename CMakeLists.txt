@@ -4,7 +4,10 @@ project(beast_boys VERSION 1.0 LANGUAGES CXX )
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1t)
+#set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1t)
+#set(OPENSSL_ROOT_DIR /Users/arthurmotelevicz/Documents/openssl_universal/openssl_arm64)
+#set(OPENSSL_ROOT_DIR /Users/arthurmotelevicz/Documents/openssl_universal/openssl_x86_64)
+set(OPENSSL_ROOT_DIR /Users/arthurmotelevicz/Documents/openssl_universal/openssl-mac)
 
 set(BUILD_SHARED_LIBS OFF)
 
@@ -28,7 +31,10 @@ include(beast_boys.cmake)
 
 add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES})
 
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+
 find_package(OpenSSL REQUIRED)
+
 
 if (${OPENSSL_FOUND})
     target_include_directories( ${PROJECT_NAME} PUBLIC
