@@ -16,7 +16,7 @@ namespace bb{
     public:
         Messenger();
 
-        void sendMassage(const std::shared_ptr<network::ws::Stream>& stream,
+        void sendMessage(const std::shared_ptr<network::ws::Stream>& stream,
                          const std::string& message,
                          network::ws::SendMessageCB cb = nullptr);
 

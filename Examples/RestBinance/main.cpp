@@ -5,6 +5,7 @@
 #include <iostream>
 #include "NetworkRequestSettings.h"
 #include "RestApi.h"
+#include <memory>
 
 //void exampleGettingUserListenKey(){
 //
@@ -28,8 +29,27 @@
 //        }
 //    });
 //}
-//
+
+void requestDummy() {
+    auto _restApi = std::make_unique<bb::network::rest::RestApi>("443",bb::network::rest::TaskExecutionType::SYNCH);
+
+    auto settings = bb::network::rest::NetworkRequestSettings();
+
+    settings.setFullUrl("https://www.magiatrade.com/");
+
+    _restApi->get(settings, [](const bb::network::rest::NetworkResponse& response) {
+        if(response.isOk()){
+            std::cout << "Data user: " << response.data <<  "\n";
+        }
+        else{
+            std::cout << "Data user OK error! Result code: " << response.http_result_code << "\n";
+            std::cout << "Data user OK error! Result code: " << response.message << "\n";
+        }
+    });
+}
+
 int main() {
 //    exampleGettingUserListenKey();
+    requestDummy();
     return EXIT_SUCCESS;
 }

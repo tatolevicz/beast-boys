@@ -48,9 +48,9 @@ void localHostStream(){
 
 int main(){
 
-    localHostStream();
-
-    return 0;
+//    localHostStream();
+//
+//    return 0;
 
     std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
@@ -71,18 +71,18 @@ int main(){
     while(stream.lock()){
         // Do other stuff while the data is coming in callback
         std::this_thread::sleep_for(std::chrono::seconds(3));
-//        std::cout << "\nWorking.. \n";
+        std::cout << "\nWorking.. \n";
 
         if(!sent)
         {
-            messenger->sendMassage(stream.lock(),
+            messenger->sendMessage(stream.lock(),
                                    "{\n\"method\": \"SUBSCRIBE\",\n\"params\":\n[\n\"btcusdt@trade\"\n],\n\"id\": 1\n}",
-            [](bool success){
-                if(success)
-                    std::cout << "Msg enviada com sucesso!\n";
-                else
-                    std::cerr << "Msg nao enviada!\n";
-            });
+                                   [](bool success) {
+                                       if (success)
+                                           std::cout << "Msg enviada com sucesso!\n";
+                                       else
+                                           std::cerr << "Msg nao enviada!\n";
+                                   });
 
             sent = true;
         }
