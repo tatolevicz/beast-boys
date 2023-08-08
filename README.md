@@ -32,21 +32,32 @@ Lightweight
 Here's a basic example to open a TCP socket:
 
 ```
-#include "beastboys/streamer.h"  // Adjust this based on the actual path
 
-std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
+#include <iostream>
+#include <beastboys>
 
-auto stream = streamer->openStream("stream.binance.com", "9443", "/ws/btcusdt@kline_1s", true, 
-    [](bool success, const std::string& data, auto stream) {
+
+int main(){
+
+    std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
+
+    auto stream = streamer->openStream("stream.binance.com","9443","/ws/btcusdt@kline_1s", true, [](bool success, const std::string& data, auto stream){
         if(!success) {
             std::cout << "Stream1 closed with msg: " << data << "\n\n";
             return;
         }
 
-        // Work with your streamed data here
+        //Work with your streamed data here
         std::cout << data << "\n\n";
-    }
-);
+
+    });
+    
+    // Get 10 seconds of market data
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+
+    return 0;
+}
+
 ```
 
 ## Authors
