@@ -6,6 +6,7 @@
 #include "BoostInternalImpl.h"
 #include <boost/asio.hpp>
 #include "Logger.h"
+#include <pthread.h>
 
 namespace bb {
 namespace network {
@@ -36,6 +37,7 @@ RestApi::~RestApi(){
 void RestApi::startAsyncContext(){
     _work = std::make_shared<boost::asio::io_context::work>(_ioc);
     _worker = std::thread([&]() {
+        pthread_setname_np("Binance-beast-RestApi-Worker");
         while(!_destructorCalled) {
             try {
                 _ioc.run();
