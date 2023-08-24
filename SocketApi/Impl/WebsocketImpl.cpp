@@ -7,6 +7,7 @@
 #include "SharedState.h"
 #include "Stream.h"
 #include "Resolver.h"
+#include <pthread.h>
 
 namespace bb{
 namespace network{
@@ -26,6 +27,7 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
 void WebsocketImpl::startContext(){
     _work = std::make_shared<boost::asio::io_context::work>(_ioc);
     _worker = std::thread([&]() {
+        pthread_setname_np("Binance-beast-WebsockApi-Worker");
         while(!_destructorCalled) {
             try {
                 _ioc.run();
