@@ -8,6 +8,7 @@
 #include "Stream.h"
 #include "Resolver.h"
 #include <pthread.h>
+#include "cacert_data.h"
 
 namespace bb{
 namespace network{
@@ -18,7 +19,12 @@ using namespace boost;
 WebsocketImpl::WebsocketImpl():
 _sslContext(boost::asio::ssl::context::sslv23_client){
     _sharedState = std::make_shared<SharedState>();
-    _sslContext.set_default_verify_paths();
+//    _sslContext.set_default_verify_paths();
+    boost::system::error_code ec;
+//    _sslContext.load_verify_file("../Resources/cacert.pem",ec);
+    _sslContext.add_certificate_authority(boost::asio::buffer(cacert_data, cacert_data_size), ec);
+    CHECK_ASIO_ERROR_(ec)
+
     _sslContext.set_verify_mode(boost::asio::ssl::verify_peer);
 
     startContext();
