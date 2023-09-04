@@ -9,6 +9,7 @@
 #include <boost/variant.hpp>
 #include <boost/beast.hpp>
 #include "RestApiResponse.h"
+#include <variant>
 
 namespace bb {
     namespace network {

@@ -37,7 +37,10 @@ RestApi::~RestApi(){
 void RestApi::startAsyncContext(){
     _work = std::make_shared<boost::asio::io_context::work>(_ioc);
     _worker = std::thread([&]() {
+#ifdef __APPLE__
         pthread_setname_np("Binance-beast-RestApi-Worker");
+#endif
+
         while(!_destructorCalled) {
             try {
                 _ioc.run();

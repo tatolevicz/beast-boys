@@ -4,11 +4,22 @@ project(beast_boys VERSION 1.0 LANGUAGES CXX )
 
 set(CMAKE_CXX_STANDARD 17)
 
-#set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1t)
-#set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1v)
-#set(OPENSSL_ROOT_DIR /Users/arthurmotelevicz/Documents/openssl_universal/openssl_arm64)
-#set(OPENSSL_ROOT_DIR /Users/arthurmotelevicz/Documents/openssl_universal/openssl_x86_64)
-set(OPENSSL_ROOT_DIR /Users/arthurmotelevicz/Documents/openssl_universal/openssl-mac)
+if(APPLE)
+    #set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1t)
+    #set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1v)
+    set(OPENSSL_ROOT_DIR OPENSSL_ROOT_DIR /Users/opala/Documents/EasyChart/openssl-mac)
+    #set(OPENSSL_ROOT_DIR /Users/arthurmotelevicz/Documents/openssl_universal/openssl_x86_64)
+    #set(OPENSSL_ROOT_DIR "C:/Users/Tato Levicz/Documents/MagiaTrade/openssl-mac")
+    #set(OPENSSL_CRYPTO_LIBRARY "C:/Users/Tato Levicz/Documents/MagiaTrade/openssl-mac/lib")
+    #set(OPENSSL_INCLUDE_DIR "C:/Users/Tato Levicz/Documents/MagiaTrade/openssl-mac/include")
+elseif(WIN32)
+    set(OPENSSL_ROOT_DIR "C:/Program Files/OpenSSL-Win64")
+    set(OPENSSL_CRYPTO_LIBRARY "C:/Program Files/OpenSSL-Win64/lib")
+    set(OPENSSL_INCLUDE_DIR "C:/Program Files/OpenSSL-Win64/include")
+    set(Boost_INCLUDE_DIR "C:/Users/Tato Levicz/Documents/MagiaTrade/boost_1_76_0/boost_1_76_0")
+endif()
+
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 
 set(BUILD_SHARED_LIBS OFF)
 
