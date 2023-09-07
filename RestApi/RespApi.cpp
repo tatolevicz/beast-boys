@@ -81,7 +81,7 @@ NetworkResponse RestApi::downloadFile(NetworkRequestSettings &settings,
                                           const ResponseCallback &cb) {
     return execute(settings, RequestType::get, [cb, outputFilePath](const NetworkResponse &res) {
         if (res.isOk()) {
-            std::ofstream fp(outputFilePath);
+            std::ofstream fp(outputFilePath, std::ios::binary);
             fp << res.data;
             fp.close();
         }
