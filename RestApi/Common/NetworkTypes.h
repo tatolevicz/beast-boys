@@ -16,8 +16,8 @@ namespace bb {
         namespace rest {
 
             enum TaskExecutionType {
-                SYNCH,
-                ASYNCH
+                BB_SYNCH,
+                BB_ASYNCH
             };
 
             enum ContentType {

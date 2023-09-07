@@ -21,12 +21,12 @@ _executionType(executionType)
 //    _errorCodes.insert_or_assign("statusCode", "message");
 //    _errorCodes.insert_or_assign("code", "msg");
 
-    if(_executionType == TaskExecutionType::ASYNCH)
+    if(_executionType == TaskExecutionType::BB_ASYNCH)
         startAsyncContext();
 }
 
 RestApi::~RestApi(){
-    if(_executionType == TaskExecutionType::ASYNCH) {
+    if(_executionType == TaskExecutionType::BB_ASYNCH) {
         _destructorCalled = true;
         _ioc.stop();
         if (_worker.joinable())
@@ -94,7 +94,7 @@ NetworkResponse RestApi::downloadFile(NetworkRequestSettings &settings,
 NetworkResponse
 RestApi::execute(NetworkRequestSettings &settings, const RequestType type, const ResponseCallback &outCb) {
     assert(_pimpl);
-    bool async =  _executionType == TaskExecutionType::ASYNCH;
+    bool async =  _executionType == TaskExecutionType::BB_ASYNCH;
 
     PostCallback cb = [&, outCb](
             const char *fl,
