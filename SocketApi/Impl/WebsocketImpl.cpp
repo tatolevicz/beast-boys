@@ -7,7 +7,9 @@
 #include "SharedState.h"
 #include "Stream.h"
 #include "Resolver.h"
+#ifdef __APPLE__
 #include <pthread.h>
+#endif
 #include "cacert_data.h"
 
 namespace bb{

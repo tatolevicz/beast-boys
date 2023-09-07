@@ -6,7 +6,10 @@
 #include "BoostInternalImpl.h"
 #include <boost/asio.hpp>
 #include "Logger.h"
+
+#ifdef __APPLE__
 #include <pthread.h>
+#endif
 
 namespace bb {
 namespace network {

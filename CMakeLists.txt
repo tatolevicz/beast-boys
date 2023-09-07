@@ -16,7 +16,7 @@ elseif(WIN32)
     set(OPENSSL_ROOT_DIR "C:/Program Files/OpenSSL-Win64")
     set(OPENSSL_CRYPTO_LIBRARY "C:/Program Files/OpenSSL-Win64/lib")
     set(OPENSSL_INCLUDE_DIR "C:/Program Files/OpenSSL-Win64/include")
-    set(Boost_INCLUDE_DIR "C:/Users/Tato Levicz/Documents/MagiaTrade/boost_1_76_0/boost_1_76_0")
+    set(Boost_INCLUDE_DIR "C:/Users/Tato Levicz/Documents/MagiaTrade/boost_1_79_0")
 endif()
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
