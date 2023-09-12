@@ -5,6 +5,10 @@
 #ifndef BEAST_BOYS_BEASTBOYS_H
 #define BEAST_BOYS_BEASTBOYS_H
 
+#ifdef _WIN32
+#include <SDKDDKVer.h>
+#endif
+
 #include "NetworkTypes.h"
 #include "WebsocketTypes.h"
 #include "Streamer.h"
