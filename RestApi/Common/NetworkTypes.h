@@ -9,14 +9,15 @@
 #include <boost/variant.hpp>
 #include <boost/beast.hpp>
 #include "RestApiResponse.h"
+#include <variant>
 
 namespace bb {
     namespace network {
         namespace rest {
 
             enum TaskExecutionType {
-                SYNCH,
-                ASYNCH
+                BB_SYNCH,
+                BB_ASYNCH
             };
 
             enum ContentType {

@@ -17,7 +17,7 @@ class NetworkRequestSettings;
 
 class RestApi {
 public:
-    explicit RestApi(std::string port, TaskExecutionType executionType = TaskExecutionType::ASYNCH, std::size_t timeout = 10000);
+    explicit RestApi(std::string port, TaskExecutionType executionType = TaskExecutionType::BB_ASYNCH, std::size_t timeout = 10000);
     virtual ~RestApi();
 
     std::size_t getTimeout() const {
