@@ -28,10 +28,13 @@ _executionType(executionType)
 RestApi::~RestApi(){
     if(_executionType == TaskExecutionType::ASYNCH) {
         _destructorCalled = true;
-        _ioc.stop();
+//        _ioc.stop();
+        _work.reset();
         if (_worker.joinable())
             _worker.join();
     }
+
+    std::cout << "Destructor RestApi\n";
 }
 
 void RestApi::startAsyncContext(){
