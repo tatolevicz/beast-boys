@@ -31,7 +31,7 @@ _executionType(executionType)
 RestApi::~RestApi(){
     if(_executionType == TaskExecutionType::BB_ASYNCH) {
         _destructorCalled = true;
-//        _ioc.stop();
+        _ioc.stop();
         _work.reset();
         if (_worker.joinable())
             _worker.join();

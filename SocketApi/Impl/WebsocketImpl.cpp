@@ -98,8 +98,8 @@ std::weak_ptr<Stream>  WebsocketImpl::openStream(std::string baseUrl,
 
 WebsocketImpl::~WebsocketImpl(){
     _destructorCalled = true;
+    _ioc.stop();
     _work.reset();
-//    _ioc.stop();
     if(_worker.joinable())
         _worker.join();
 
