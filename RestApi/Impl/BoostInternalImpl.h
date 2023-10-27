@@ -58,7 +58,7 @@ public:
         }
 
         NetworkResponse r{};
-        if (m_executionType == TaskExecutionType::SYNCH) {
+        if (m_executionType == TaskExecutionType::BB_SYNCH) {
             try {
                 r = syncPost(settings, action, std::move(data));
                 if (!r.data.empty() && _responseHelper->is_html(r.data.c_str())) {

@@ -11,6 +11,7 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.cpp

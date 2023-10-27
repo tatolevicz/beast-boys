@@ -6,7 +6,10 @@
 #include "BoostInternalImpl.h"
 #include <boost/asio.hpp>
 #include "Logger.h"
+
+#ifdef __APPLE__
 #include <pthread.h>
+#endif
 
 namespace bb {
 namespace network {
@@ -21,23 +24,29 @@ _executionType(executionType)
 //    _errorCodes.insert_or_assign("statusCode", "message");
 //    _errorCodes.insert_or_assign("code", "msg");
 
-    if(_executionType == TaskExecutionType::ASYNCH)
+    if(_executionType == TaskExecutionType::BB_ASYNCH)
         startAsyncContext();
 }
 
 RestApi::~RestApi(){
-    if(_executionType == TaskExecutionType::ASYNCH) {
+    if(_executionType == TaskExecutionType::BB_ASYNCH) {
         _destructorCalled = true;
         _ioc.stop();
+        _work.reset();
         if (_worker.joinable())
             _worker.join();
     }
+
+    std::cout << "Destructor RestApi\n";
 }
 
 void RestApi::startAsyncContext(){
     _work = std::make_shared<boost::asio::io_context::work>(_ioc);
     _worker = std::thread([&]() {
+#ifdef __APPLE__
         pthread_setname_np("Binance-beast-RestApi-Worker");
+#endif
+
         while(!_destructorCalled) {
             try {
                 _ioc.run();
@@ -78,7 +87,7 @@ NetworkResponse RestApi::downloadFile(NetworkRequestSettings &settings,
                                           const ResponseCallback &cb) {
     return execute(settings, RequestType::get, [cb, outputFilePath](const NetworkResponse &res) {
         if (res.isOk()) {
-            std::ofstream fp(outputFilePath);
+            std::ofstream fp(outputFilePath, std::ios::binary);
             fp << res.data;
             fp.close();
         }
@@ -91,7 +100,7 @@ NetworkResponse RestApi::downloadFile(NetworkRequestSettings &settings,
 NetworkResponse
 RestApi::execute(NetworkRequestSettings &settings, const RequestType type, const ResponseCallback &outCb) {
     assert(_pimpl);
-    bool async =  _executionType == TaskExecutionType::ASYNCH;
+    bool async =  _executionType == TaskExecutionType::BB_ASYNCH;
 
     PostCallback cb = [&, outCb](
             const char *fl,

@@ -7,7 +7,9 @@
 #include "SharedState.h"
 #include "Stream.h"
 #include "Resolver.h"
+#ifdef __APPLE__
 #include <pthread.h>
+#endif
 #include "cacert_data.h"
 
 namespace bb{
@@ -21,10 +23,10 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
     _sharedState = std::make_shared<SharedState>();
 //    _sslContext.set_default_verify_paths();
     boost::system::error_code ec;
-//    _sslContext.load_verify_file("../Resources/cacert.pem",ec);
-    _sslContext.add_certificate_authority(boost::asio::buffer(cacert_data, cacert_data_size), ec);
+    _sslContext.load_verify_file("./cacert.pem",ec);
+//    _sslContext.add_certificate_authority(boost::asio::buffer(cacert_data, std::strlen(cacert_data)), ec);
+//    _sslContext.use_certificate(boost::asio::buffer(cacert_data,std::strlen(cacert_data)),boost::asio::ssl::context_base::pem, ec);
     CHECK_ASIO_ERROR_(ec)
-
     _sslContext.set_verify_mode(boost::asio::ssl::verify_peer);
 
     startContext();
@@ -33,7 +35,11 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
 void WebsocketImpl::startContext(){
     _work = std::make_shared<boost::asio::io_context::work>(_ioc);
     _worker = std::thread([&]() {
+
+#ifdef __APPLE__
         pthread_setname_np("Binance-beast-WebsockApi-Worker");
+#endif
+
         while(!_destructorCalled) {
             try {
                 _ioc.run();
@@ -93,7 +99,11 @@ std::weak_ptr<Stream>  WebsocketImpl::openStream(std::string baseUrl,
 WebsocketImpl::~WebsocketImpl(){
     _destructorCalled = true;
     _ioc.stop();
-    _worker.join();
+    _work.reset();
+    if(_worker.joinable())
+        _worker.join();
+
+    std::cout << "Destructor WebSocketImpl\n";
 }
 
 }

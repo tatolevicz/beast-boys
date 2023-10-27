@@ -48,9 +48,9 @@ void localHostStream(){
 
 int main(){
 
-    localHostStream();
-
-    return 0;
+//    localHostStream();
+//
+//    return 0;
 
     std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
