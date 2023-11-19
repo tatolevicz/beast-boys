@@ -25,11 +25,11 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
     boost::system::error_code ec;
 
 //this is due to the app bundle paths on macos
-#ifdef __APPLE__
-    _sslContext.load_verify_file("../Resources/cacert.pem",ec);
-#elif
+//#ifdef __APPLE__
+//    _sslContext.load_verify_file("../Resources/cacert.pem",ec);
+//#elif
     _sslContext.load_verify_file("./cacert.pem",ec);
-#endif
+//#endif
 
 //    _sslContext.add_certificate_authority(boost::asio::buffer(cacert_data, std::strlen(cacert_data)), ec);
 //    _sslContext.use_certificate(boost::asio::buffer(cacert_data,std::strlen(cacert_data)),boost::asio::ssl::context_base::pem, ec);
