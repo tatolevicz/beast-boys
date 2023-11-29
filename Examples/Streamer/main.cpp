@@ -75,14 +75,14 @@ int main(){
 
         if(!sent)
         {
-            messenger->sendMassage(stream.lock(),
+            messenger->sendMessage(stream.lock(),
                                    "{\n\"method\": \"SUBSCRIBE\",\n\"params\":\n[\n\"btcusdt@trade\"\n],\n\"id\": 1\n}",
-            [](bool success){
-                if(success)
-                    std::cout << "Msg enviada com sucesso!\n";
-                else
-                    std::cerr << "Msg nao enviada!\n";
-            });
+                                   [](bool success) {
+                                       if (success)
+                                           std::cout << "Msg enviada com sucesso!\n";
+                                       else
+                                           std::cerr << "Msg nao enviada!\n";
+                                   });
 
             sent = true;
         }

@@ -6,7 +6,7 @@
 #define BEAST_BOYS_MESSENGER_H
 
 #include "WebsocketTypes.h"
-
+#include <queue>
 namespace bb{
 
     namespace network::ws {
@@ -14,9 +14,18 @@ namespace bb{
     }
     class Messenger{
     public:
+        struct InternalMessage {
+            std::shared_ptr<network::ws::Stream> stream;
+            std::string message;
+            network::ws::SendMessageCB  callback;
+
+            InternalMessage(const std::shared_ptr<network::ws::Stream> s, std::string m, network::ws::SendMessageCB cb)
+                    : stream(std::move(s)), message(std::move(m)), callback(std::move(cb)) {}
+        };
+
         Messenger();
 
-        void sendMassage(const std::shared_ptr<network::ws::Stream>& stream,
+        void sendMessage(const std::shared_ptr<network::ws::Stream>& stream,
                          const std::string& message,
                          network::ws::SendMessageCB cb = nullptr);
 
@@ -36,6 +45,10 @@ namespace bb{
 //        );
 
     private:
+        std::mutex _sendMutex;
+        void startSending();
+        std::queue<InternalMessage> _messages;
+        bool _sendingMessage{false};
     };
 
 }
