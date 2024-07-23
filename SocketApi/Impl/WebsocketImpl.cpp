@@ -26,7 +26,7 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
 
 //this is due to the app bundle paths on macos
 #ifdef __APPLE__
-    _sslContext.load_verify_file("../Resources/cacert.pem",ec);
+    _sslContext.load_verify_file("./cacert.pem",ec);
 #elif
     _sslContext.load_verify_file("./cacert.pem",ec);
 #endif
