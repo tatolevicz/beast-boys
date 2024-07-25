@@ -17,7 +17,7 @@
 #include "RestApi.h"
 #include "NetworkRequestSettings.h"
 #include "CryptoHelper.h"
-#include "RawSocketImpl.h"
+#include "RawSocketImplTest.h"
 
 
 #endif //BEAST_BOYS_BEASTBOYS_H

@@ -2,16 +2,16 @@
 // Created by Arthur Motelevicz on 24/07/24.
 //
 
-#ifndef BEAST_BOYS_RAWSOCKETIMPL_H
-#define BEAST_BOYS_RAWSOCKETIMPL_H
+#ifndef RAW_RAWSOCKETIMPLTEST_H
+#define RAW_RAWSOCKETIMPLTEST_H
 
 #include <boost/asio.hpp>
 #include <memory>
 #include <string>
 
-class RawSocketImpl : public std::enable_shared_from_this<RawSocketImpl> {
+class RawSocketImplTest : public std::enable_shared_from_this<RawSocketImplTest> {
 public:
-  explicit RawSocketImpl(boost::asio::io_context& ioc);
+  explicit RawSocketImplTest(boost::asio::io_context& ioc);
 
   void connect(const std::string& host, const std::string& port);
   void send(const std::string& message);
@@ -29,4 +29,4 @@ private:
   boost::asio::io_context* _ioc{nullptr};
 };
 
-#endif //BEAST_BOYS_RAWSOCKETIMPL_H
+#endif //RAW_RAWSOCKETIMPLTEST_H

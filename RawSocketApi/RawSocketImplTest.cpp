@@ -2,16 +2,15 @@
 // Created by Arthur Motelevicz on 24/07/24.
 //
 
-#include "RawSocketImpl.h"
+#include "RawSocketImplTest.h"
 #include <iostream>
 #include <boost/asio.hpp>
 
-
-RawSocketImpl::RawSocketImpl(boost::asio::io_context& ioc):
+RawSocketImplTest::RawSocketImplTest(boost::asio::io_context& ioc):
 _ioc(&ioc) ,_socket(ioc), _is_connected(false)
 {}
 
-void RawSocketImpl::connect(const std::string& host, const std::string& port)
+void RawSocketImplTest::connect(const std::string& host, const std::string& port)
 {
   auto self(shared_from_this());
 
@@ -27,7 +26,7 @@ void RawSocketImpl::connect(const std::string& host, const std::string& port)
   on_connect(ec, {});
 }
 
-void RawSocketImpl::on_connect(boost::system::error_code ec, const boost::asio::ip::tcp::resolver::iterator& it)
+void RawSocketImplTest::on_connect(boost::system::error_code ec, const boost::asio::ip::tcp::resolver::iterator& it)
 {
   if (ec)
   {
@@ -39,7 +38,7 @@ void RawSocketImpl::on_connect(boost::system::error_code ec, const boost::asio::
   do_read();
 }
 
-void RawSocketImpl::send(const std::string& message)
+void RawSocketImplTest::send(const std::string& message)
 {
   if (!_is_connected) {
     std::cerr << "Not connected" << std::endl;
@@ -52,7 +51,7 @@ void RawSocketImpl::send(const std::string& message)
   });
 }
 
-void RawSocketImpl::do_read()
+void RawSocketImplTest::do_read()
 {
   auto self(shared_from_this());
   boost::asio::async_read_until(_socket, _buffer, '\n',
@@ -62,7 +61,7 @@ void RawSocketImpl::do_read()
   });
 }
 
-void RawSocketImpl::on_read(boost::system::error_code ec, std::size_t bytes_transferred)
+void RawSocketImplTest::on_read(boost::system::error_code ec, std::size_t bytes_transferred)
 {
   if (ec)
   {
@@ -80,7 +79,7 @@ void RawSocketImpl::on_read(boost::system::error_code ec, std::size_t bytes_tran
   do_read();
 }
 
-void RawSocketImpl::on_write(boost::system::error_code ec, std::size_t bytes_transferred)
+void RawSocketImplTest::on_write(boost::system::error_code ec, std::size_t bytes_transferred)
 {
   if (ec)
   {
@@ -91,7 +90,7 @@ void RawSocketImpl::on_write(boost::system::error_code ec, std::size_t bytes_tra
   // Optionally handle post-write operations
 }
 
-void RawSocketImpl::close()
+void RawSocketImplTest::close()
 {
   if (_is_connected)
   {

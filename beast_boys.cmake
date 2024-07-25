@@ -8,8 +8,29 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImpl.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImpl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImplTest.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImplTest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawMessenger.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawMessenger.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawStreamer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawStreamer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Common/RawSocketResponse.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Common/RawSocketResponse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Common/RawSocketTypes.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawConnector.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawConnector.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawReceiver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawReceiver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawResolver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawResolver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawSender.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawSender.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawSharedState.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawSharedState.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawSocketImpl.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawSocketImpl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawStream.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawStream.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
@@ -58,4 +79,6 @@ set(BEAST_BOYS_FOLDERS
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Common
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl
 )

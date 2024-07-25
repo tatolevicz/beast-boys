@@ -8,7 +8,7 @@ int main() {
   boost::asio::io_context io_context;
 
   // Create a RawSocket object and start connection
-  auto socket = std::make_shared<RawSocketImpl>(io_context);
+  auto socket = std::make_shared<RawSocketImplTest>(io_context);
 
   // Connect to the server (host and port should be appropriate for your telnet server)
   socket->connect("datafeed1.cedrotech.com", "81");
