@@ -1,31 +1,53 @@
 //
 // Created by Arthur Motelevicz on 24/07/24.
 //
-#include <boost/asio.hpp>
+#include <iostream>
 #include <beastboys>
 
-int main() {
-  boost::asio::io_context io_context;
+void localHostStream();
 
-  // Create a RawSocket object and start connection
-  auto socket = std::make_shared<RawSocketImplTest>(io_context);
+std::shared_ptr< bb::network::rs::Stream> createRawStream(const std::shared_ptr<bb::RawStreamer> & streamer){
 
-  // Connect to the server (host and port should be appropriate for your telnet server)
-  socket->connect("datafeed1.cedrotech.com", "81");
+  auto stream = streamer->openStream("localhost","1235","",
+  [](bool success, const std::string& data, auto stream){
+    if(!success) {
+      std::cout << "Stream1 closed with msg: " << data << "\n\n";
+      //here in the client you can reschedule a reconnection routine
+      return;
+    }
 
-//  socket->send("\n");
+    //Work with your streamed data here
+    std::cout << data << "\n\n";
+  });
 
-  // Run the io_context to start asynchronous operations
-  io_context.run();
+  return std::move(stream.lock());
 
-  // Send a message
-//  socket->send("!");
+}
+void rawStream(){
+  std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
 
-  // Run the io_context again to ensure all async operations complete
-  io_context.run();
+  auto stream = createRawStream(streamer);
+  std::function<void(RawSharedStream)> closeCB = [&](RawSharedStream closedStream){
+    std::cout << "Stream CLOSE CB!!! \n";
+    stream = createRawStream(streamer);
+    stream->setCloseStreamCallback(closeCB);
+  };
 
-  // Close the connection after usage
-  socket->close();
+  stream->setCloseStreamCallback(closeCB);
 
-  return 0;
+  stream->setCloseStreamCallback([&](RawSharedStream closedStream){
+    closeCB(closedStream);
+  });
+
+  while(stream.use_count() > 1){
+    // Do other stuff while the data is coming in callback
+//        std::this_thread::sleep_for(std::chrono::seconds(3));
+  }
+
+}
+
+int main()
+{
+  rawStream();
+  return EXIT_SUCCESS;
 }

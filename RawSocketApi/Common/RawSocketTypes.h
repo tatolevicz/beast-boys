@@ -12,14 +12,14 @@ namespace bb::network::rs {
     class Stream;
 };
 
-using SharedStream = const std::shared_ptr<bb::network::rs::Stream>&;
+using RawSharedStream = const std::shared_ptr<bb::network::rs::Stream>&;
 
 namespace bb::network::rs {
 
-    using CloseStreamCallback = std::function<void(SharedStream stream)>;
-    using PongStreamCallback = std::function<void(SharedStream stream)>;
-    using PingStreamCallback = std::function<void(SharedStream stream)>;
-    using StreamCB = std::function<void(bool success, const std::string& data,SharedStream stream)>;
+    using CloseStreamCallback = std::function<void(RawSharedStream stream)>;
+    using PongStreamCallback = std::function<void(RawSharedStream stream)>;
+    using PingStreamCallback = std::function<void(RawSharedStream stream)>;
+    using StreamCB = std::function<void(bool success, const std::string& data, RawSharedStream stream)>;
     using SendMessageCB = std::function<void(bool success)>;
 
     //Todo:: create other types (bytes, text, html, etc...)

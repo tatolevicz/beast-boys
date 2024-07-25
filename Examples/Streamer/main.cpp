@@ -27,7 +27,7 @@ void localHostStream(){
     std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
     auto stream = createStream(streamer);
-    std::function<void(SharedStream)> closeCB = [&](SharedStream closedStream){
+    std::function<void(RawSharedStream)> closeCB = [&](RawSharedStream closedStream){
         std::cout << "Stream CLOSE CB!!! \n";
         stream = createStream(streamer);
         stream->setCloseStreamCallback(closeCB);
@@ -35,7 +35,7 @@ void localHostStream(){
 
     stream->setCloseStreamCallback(closeCB);
 
-    stream->setCloseStreamCallback([&](SharedStream closedStream){
+    stream->setCloseStreamCallback([&](RawSharedStream closedStream){
         closeCB(closedStream);
     });
 
@@ -67,7 +67,7 @@ void telnetStream(){
   std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
 
   auto stream = createTelnetStream(streamer);
-  std::function<void(SharedStream)> closeCB = [&](SharedStream closedStream){
+  std::function<void(RawSharedStream)> closeCB = [&](RawSharedStream closedStream){
     std::cout << "Stream CLOSE CB!!! \n";
     stream = createStream(streamer);
     stream->setCloseStreamCallback(closeCB);
@@ -75,7 +75,7 @@ void telnetStream(){
 
   stream->setCloseStreamCallback(closeCB);
 
-  stream->setCloseStreamCallback([&](SharedStream closedStream){
+  stream->setCloseStreamCallback([&](RawSharedStream closedStream){
     closeCB(closedStream);
   });
 
