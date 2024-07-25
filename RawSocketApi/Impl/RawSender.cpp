@@ -33,11 +33,20 @@ void Sender::onSend(boost::system::error_code ec, std::size_t) {
 void Sender::send(const std::string& message, SendMessageCB cb){
   _cb = std::move(cb);
 
-  //TODO::
-//  _stream->getSocket().async_write(boost::asio::buffer(message),
+  //  _stream->getSocket().async_write(boost::asio::buffer(message),
 //  [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes){
 //      self->onSend(ec, bytes);
 //  });
+
+  auto &socket = _stream->getSocket();
+  if (socket.is_open())
+  {
+    boost::asio::async_write(socket, boost::asio::buffer(message),
+    [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes_transferred)
+    {
+      self->onSend(ec, bytes_transferred);
+    });
+}
 }
 
 }

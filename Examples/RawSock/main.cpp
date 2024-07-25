@@ -8,7 +8,8 @@ void localHostStream();
 
 std::shared_ptr< bb::network::rs::Stream> createRawStream(const std::shared_ptr<bb::RawStreamer> & streamer){
 
-  auto stream = streamer->openStream("localhost","12345","",
+//  auto stream = streamer->openStream("localhost","12345","",
+  auto stream = streamer->openStream("datafeed1.cedrotech.com","81","",
   [](bool success, const std::string& data, auto stream){
     if(!success) {
       std::cout << "Stream1 closed with msg: " << data << "\n\n";
@@ -17,7 +18,7 @@ std::shared_ptr< bb::network::rs::Stream> createRawStream(const std::shared_ptr<
     }
 
     //Work with your streamed data here
-    std::cout << data << "\n\n";
+    std::cout << data;
   });
 
   return std::move(stream.lock());
