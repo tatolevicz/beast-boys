@@ -21,7 +21,6 @@ namespace rs {
         boost::asio::ip::tcp::resolver _resolver;
         std::shared_ptr<SharedState> _sharedState{nullptr};
     };
-
 }
 }
 }

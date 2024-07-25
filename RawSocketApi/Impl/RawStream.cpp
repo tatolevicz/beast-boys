@@ -62,12 +62,32 @@ void Stream::connectionAborted(boost::system::error_code ec){
 
 void Stream::internalStop()
 {
-  if(_socket->is_open())
+  if (_socket && _socket->is_open())
   {
 //    _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
 //        if(_wasClosedByServer) return;
 //        std::cout << "Stream " << id << " stopped by user!\n";
 //    });
+
+    boost::asio::post(_socket->get_executor(),
+    [this]()
+    {
+      boost::system::error_code ec;
+
+      // Shutdown the socket to disallow further sends and receives
+      _socket->shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+
+      CHECK_ASIO_ERROR_(ec)
+
+      _socket->close(ec);
+
+      CHECK_ASIO_ERROR_(ec)
+
+      if(_wasClosedByServer)
+        return;
+
+      std::cout << "Stream " << id << " stopped by user!\n";
+    });
   }
 }
 

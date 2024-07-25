@@ -20,8 +20,9 @@ public:
 private:
     std::shared_ptr<Stream> _stream;
     std::shared_ptr<SharedState> _sharedState{nullptr};
-    boost::beast::flat_buffer _buffer;
+    boost::asio::streambuf _buffer;
 };
+
 
 }
 }
