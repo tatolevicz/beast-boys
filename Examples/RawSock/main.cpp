@@ -8,7 +8,7 @@ void localHostStream();
 
 std::shared_ptr< bb::network::rs::Stream> createRawStream(const std::shared_ptr<bb::RawStreamer> & streamer){
 
-  auto stream = streamer->openStream("localhost","1235","",
+  auto stream = streamer->openStream("localhost","12345","",
   [](bool success, const std::string& data, auto stream){
     if(!success) {
       std::cout << "Stream1 closed with msg: " << data << "\n\n";

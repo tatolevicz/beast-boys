@@ -4,6 +4,8 @@
 
 #include "RawReceiver.h"
 
+#define BUFFER_SIZE 1024
+
 namespace bb {
 namespace network {
 namespace rs {
@@ -19,7 +21,7 @@ Receiver::~Receiver(){
     _sharedState->leave(_stream.get());
 }
 
-void Receiver::onReceive(boost::system::error_code ec, std::size_t)
+void Receiver::onReceive(boost::system::error_code ec, std::size_t bytes)
 {
     //return with no error handling if the stream was close by the control messages or by client
     if(_stream->wasClosedByServer() || _stream->wasClosedByClient())
@@ -27,6 +29,7 @@ void Receiver::onReceive(boost::system::error_code ec, std::size_t)
 
     if (!ec) {
       // Extract the received data into a string
+      _buffer.commit(bytes);
       std::istream is(&_buffer);
       std::string msg((std::istreambuf_iterator<char>(is)), std::istreambuf_iterator<char>());
       _stream->feedData(msg);
@@ -44,10 +47,17 @@ void Receiver::run(){
   auto &socket = _stream->getSocket();
   if (socket.is_open())
   {
-    boost::asio::async_read(socket,_buffer,
+//    boost::asio::async_read(socket,_buffer,
+//                            boost::asio::transfer_at_least(1), // Ler pelo menos 1 byte antes de chamar o callback
+//                            [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
+//    {
+//      self->onReceive(ec, bytes);
+//    });
+
+    socket.async_read_some(_buffer.prepare(BUFFER_SIZE),
     [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
     {
-      self->onReceive(ec, bytes);
+     self->onReceive(ec, bytes);
     });
   }
 }

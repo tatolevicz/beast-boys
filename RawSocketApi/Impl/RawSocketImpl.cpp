@@ -24,7 +24,8 @@ using namespace boost;
     startContext();
 }
 
-void RawSocketImpl::startContext(){
+void RawSocketImpl::startContext()
+{
   _work = std::make_shared<boost::asio::io_context::work>(_ioc);
   _worker = std::thread([&]()
   {
