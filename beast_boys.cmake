@@ -8,6 +8,8 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImpl.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
@@ -55,4 +57,5 @@ set(BEAST_BOYS_FOLDERS
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi
 )
