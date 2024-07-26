@@ -8,12 +8,13 @@
 #include <boost/asio.hpp>
 #include <iostream>
 
-namespace bb {
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   class ServerState;
   class Client;
   class Connection;
+
+  using OnSendMessageCallback = std::function<void(const std::string& message)>;
 
   class ServerState : public std::enable_shared_from_this<ServerState>
   {
@@ -24,11 +25,13 @@ namespace network::rs::server
     void leave(Connection *connection);
     void send(const std::string &message);
     void leaveAll();
+    void setOnSendMessageCB(const OnSendMessageCallback& cb);
 
   private:
+    OnSendMessageCallback _onSendMessageCb{nullptr};
     std::vector<std::shared_ptr<Client>> _clients;
   };
 }
-}
+
 
 #endif //SOCKET_SERVERSTATE_H

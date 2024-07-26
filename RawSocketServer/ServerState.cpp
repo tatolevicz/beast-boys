@@ -7,8 +7,7 @@
 #include "RawConnection.h"
 #include "Logger.h"
 
-namespace bb {
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   std::shared_ptr<Client> ServerState::join(Connection *connection)
   {
@@ -31,16 +30,24 @@ namespace network::rs::server
 
   void ServerState::send(const std::string &message)
   {
-    for (auto c: _clients)
+    for (const auto &c: _clients)
       c->getConnection()->send(message);
+
+    if(_onSendMessageCb)
+      _onSendMessageCb(message);
   }
 
   void ServerState::leaveAll()
   {
-    for (auto c: _clients)
+    for (const auto &c: _clients)
       c->getConnection()->disconnect();
 
     _clients.clear();
   }
-}
+
+  void ServerState::setOnSendMessageCB(const OnSendMessageCallback& cb)
+  {
+    _onSendMessageCb = cb;
+  }
+
 }

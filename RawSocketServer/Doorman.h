@@ -8,8 +8,7 @@
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
 
-namespace bb {
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   class ServerState;
 
@@ -30,7 +29,7 @@ namespace network::rs::server
     boost::asio::ip::tcp::endpoint _endpoint;
   };
 
-  }
 }
+
 
 #endif //SOCKET_DOORMAN_H

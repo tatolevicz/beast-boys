@@ -8,9 +8,7 @@
 
 //server beast
 
-namespace bb
-{
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   Connection::Connection(boost::asio::ip::tcp::socket sock, std::shared_ptr<ServerState> serverState):
   _socket(std::move(sock)),
@@ -96,4 +94,4 @@ namespace network::rs::server
     });
   }
 }
-}
+

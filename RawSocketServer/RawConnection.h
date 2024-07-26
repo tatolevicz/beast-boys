@@ -7,9 +7,7 @@
 
 #include <boost/asio.hpp>
 
-namespace bb
-{
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   class ServerState;
 
@@ -35,7 +33,6 @@ namespace network::rs::server
       boost::asio::streambuf _buffer;
       std::vector<std::string> _messageQueue;
   };
-}
 }
 
 

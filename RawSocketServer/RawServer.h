@@ -7,11 +7,12 @@
 
 #include <boost/asio.hpp>
 
-namespace bb {
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   class ServerState;
   class Doorman;
+
+  using OnSendMessageCallback = std::function<void(const std::string& message)>;
 
   class RawServer : public std::enable_shared_from_this<RawServer> {
   public:
@@ -19,14 +20,16 @@ namespace network::rs::server
     void start();
     void stop();
     void disconnectAll();
-    private:
+    void setOnSendMessageCB(const OnSendMessageCallback& cb);
+  private:
+    OnSendMessageCallback _onSendMessageCb{nullptr};
     std::shared_ptr<ServerState> _serverState{nullptr};
     std::shared_ptr<Doorman> _doorMan{nullptr};
     boost::asio::io_context _ioc;
     boost::asio::ip::tcp::endpoint _endpoint;
   };
 }
-}
+
 
 
 #endif //SOCKET_SERVER_H

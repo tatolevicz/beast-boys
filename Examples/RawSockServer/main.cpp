@@ -6,28 +6,39 @@
 
 int main()
 {
+  std::string message;
+
   bb::network::rs::server::RawServer s;
+
+  s.setOnSendMessageCB([&](const std::string& msg){
+    message = msg;
+  });
+
   std::thread worker([&](){
     s.start();
   });
+
   worker.detach();
 
   bool quit = false;
-  while(!quit){
-    std::string input;
-    std::getline(std::cin, input);
+  while(!quit)
+  {
+    if(message.empty())
+      continue;
 
-    if(input == "stop"){
-      std::cout << "Close all streams!!\n";
+    if(message == "stop\n"){
+      std::cout << "Stop all streams!!\n";
       s.stop();
     }
-    if(input == "close"){
+    if(message == "close\n"){
       std::cout << "Close all streams!!\n";
       s.disconnectAll();
     }
-    else if(input == "quit"){
+    else if(message == "quit\n"){
       quit = true;
     }
+
+    message = "";
   }
 
   return EXIT_SUCCESS;

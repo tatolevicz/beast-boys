@@ -7,16 +7,20 @@
 #include "Doorman.h"
 #include "Logger.h"
 
-namespace bb {
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   void RawServer::start()
   {
     _endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v4::any(), 1234);
     _serverState = std::make_shared<ServerState>();
+
+    if(_onSendMessageCb)
+      _serverState->setOnSendMessageCB(_onSendMessageCb);
+
     _doorMan = std::make_shared<Doorman>(_ioc, _endpoint, _serverState);
     _doorMan->run();
     _ioc.run();
+
   }
 
   void RawServer::stop()
@@ -38,5 +42,9 @@ namespace network::rs::server
   {
     _serverState->leaveAll();
   }
-}
+
+  void RawServer::setOnSendMessageCB(const OnSendMessageCallback& cb)
+  {
+    _onSendMessageCb = cb;
+  }
 }

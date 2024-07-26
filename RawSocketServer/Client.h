@@ -7,8 +7,7 @@
 
 #include <boost/asio.hpp>
 
-namespace bb {
-namespace network::rs::server
+namespace bb::network::rs::server
 {
   class ServerState;
   class Connection;
@@ -28,7 +27,7 @@ namespace network::rs::server
     unsigned long _id = 0;
   };
 }
-}
+
 
 #endif //SOCKET_CLIENT_H
 
