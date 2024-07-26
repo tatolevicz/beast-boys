@@ -36,8 +36,8 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Doorman.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawConnection.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawConnection.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Server.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Server.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawServer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawServer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/ServerState.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/ServerState.cpp
 
@@ -89,6 +89,7 @@ set(BEAST_BOYS_FOLDERS
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl

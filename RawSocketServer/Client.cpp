@@ -24,7 +24,6 @@ namespace network::rs::server
   {
     return _connection;
   }
-
 }
 }
 

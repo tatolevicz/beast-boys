@@ -13,9 +13,9 @@ namespace network::rs::server
   class ServerState;
   class Doorman;
 
-  class Server : public std::enable_shared_from_this<Server> {
+  class RawServer : public std::enable_shared_from_this<RawServer> {
   public:
-    Server();
+    RawServer();
     void start();
     void stop();
     void disconnectAll();

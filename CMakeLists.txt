@@ -27,7 +27,7 @@ add_subdirectory(external/rapidjson)
 
 include(beast_boys.cmake)
 
-add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES} Common/cacert_data.h Examples/RawSock/main.cpp)
+add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES} Common/cacert_data.h Examples/RawSock/main.cpp Examples/RawSockServer/main.cpp)
 
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 
@@ -64,6 +64,7 @@ if (${BUILD_BB_EXAMPLES})
     add_subdirectory(Examples/RestBinance)
     add_subdirectory(Examples/RawSocketMessenger)
     add_subdirectory(Examples/RawSock)
+    add_subdirectory(Examples/RawSockServer)
 endif()
 
 if (${BUILD_BB_TESTS})
