@@ -46,5 +46,7 @@ namespace bb::network::rs::server
   void RawServer::setOnSendMessageCB(const OnSendMessageCallback& cb)
   {
     _onSendMessageCb = cb;
+    if(_serverState)
+      _serverState->setOnSendMessageCB(_onSendMessageCb);
   }
 }

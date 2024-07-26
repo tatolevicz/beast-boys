@@ -14,10 +14,6 @@ TEST_CASE("Socket Connection Test", "[socket]") {
 
   std::string receivedMessage;
 
-  server.setOnSendMessageCB([&](const std::string& msg) {
-    receivedMessage = msg;
-  });
-
   std::thread serverThread([&]() {
     server.start(1234);
   });
@@ -61,7 +57,18 @@ TEST_CASE("Socket Connection Test", "[socket]") {
         // Use a promise and future to wait for the result in the main thread
         std::promise<bool> sendPromise;
         std::future<bool> sendFuture = sendPromise.get_future();
+        std::promise<std::string> sendMsgPromise;
+        std::future<std::string> sendMsgFuture = sendMsgPromise.get_future();
 
+        // Server's callback is called when it send messages to its clients.
+        // The test server send everything it receives to all clients and after
+        // that it call this callback.
+        server.setOnSendMessageCB([&](const std::string& msg)
+        {
+          sendMsgPromise.set_value(msg);
+        });
+
+        //Client messenger uses the stream to send messages
         messenger->sendMessage(streamPtr, testMessage,
         [&sendPromise](bool success)
         {
@@ -69,9 +76,37 @@ TEST_CASE("Socket Connection Test", "[socket]") {
         });
 
         // Wait for the result in the main thread
-        bool success = sendFuture.get();
-        REQUIRE(success);
-      } else {
+//        bool success = sendFuture.get();
+//        REQUIRE(success);
+//
+//        std::string receivedMsg = sendMsgFuture.get();
+//        REQUIRE(receivedMsg == testMessage);
+
+        // Wait for the result in the main thread with a timeout
+        if (sendFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
+        {
+          bool success = sendFuture.get();
+          REQUIRE(success);
+        }
+        else
+        {
+          std::cerr << "Timeout waiting for sendMessage callback." << std::endl;
+          REQUIRE(false); // Force test failure on timeout
+        }
+
+        // Wait for the result in the main thread with a timeout
+        if (sendMsgFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
+        {
+          std::string receivedMsg = sendMsgFuture.get();
+          REQUIRE(receivedMsg == testMessage);
+        } else
+        {
+          std::cerr << "Timeout waiting for getting message received on server's callback." << std::endl;
+          REQUIRE(false); // Force test failure on timeout
+        }
+      }
+      else
+      {
         std::cerr << "Failed to lock stream." << std::endl;
         REQUIRE(false); // Force test failure if stream is not valid
       }
@@ -85,54 +120,6 @@ TEST_CASE("Socket Connection Test", "[socket]") {
       REQUIRE(false); // Force test failure on unknown exception
     }
   }
-
-//  SECTION("Test Sending and Receiving Messages")
-//  {
-//    auto stream = streamer->openStream("localhost","1234","",
-//    [](bool success, const std::string& data, auto stream)
-//    {
-//     if(!success) {
-//       std::cout << "Stream closed with msg: " << data << "\n\n";
-//       return;
-//     }
-//
-//     //Work with your streamed data here
-//     std::cout << data << "\n\n";
-//    });
-//
-//    std::this_thread::sleep_for(std::chrono::seconds(2)); // time to stream be opened
-//
-//    auto messenger  = std::make_unique<bb::RawMessenger>();
-//
-//    std::string testMessage = "Hello, Server!";
-//    messenger->sendMessage(stream.lock(),
-//    testMessage,
-//    [](bool success)
-//    {
-//      REQUIRE(success);
-//    });
-
-//    while(stream.lock())
-//    {
-//      std::this_thread::sleep_for(std::chrono::seconds(2)); // Wait for the message to be processed
-//      messenger->sendMessage(stream.lock(),
-//      testMessage,
-//      [](bool success) {
-//       if (success)
-//         std::cout << "Msg enviada com sucesso!\n";
-//       else
-//         std::cerr << "Msg nao enviada!\n";
-//      });
-//    }
-//    REQUIRE(receivedMessage == testMessage);
-//  }
-
-//
-//  SECTION("Test Connection Failure") {
-//    // Attempt to connect to an invalid IP or port
-//    REQUIRE(client.connect("256.256.256.256", 8080) == false);
-//    REQUIRE(client.isConnected() == false);
-//  }
 
   server.stop();
   serverThread.join();
