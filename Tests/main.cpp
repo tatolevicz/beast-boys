@@ -8,13 +8,13 @@
 #include <string>
 #include "RawServer.h"
 
-TEST_CASE("Socket Connection Test", "[socket]") {
+TEST_CASE("Socket Connection Test", "[socket]")
+{
   bb::network::rs::server::RawServer server;
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
-
-  std::string receivedMessage;
-
-  std::thread serverThread([&]() {
+  
+  std::thread serverThread([&]()
+  {
     server.start(1234);
   });
 
@@ -35,7 +35,8 @@ TEST_CASE("Socket Connection Test", "[socket]") {
     try
     {
       auto stream = streamer->openStream("localhost", "1234", "",
-      [](bool success, const std::string& data, auto stream) {
+      [](bool success, const std::string& data, auto stream)
+      {
         if (!success)
         {
          std::cout << "Stream closed with msg: " << data << "\n\n";
@@ -57,6 +58,7 @@ TEST_CASE("Socket Connection Test", "[socket]") {
         // Use a promise and future to wait for the result in the main thread
         std::promise<bool> sendPromise;
         std::future<bool> sendFuture = sendPromise.get_future();
+
         std::promise<std::string> sendMsgPromise;
         std::future<std::string> sendMsgFuture = sendMsgPromise.get_future();
 
@@ -74,13 +76,6 @@ TEST_CASE("Socket Connection Test", "[socket]") {
         {
          sendPromise.set_value(success);
         });
-
-        // Wait for the result in the main thread
-//        bool success = sendFuture.get();
-//        REQUIRE(success);
-//
-//        std::string receivedMsg = sendMsgFuture.get();
-//        REQUIRE(receivedMsg == testMessage);
 
         // Wait for the result in the main thread with a timeout
         if (sendFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
