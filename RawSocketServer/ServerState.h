@@ -20,6 +20,7 @@ namespace bb::network::rs::server
   {
   public:
     ServerState() = default;
+    ~ServerState();
 
     std::shared_ptr<Client> join(Connection *connection);
     void leave(Connection *connection);

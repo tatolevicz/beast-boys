@@ -17,7 +17,7 @@ namespace bb::network::rs::server
   class RawServer : public std::enable_shared_from_this<RawServer> {
   public:
     RawServer() = default;
-    void start();
+    void start(uint32_t port);
     void stop();
     void disconnectAll();
     void setOnSendMessageCB(const OnSendMessageCallback& cb);

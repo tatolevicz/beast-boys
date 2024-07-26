@@ -68,6 +68,6 @@ if (${BUILD_BB_EXAMPLES})
 endif()
 
 if (${BUILD_BB_TESTS})
-    add_subdirectory(Tests/Client)
+    add_subdirectory(Tests)
 endif()
 # ----------------------------------------------------------

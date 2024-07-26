@@ -20,6 +20,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ../../external/catch2/single_include
+        ../external/catch2/single_include
     ${BEAST_BOYS_FOLDERS}
 )

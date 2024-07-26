@@ -88,7 +88,7 @@ RawSocketImpl::~RawSocketImpl(){
   if(_worker.joinable())
       _worker.join();
 
-  std::cout << "Destructor WebSocketImpl\n";
+  std::cout << "Destructor RawSocketImpl\n";
 }
 
 }

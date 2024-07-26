@@ -9,9 +9,9 @@
 
 namespace bb::network::rs::server
 {
-  void RawServer::start()
+  void RawServer::start(uint32_t port)
   {
-    _endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v4::any(), 1234);
+    _endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v4::any(), port);
     _serverState = std::make_shared<ServerState>();
 
     if(_onSendMessageCb)

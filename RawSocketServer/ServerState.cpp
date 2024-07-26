@@ -24,8 +24,6 @@ namespace bb::network::rs::server
 
     if (it != _clients.end())
       _clients.erase(it);
-    else
-      std::cerr << "Client not found to delete!\n";
   }
 
   void ServerState::send(const std::string &message)
@@ -48,6 +46,12 @@ namespace bb::network::rs::server
   void ServerState::setOnSendMessageCB(const OnSendMessageCallback& cb)
   {
     _onSendMessageCb = cb;
+  }
+
+  ServerState::~ServerState()
+  {
+    if(!_clients.empty())
+      std::cerr << "Clients not empty on ServerState destructor!\n";
   }
 
 }
