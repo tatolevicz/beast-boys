@@ -15,7 +15,7 @@ namespace network::rs::server
 
   class RawServer : public std::enable_shared_from_this<RawServer> {
   public:
-    RawServer();
+    RawServer() = default;
     void start();
     void stop();
     void disconnectAll();

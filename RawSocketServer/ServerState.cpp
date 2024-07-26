@@ -8,11 +8,8 @@
 #include "Logger.h"
 
 namespace bb {
-namespace network::rs::server {
-
-  ServerState::ServerState()
-  {}
-
+namespace network::rs::server
+{
   std::shared_ptr<Client> ServerState::join(Connection *connection)
   {
     auto client = std::make_shared<Client>(connection);
@@ -45,6 +42,5 @@ namespace network::rs::server {
 
     _clients.clear();
   }
-
 }
 }

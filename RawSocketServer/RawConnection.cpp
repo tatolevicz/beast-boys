@@ -12,58 +12,52 @@ namespace bb
 {
 namespace network::rs::server
 {
-  Connection::Connection(boost::asio::ip::tcp::socket
-  sock,
-  std::shared_ptr<ServerState> serverState
-  ):
-
+  Connection::Connection(boost::asio::ip::tcp::socket sock, std::shared_ptr<ServerState> serverState):
   _socket(std::move(sock)),
-  _serverState(std::move(serverState)) {
+  _serverState(std::move(serverState))
+  {}
 
-  }
-
-  Connection::~Connection() {
+  Connection::~Connection()
+  {
     _serverState->leave(this);
   }
 
-  void Connection::send(const std::string &message) {
+  void Connection::send(const std::string &message)
+  {
     _messageQueue.push_back(message);
     callAsyncWrite();
   }
 
-  void Connection::onRead(boost::system::error_code ec, std::size_t bytes) {
-
+  void Connection::onRead(boost::system::error_code ec, std::size_t bytes)
+  {
     CHECK_ASIO_ERROR_(ec)
+    if (bytes > 0)
+    {
+      std::istream is(&_buffer);
+      std::string message(bytes, '\0');
+      is.read(&message[0], bytes);
+      std::cout << "Bytes: " << bytes << " Msg: " << message << "\n";
 
-    std::string message = boost::beast::buffers_to_string(_buffer.data());
-    std::cout << "Msg: " << message << "\n";
-
-    _buffer.consume(bytes);
-
-    _serverState->send(message);
+      _buffer.consume(bytes);
+      _serverState->send(message);
+    }
 
     callAsyncRead();
   }
 
-  void Connection::callAsyncRead() {
-//    _sockStream.async_read(_buffer, [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes) {
-//      self->onRead(ec, bytes);
-//    });
-
-    boost::asio::async_read(_socket,_buffer,
-                            boost::asio::transfer_at_least(1), // Read at least 1 byte to call the callback
-    [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
-    {
-      self->onRead(ec, bytes);
-    });
+  void Connection::callAsyncRead()
+  {
+    boost::asio::async_read(
+      _socket,_buffer,
+      boost::asio::transfer_at_least(1), // Read at least 1 byte to call the callback
+      [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
+      {
+        self->onRead(ec, bytes);
+      });
   }
 
-  void Connection::callAsyncWrite() {
-//    _sockStream.async_write(boost::asio::buffer(_messageQueue.front()),
-//                            [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes) {
-//                              self->onWrite(ec, bytes);
-//                            });
-
+  void Connection::callAsyncWrite()
+  {
     boost::asio::async_write(_socket, boost::asio::buffer(_messageQueue.front()),
     [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes_transferred)
     {
@@ -71,13 +65,13 @@ namespace network::rs::server
     });
   }
 
-
-  void Connection::onWrite(boost::system::error_code ec, std::size_t bytes) {
-
+  void Connection::onWrite(boost::system::error_code ec, std::size_t bytes)
+  {
     CHECK_ASIO_ERROR_(ec)
     _messageQueue.erase(_messageQueue.begin());
 
-    if (!_messageQueue.empty()) {
+    if (!_messageQueue.empty())
+    {
       callAsyncWrite();
     }
   }

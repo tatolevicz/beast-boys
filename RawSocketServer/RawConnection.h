@@ -6,7 +6,6 @@
 #define SOCKET_WEBSOCKETCONNECTION_H
 
 #include <boost/asio.hpp>
-#include <boost/beast.hpp>
 
 namespace bb
 {
@@ -14,7 +13,8 @@ namespace network::rs::server
 {
   class ServerState;
 
-  class Connection : public std::enable_shared_from_this<Connection> {
+  class Connection : public std::enable_shared_from_this<Connection>
+  {
   public:
     Connection(boost::asio::ip::tcp::socket sock,
                           std::shared_ptr<ServerState> serverState);
@@ -22,25 +22,19 @@ namespace network::rs::server
       ~Connection();
 
       void run();
-
       void send(const std::string& message);
-
       void disconnect();
-
   private:
-
       void callAsyncRead();
       void callAsyncWrite();
-
       void onRead(boost::system::error_code ec, std::size_t bytes);
       void onWrite(boost::system::error_code ec, std::size_t bytes);
 
       std::shared_ptr<ServerState> _serverState{nullptr};
       boost::asio::ip::tcp::socket _socket;
-      boost::beast::flat_buffer _buffer;
+      boost::asio::streambuf _buffer;
       std::vector<std::string> _messageQueue;
   };
-
 }
 }
 
