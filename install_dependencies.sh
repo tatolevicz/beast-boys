@@ -7,3 +7,10 @@ if [ -d "$DIR/rapidjson" ]; then
   echo "$DIR Downloading rapidjson:"
   git clone https://github.com/Tencent/rapidjson.git "$DIR/rapidjson"
 fi
+
+if [ -d "$DIR/catch2" ]; then
+  echo "$DIR catch2 exists!"
+  else
+  echo "$DIR Downloading catch2:"
+  git clone --branch v2.x git@github.com:catchorg/Catch2.git "$DIR/catch2"
+fi

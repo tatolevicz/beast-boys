@@ -8,8 +8,6 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImplTest.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawSocketImplTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawMessenger.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawMessenger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawStreamer.h
@@ -31,6 +29,19 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawSocketImpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawStream.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawStream.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Client.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Client.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Doorman.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Doorman.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawConnection.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawConnection.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Server.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Server.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/ServerState.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/ServerState.cpp
+
+
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
