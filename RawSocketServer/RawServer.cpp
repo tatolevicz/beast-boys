@@ -5,7 +5,7 @@
 #include "RawServer.h"
 #include "ServerState.h"
 #include "Doorman.h"
-#include "Logger.h"
+#include "RawStream.h"
 
 namespace bb::network::rs::server
 {

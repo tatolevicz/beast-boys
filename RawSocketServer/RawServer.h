@@ -7,10 +7,16 @@
 
 #include <boost/asio.hpp>
 
+namespace bb::network::rs
+{
+  class Stream;
+}
+
 namespace bb::network::rs::server
 {
   class ServerState;
   class Doorman;
+
 
   using OnSendMessageCallback = std::function<void(const std::string& message)>;
 

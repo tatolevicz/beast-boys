@@ -15,7 +15,7 @@ int main()
   });
 
   std::thread worker([&](){
-    s.start();
+    s.start(1234);
   });
 
   worker.detach();

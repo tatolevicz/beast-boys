@@ -8,11 +8,35 @@
 #include <string>
 #include "RawServer.h"
 
+void handleServerMessages(bb::network::rs::server::RawServer& server, std::string& message, bool& quit) {
+
+  if (message.empty())
+    return;
+
+  if (message == "stop")
+  {
+    server.stop();
+  }
+  else if (message == "close")
+  {
+    server.disconnectAll();
+  }
+  else if (message == "quit\n")
+  {
+    quit = true;
+  }
+
+  message = "";
+}
+
 TEST_CASE("Socket Connection Test", "[socket]")
 {
   bb::network::rs::server::RawServer server;
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
-  
+
+  std::string message;
+  bool quit = false;
+
   std::thread serverThread([&]()
   {
     server.start(1234);
@@ -35,7 +59,7 @@ TEST_CASE("Socket Connection Test", "[socket]")
     try
     {
       auto stream = streamer->openStream("localhost", "1234", "",
-      [](bool success, const std::string& data, auto stream)
+      [](bool success, const std::string& data, const auto &stream)
       {
         if (!success)
         {
@@ -47,7 +71,7 @@ TEST_CASE("Socket Connection Test", "[socket]")
         std::cout << data << "\n\n";
       });
 
-      std::this_thread::sleep_for(std::chrono::seconds(2)); // time to stream be opened
+      std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
 
       auto messenger = std::make_unique<bb::RawMessenger>();
 
@@ -115,6 +139,48 @@ TEST_CASE("Socket Connection Test", "[socket]")
       REQUIRE(false); // Force test failure on unknown exception
     }
   }
+
+
+  SECTION("Test Forced Disconnection by Server")
+  {
+    auto stream = streamer->openStream("localhost", "1234", "",
+    [](bool success, const std::string& data, auto stream)
+    {
+      if (!success)
+     {
+       REQUIRE(!success);
+       REQUIRE(data == "End of file");
+     }
+    });
+
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    auto messenger = std::make_unique<bb::RawMessenger>();
+    std::string testMessage = "close";
+
+    server.setOnSendMessageCB([&](const std::string& message)
+    {
+      auto msgCopy = message;
+      handleServerMessages(server, msgCopy, quit);
+    });
+
+    auto streamPtr = stream.lock();
+    if (streamPtr)
+    {
+      messenger->sendMessage(streamPtr, testMessage, [](bool success)
+      {
+        REQUIRE(success);
+      });
+
+      // Give time to wait response from server
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+    } else
+    {
+      std::cerr << "Failed to lock stream." << std::endl;
+      REQUIRE(false);
+    }
+  }
+
 
   server.stop();
   serverThread.join();

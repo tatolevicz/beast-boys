@@ -12,7 +12,7 @@
         std::cerr << "Error: " << ec.value() \
         << " at " << __FILE__ \
         << "(" << __LINE__ << ")"            \
-        << " Message: " << ec.message() << "\n\n"; \
+        << " Message: " << ec.message() << "\n"; \
         return; \
     }
 
@@ -21,7 +21,7 @@
         std::cerr << "Error: " << ec.value() \
         << " at " << __FILE__ \
         << "(" << __LINE__ << ")"            \
-        << " Message: " << ec.message() << "\n\n"; \
+        << " Message: " << ec.message() << "\n"; \
     }
 
 
