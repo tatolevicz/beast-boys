@@ -142,4 +142,9 @@ bool Stream::wasClosedByClient() const
   return _wasClosedByClient;
 }
 
+bool Stream::isOpen() const
+{
+  return _socket->is_open();
+}
+
 }

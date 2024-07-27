@@ -40,6 +40,8 @@ namespace bb::network::rs
     void setPingStreamCallback(const PingStreamCallback& cb);
     bool wasClosedByServer() const;
     bool wasClosedByClient() const;
+    bool isOpen() const;
+
 
   private:
     void internalStop();

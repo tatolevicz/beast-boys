@@ -8,8 +8,8 @@
 #include <string>
 #include "RawServer.h"
 
-void handleServerMessages(bb::network::rs::server::RawServer& server, std::string& message, bool& quit) {
-
+void handleServerMessages(bb::network::rs::server::RawServer& server,const std::string& message)
+{
   if (message.empty())
     return;
 
@@ -21,12 +21,6 @@ void handleServerMessages(bb::network::rs::server::RawServer& server, std::strin
   {
     server.disconnectAll();
   }
-  else if (message == "quit\n")
-  {
-    quit = true;
-  }
-
-  message = "";
 }
 
 TEST_CASE("Socket Connection Test", "[socket]")
@@ -35,7 +29,6 @@ TEST_CASE("Socket Connection Test", "[socket]")
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
 
   std::string message;
-  bool quit = false;
 
   std::thread serverThread([&]()
   {
@@ -143,42 +136,60 @@ TEST_CASE("Socket Connection Test", "[socket]")
 
   SECTION("Test Forced Disconnection by Server")
   {
+    bool finalResponse = false;
     auto stream = streamer->openStream("localhost", "1234", "",
-    [](bool success, const std::string& data, auto stream)
+    [&](bool success, const std::string& data, auto stream)
     {
       if (!success)
      {
        REQUIRE(!success);
        REQUIRE(data == "End of file");
+       finalResponse= true;
      }
     });
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-
-    auto messenger = std::make_unique<bb::RawMessenger>();
-    std::string testMessage = "close";
-
-    server.setOnSendMessageCB([&](const std::string& message)
-    {
-      auto msgCopy = message;
-      handleServerMessages(server, msgCopy, quit);
-    });
-
     auto streamPtr = stream.lock();
-    if (streamPtr)
-    {
-      messenger->sendMessage(streamPtr, testMessage, [](bool success)
-      {
-        REQUIRE(success);
-      });
 
-      // Give time to wait response from server
-      std::this_thread::sleep_for(std::chrono::seconds(1));
-    } else
+
+    if (!streamPtr)
     {
       std::cerr << "Failed to lock stream." << std::endl;
       REQUIRE(false);
     }
+
+    // sleep with small chucks to improve waiting time
+    auto wait_for_open = [&, streamPtr](auto lamb)
+    {
+      for (int i = 0; i < 200; ++i) {
+        if (lamb())
+          break;
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+      }
+    };
+
+    wait_for_open([streamPtr]() -> bool
+    {
+      return streamPtr->isOpen();
+    });
+
+    auto messenger = std::make_unique<bb::RawMessenger>();
+    std::string testMessage = "close";
+
+    messenger->sendMessage(streamPtr, testMessage, [](bool success)
+    {
+      REQUIRE(success);
+    });
+
+    server.setOnSendMessageCB([&](const std::string& message)
+    {
+      handleServerMessages(server, message);
+    });
+
+    // Give time to wait response from server
+    wait_for_open([&]() -> bool
+    {
+      return finalResponse;
+    });
   }
 
 
