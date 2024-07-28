@@ -41,7 +41,8 @@ void RawMessenger::startSending()
   _sendingMessage = true;
   auto& im = _messages.front();
 
-  std::make_shared<network::rs::Sender>(im.stream)->send(im.message,[this, im](bool success)
+  std::make_shared<network::rs::Sender>(im.stream)->send(im.message,
+  [this, im](bool success)
   {
     if(im.callback)
       im.callback(success);

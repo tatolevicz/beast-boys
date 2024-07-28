@@ -23,9 +23,9 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
   std::string message;
 
   std::thread serverThread([&]()
-                           {
-                             server.start(1234);
-                           });
+  {
+   server.start(1234);
+  });
 
   // Give the server some time to start
   std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -68,16 +68,17 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
         // The test server send everything it receives to all clients and after
         // that it call this callback.
         server.setOnSendMessageCB([&](const std::string& msg)
-                                  {
-                                    sendMsgPromise.set_value(msg);
-                                  });
+        {
+          sendMsgPromise.set_value(msg);
+        });
 
-        //Client messenger uses the stream to send messages
+        //Client messenger uses the stream to send messages and when it
+        // it queues all the messages and when it finish sending this message (or some error occur) it calls the callback
         messenger->sendMessage(streamPtr, testMessage,
-                               [&sendPromise](bool success)
-                               {
-                                 sendPromise.set_value(success);
-                               });
+        [&sendPromise](bool success)
+        {
+          sendPromise.set_value(success);
+        });
 
         // Wait for the result in the main thread with a timeout
         if (sendFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
