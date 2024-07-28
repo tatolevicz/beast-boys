@@ -33,7 +33,7 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
 
 //    _sslContext.add_certificate_authority(boost::asio::buffer(cacert_data, std::strlen(cacert_data)), ec);
 //    _sslContext.use_certificate(boost::asio::buffer(cacert_data,std::strlen(cacert_data)),boost::asio::ssl::context_base::pem, ec);
-    CHECK_ASIO_ERROR_(ec)
+    RETURN_IF_ASIO_ERROR_(ec)
     _sslContext.set_verify_mode(boost::asio::ssl::verify_peer);
 
     startContext();

@@ -49,6 +49,8 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorInfo.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorManager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Resolver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Resolver.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Stream.cpp
@@ -83,6 +85,7 @@ set(BEAST_BOYS_FOLDERS
     ${CMAKE_CURRENT_SOURCE_DIR}/external/rapidjson/include
     ${CMAKE_CURRENT_SOURCE_DIR}/fmt/include
     ${CMAKE_CURRENT_SOURCE_DIR}/Common
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl

@@ -27,7 +27,7 @@ add_subdirectory(external/rapidjson)
 
 include(beast_boys.cmake)
 
-add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES} Common/cacert_data.h)
+add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES} Common/cacert_data.h Common/Error/ErrorInfo.h Common/Error/ErrorManager.h)
 
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 

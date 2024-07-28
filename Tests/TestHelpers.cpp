@@ -4,6 +4,13 @@
 
 #include "TestHelpers.h"
 
+void errorCallback(const bb::ErrorInfo& error)
+{
+  std::cerr << "Error Code: " << error.errorCode
+            << " | Error Message: " << error.errorMessage
+            << " | File: " << error.file << "(" << error.line << ")\n";
+}
+
 void handleServerMessages(bb::network::rs::server::RawServer& server, const std::string& message)
 {
   if (message.empty())
@@ -15,5 +22,4 @@ void handleServerMessages(bb::network::rs::server::RawServer& server, const std:
   {
     server.disconnectAll();
   }
-
 }

@@ -77,11 +77,11 @@ void Stream::internalStop()
       // Shutdown the socket to disallow further sends and receives
       _socket->shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
 
-      CHECK_ASIO_ERROR_(ec)
+      RETURN_IF_ASIO_ERROR_(ec)
 
       _socket->close(ec);
 
-      CHECK_ASIO_ERROR_(ec)
+      RETURN_IF_ASIO_ERROR_(ec)
 
       if(_wasClosedByServer)
         return;

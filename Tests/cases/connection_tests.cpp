@@ -10,6 +10,8 @@
 
 TEST_CASE("Socket Connection Tests", "[socket]")
 {
+  bb::ErrorManager::getInstance().registerCallback(errorCallback);
+
   bb::network::rs::server::RawServer server;
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
 

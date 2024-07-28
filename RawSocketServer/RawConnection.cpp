@@ -28,7 +28,7 @@ namespace bb::network::rs::server
 
   void Connection::onRead(boost::system::error_code ec, std::size_t bytes)
   {
-    CHECK_ASIO_ERROR_(ec)
+    RETURN_IF_ASIO_ERROR_(ec)
     if (bytes > 0)
     {
       std::istream is(&_buffer);
@@ -65,7 +65,7 @@ namespace bb::network::rs::server
 
   void Connection::onWrite(boost::system::error_code ec, std::size_t bytes)
   {
-    CHECK_ASIO_ERROR_(ec)
+    RETURN_IF_ASIO_ERROR_(ec)
     _messageQueue.erase(_messageQueue.begin());
 
     if (!_messageQueue.empty())
@@ -88,9 +88,9 @@ namespace bb::network::rs::server
       boost::system::error_code ec;
       // Shutdown the socket to disallow further sends and receives
       _socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
-      CHECK_ASIO_ERROR_(ec)
+      RETURN_IF_ASIO_ERROR_(ec)
       _socket.close(ec);
-      CHECK_ASIO_ERROR_(ec)
+      RETURN_IF_ASIO_ERROR_(ec)
     });
   }
 }
