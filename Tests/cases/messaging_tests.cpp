@@ -13,7 +13,9 @@
 
 TEST_CASE("Socket Messaging Tests", "[socket]")
 {
-//  bb::ErrorManager::getInstance().registerCallback(errorCallback);
+// Subscribe to error events
+  auto &errorManager = bb::ErrorManager::instance();
+  boost::signals2::connection errorConnection;
 
   bb::network::rs::server::RawServer server;
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());

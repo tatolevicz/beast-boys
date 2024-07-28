@@ -30,6 +30,9 @@
 #define BOLD_CYAN    "\033[1m\033[36m"
 #define BOLD_WHITE   "\033[1m\033[37m"
 
+#define DARK_GRAY "\033[38;5;8m"
+
+
 class Logger {
 public:
     static Logger& instance() {
@@ -40,23 +43,23 @@ public:
     void logDebug(const std::string& message) {
         #ifdef DEBUG
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cout << BOLD_BLUE << "DEBUG: " << message << RESET << std::endl;
+        std::cout << BOLD_BLUE << "DEBUG: " << message << RESET;
         #endif
     }
 
     void logInfo(const std::string& message) {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cout << BOLD_GREEN << "INFO: " << message << RESET << std::endl;
+        std::cout << DARK_GRAY << "INFO: " << message << RESET;
     }
 
     void logWarning(const std::string& message) {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cerr << BOLD_YELLOW << "WARNING: " << message << RESET << std::endl;
+        std::cerr << BOLD_YELLOW << "WARNING: " << message << RESET;
     }
 
     void logError(const std::string& message) {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cerr << BOLD_RED << "ERROR: " << message << RESET << std::endl;
+        std::cerr << BOLD_RED << "ERROR: " << message << RESET;
     }
 
     void logToFile(const std::string& message) {
