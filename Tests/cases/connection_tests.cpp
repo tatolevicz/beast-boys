@@ -7,7 +7,6 @@
 #include "RawServer.h"
 #include "catch2/catch.hpp"
 #include "TestHelpers.h"
-#include "ErrorManager.h"
 
 TEST_CASE("Socket Connection Tests", "[socket]")
 {

@@ -13,7 +13,7 @@ add_executable(${PROJECT_NAME}
     TestHelpers.cpp
     TestHelpers.h
     cases/connection_tests.cpp
-#    cases/messaging_tests.cpp
+    cases/messaging_tests.cpp
 )
 
 if (${Boost_FOUND})

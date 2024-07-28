@@ -24,6 +24,7 @@
 #include "RawServer.h"
 #include "ErrorInfo.h"
 #include "ErrorManager.h"
+#include "Logger.h"
 
 
 #endif //BEAST_BOYS_BEASTBOYS_H

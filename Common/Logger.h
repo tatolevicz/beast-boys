@@ -43,29 +43,29 @@ public:
     void logDebug(const std::string& message) {
         #ifdef DEBUG
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cout << BOLD_BLUE << "DEBUG: " << message << RESET;
+        std::cout << BOLD_BLUE << "DEBUG: " << message << RESET << "\n";
         #endif
     }
 
     void logInfo(const std::string& message) {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cout << DARK_GRAY << "INFO: " << message << RESET;
+        std::cout << DARK_GRAY << "INFO: " << message << RESET << "\n";
     }
 
     void logWarning(const std::string& message) {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cerr << BOLD_YELLOW << "WARNING: " << message << RESET;
+        std::cerr << BOLD_YELLOW << "WARNING: " << message << RESET << "\n";
     }
 
     void logError(const std::string& message) {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::cerr << BOLD_RED << "ERROR: " << message << RESET;
+        std::cerr << BOLD_RED << "ERROR: " << message << RESET << "\n";
     }
 
     void logToFile(const std::string& message) {
         std::lock_guard<std::mutex> lock(mutex_);
         std::ofstream logfile("log.txt", std::ios_base::app);
-        logfile << message << std::endl;
+        logfile << message << "\n";
     }
 
 private:

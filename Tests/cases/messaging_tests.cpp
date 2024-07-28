@@ -13,7 +13,7 @@
 
 TEST_CASE("Socket Messaging Tests", "[socket]")
 {
-// Subscribe to error events
+  // Subscribe to error events
   auto &errorManager = bb::ErrorManager::instance();
   boost::signals2::connection errorConnection;
 
@@ -32,20 +32,22 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
 
   SECTION("Test Sending and Receiving Messages")
   {
+    errorConnection = errorManager.subscribe(&errorCallback);
+
     try
     {
       auto stream = streamer->openStream("localhost", "1234", "",
-                                         [](bool success, const std::string& data, const auto &stream)
-                                         {
-                                           if (!success)
-                                           {
-                                             std::cout << "Stream closed with msg: " << data << "\n\n";
-                                             return;
-                                           }
+      [](bool success, const std::string& data, const auto &stream)
+      {
+        if (!success)
+        {
+           std::cout << "Stream closed with msg: " << data << "\n\n";
+           return;
+        }
 
-                                           // Work with your streamed data here
-                                           std::cout << data << "\n\n";
-                                         });
+        // Work with your streamed data here
+        LOG_INFO(data);
+      });
 
       std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
 
@@ -116,6 +118,7 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
     }
   }
 
+  errorConnection.disconnect();
   server.stop();
   serverThread.join();
 }

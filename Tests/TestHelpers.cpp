@@ -10,7 +10,7 @@ void errorCallback(const bb::ErrorInfo& error)
   std::stringstream stm;
   stm << "Error Code: " << error.errorCode
       << " | Error Message: " << error.errorMessage
-      << " | File: " << error.file << "(" << error.line << ")\n";
+      << " | File: " << error.file << "(" << error.line << ")";
 
   LOG_ERROR(stm.str());
 }
@@ -20,7 +20,7 @@ void infoCallback(const bb::ErrorInfo& error)
   std::stringstream stm;
   stm << "Error Code: " << error.errorCode
       << " | Error Message: " << error.errorMessage
-      << " | File: " << error.file << "(" << error.line << ")\n";
+      << " | File: " << error.file << "(" << error.line << ")";
 
   LOG_INFO(stm.str());
 }
