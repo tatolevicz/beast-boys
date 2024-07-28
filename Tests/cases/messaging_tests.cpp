@@ -123,18 +123,20 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
   SECTION("Test Sending and Receiving Large Messages")
   {
     errorConnection = errorManager.subscribe(&errorCallback);
-
+    // Use a promise and future to wait for the result in the main thread
+    std::promise<std::string> sendMsgPromise;
+    std::future<std::string> sendMsgFuture = sendMsgPromise.get_future();
     try
     {
       auto stream = streamer->openStream("localhost", "1234", "",
-      [](bool success, const std::string& data, const auto& stream) {
-       if (!success)
-       {
+      [&](bool success, const std::string& data, const auto& stream) {
+        if (!success)
+        {
          LOG_ERROR("Stream closed with msg: " + data);
          return;
-       }
-
-       LOG_INFO("Stream: " + data);
+        }
+        LOG_INFO("Stream: " + data);
+        sendMsgPromise.set_value(data);
       });
 
       std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
@@ -145,15 +147,6 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
       auto streamPtr = stream.lock();
       if (streamPtr)
       {
-        // Use a promise and future to wait for the result in the main thread
-        std::promise<std::string> sendMsgPromise;
-        std::future<std::string> sendMsgFuture = sendMsgPromise.get_future();
-
-        // Server's callback is called when it sends messages to its clients.
-        server.setOnSendMessageCB([&](const std::string& msg)
-        {
-          sendMsgPromise.set_value(msg);
-        });
 
         server.broadcast(largeMessage);
 
