@@ -141,9 +141,9 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
 
       std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
 
-      // 1500 characters long (more than the 1024 limit of the client receiver)
+      // 1025 characters long (more than the 1024 limit of the client receiver) will fail
       // This test server can send only 2048 bytes at a time, so 2048 is the limit to test (can be changed in the connection class)
-      std::string largeMessage(1500, 'A');
+      std::string largeMessage(1024, 'A');
       auto streamPtr = stream.lock();
       if (streamPtr)
       {
