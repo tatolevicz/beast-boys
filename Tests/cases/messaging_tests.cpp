@@ -41,8 +41,8 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
       {
         if (!success)
         {
-           std::cout << "Stream closed with msg: " << data << "\n\n";
-           return;
+          LOG_ERROR("Stream closed with msg: " + data);
+          return;
         }
 
         // Work with your streamed data here
@@ -88,7 +88,7 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
         }
         else
         {
-          std::cerr << "Timeout waiting for sendMessage callback." << std::endl;
+          LOG_ERROR("Timeout waiting for sendMessage callback.");
           REQUIRE(false); // Force test failure on timeout
         }
 
@@ -99,22 +99,108 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
           REQUIRE(receivedMsg == testMessage);
         } else
         {
-          std::cerr << "Timeout waiting for getting message received on server's callback." << std::endl;
+          LOG_ERROR("Timeout waiting for getting message received on server's callback.");
           REQUIRE(false); // Force test failure on timeout
         }
       }
       else
       {
-        std::cerr << "Failed to lock stream." << std::endl;
+        LOG_ERROR("Failed to lock stream.");
         REQUIRE(false); // Force test failure if stream is not valid
       }
     } catch (const std::exception& e)
     {
-      std::cerr << "Exception caught: " << e.what() << std::endl;
+      LOG_ERROR("Exception caught: " + std::string(e.what()));
       REQUIRE(false); // Force test failure on exception
     } catch (...)
     {
-      std::cerr << "Unknown exception caught" << std::endl;
+      LOG_ERROR("Unknown exception caught");
+      REQUIRE(false); // Force test failure on unknown exception
+    }
+  }
+
+
+  SECTION("Test Sending and Receiving Large Messages")
+  {
+    errorConnection = errorManager.subscribe(&errorCallback);
+
+    try
+    {
+      auto stream = streamer->openStream("localhost", "1234", "",
+      [](bool success, const std::string& data, const auto& stream) {
+       if (!success)
+       {
+         LOG_ERROR("Stream closed with msg: " + data);
+         return;
+       }
+
+       LOG_INFO("Stream: " + data);
+      });
+
+      std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
+
+      auto messenger = std::make_unique<bb::RawMessenger>();
+
+      // 1500 characters long (more than the 1024 limit of the client receiver)
+      // This test server can send only 2048 bytes at a time, so 2048 is the limit to test (can be changed in the connection class)
+      std::string largeMessage(1500, 'A');
+      auto streamPtr = stream.lock();
+      if (streamPtr)
+      {
+        // Use a promise and future to wait for the result in the main thread
+        std::promise<bool> sendPromise;
+        std::future<bool> sendFuture = sendPromise.get_future();
+
+        std::promise<std::string> sendMsgPromise;
+        std::future<std::string> sendMsgFuture = sendMsgPromise.get_future();
+
+        // Server's callback is called when it sends messages to its clients.
+        server.setOnSendMessageCB([&](const std::string& msg)
+        {
+          sendMsgPromise.set_value(msg);
+        });
+
+        // Client messenger uses the stream to send messages and when it
+        // finishes sending this message (or some error occurs), it calls the callback
+        messenger->sendMessage(streamPtr, largeMessage, [&sendPromise](bool success)
+        {
+          sendPromise.set_value(success);
+        });
+
+        // Wait for the result in the main thread with a timeout
+        if (sendFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
+        {
+          bool success = sendFuture.get();
+          REQUIRE(success);
+        } else {
+          LOG_ERROR("Timeout waiting for sendMessage callback.");
+          REQUIRE(false); // Force test failure on timeout
+        }
+
+        // Wait for the result in the main thread with a timeout
+        if (sendMsgFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
+        {
+          std::string receivedMsg = sendMsgFuture.get();
+          REQUIRE(receivedMsg == largeMessage);
+        }
+        else
+        {
+          LOG_ERROR("Timeout waiting for getting message received on server's callback.");
+          REQUIRE(false); // Force test failure on timeout
+        }
+      }
+      else
+      {
+        LOG_ERROR("Failed to lock stream.");
+        REQUIRE(false); // Force test failure if stream is not valid
+      }
+    } catch (const std::exception& e)
+    {
+      LOG_ERROR("Exception caught: " + std::string(e.what()));
+      REQUIRE(false); // Force test failure on exception
+    } catch (...)
+    {
+      LOG_ERROR("Unknown exception caught");
       REQUIRE(false); // Force test failure on unknown exception
     }
   }

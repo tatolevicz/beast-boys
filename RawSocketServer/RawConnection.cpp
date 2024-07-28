@@ -6,7 +6,7 @@
 #include "ServerState.h"
 #include "Logger.h"
 
-//server beast
+#define BUFFER_SIZE 2048
 
 namespace bb::network::rs::server
 {
@@ -31,13 +31,16 @@ namespace bb::network::rs::server
     RETURN_IF_ASIO_ERROR_(ec)
     if (bytes > 0)
     {
+      _buffer.commit(bytes);
       std::istream is(&_buffer);
-      std::string message(bytes, '\0');
-      is.read(&message[0], bytes);
-      std::cout << "Bytes: " << bytes << " Msg: " << message << "\n";
+      std::string msg((std::istreambuf_iterator<char>(is)), std::istreambuf_iterator<char>());
+
+      std::stringstream stm;
+      stm << "Bytes: " << bytes << " Msg: " << msg;
+      LOG_INFO(stm.str());
 
       _buffer.consume(bytes);
-      _serverState->send(message);
+      _serverState->send(msg);
     }
 
     callAsyncRead();
@@ -45,13 +48,19 @@ namespace bb::network::rs::server
 
   void Connection::callAsyncRead()
   {
-    boost::asio::async_read(
-      _socket,_buffer,
-      boost::asio::transfer_at_least(1), // Read at least 1 byte to call the callback
+
+      _socket.async_read_some(_buffer.prepare(BUFFER_SIZE),
       [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
       {
         self->onRead(ec, bytes);
       });
+//    boost::asio::async_read(
+//      _socket,_buffer,
+//      boost::asio::transfer_at_least(1), // Read at least 1 byte to call the callback
+//      [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
+//      {
+//        self->onRead(ec, bytes);
+//      });
   }
 
   void Connection::callAsyncWrite()
