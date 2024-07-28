@@ -26,6 +26,7 @@ namespace bb::network::rs::server
     void start(uint32_t port);
     void stop();
     void disconnectAll();
+    void broadcast(const std::string& message) const;
     void setOnSendMessageCB(const OnSendMessageCallback& cb);
   private:
     OnSendMessageCallback _onSendMessageCb{nullptr};

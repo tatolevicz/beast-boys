@@ -49,4 +49,9 @@ namespace bb::network::rs::server
     if(_serverState)
       _serverState->setOnSendMessageCB(_onSendMessageCb);
   }
+
+  void RawServer::broadcast(const std::string& message) const
+  {
+    _serverState->send(message);
+  }
 }

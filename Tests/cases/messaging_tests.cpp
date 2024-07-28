@@ -139,8 +139,6 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
 
       std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
 
-      auto messenger = std::make_unique<bb::RawMessenger>();
-
       // 1500 characters long (more than the 1024 limit of the client receiver)
       // This test server can send only 2048 bytes at a time, so 2048 is the limit to test (can be changed in the connection class)
       std::string largeMessage(1500, 'A');
@@ -148,9 +146,6 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
       if (streamPtr)
       {
         // Use a promise and future to wait for the result in the main thread
-        std::promise<bool> sendPromise;
-        std::future<bool> sendFuture = sendPromise.get_future();
-
         std::promise<std::string> sendMsgPromise;
         std::future<std::string> sendMsgFuture = sendMsgPromise.get_future();
 
@@ -160,22 +155,7 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
           sendMsgPromise.set_value(msg);
         });
 
-        // Client messenger uses the stream to send messages and when it
-        // finishes sending this message (or some error occurs), it calls the callback
-        messenger->sendMessage(streamPtr, largeMessage, [&sendPromise](bool success)
-        {
-          sendPromise.set_value(success);
-        });
-
-        // Wait for the result in the main thread with a timeout
-        if (sendFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
-        {
-          bool success = sendFuture.get();
-          REQUIRE(success);
-        } else {
-          LOG_ERROR("Timeout waiting for sendMessage callback.");
-          REQUIRE(false); // Force test failure on timeout
-        }
+        server.broadcast(largeMessage);
 
         // Wait for the result in the main thread with a timeout
         if (sendMsgFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)

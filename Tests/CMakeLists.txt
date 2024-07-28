@@ -12,7 +12,7 @@ add_executable(${PROJECT_NAME}
     ${BEAST_BOYS_FILES}
     TestHelpers.cpp
     TestHelpers.h
-#    cases/connection_tests.cpp
+    cases/connection_tests.cpp
     cases/messaging_tests.cpp
 )
 
