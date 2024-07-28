@@ -9,6 +9,7 @@
 #include <string>
 
 void errorCallback(const bb::ErrorInfo& error);
+void infoCallback(const bb::ErrorInfo& error);
 void handleServerMessages(bb::network::rs::server::RawServer& server, const std::string& message);
 
 template<typename Condition>

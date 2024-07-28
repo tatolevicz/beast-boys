@@ -5,42 +5,46 @@
 #ifndef BEAST_BOYS_ERRORMANAGER_H
 #define BEAST_BOYS_ERRORMANAGER_H
 
-#include "ErrorInfo.h"
+#include <boost/signals2.hpp>
+#include <boost/asio.hpp>
+#include <iostream>
 #include <functional>
-#include <vector>
+#include <string>
 #include <mutex>
+#include "ErrorInfo.h"
 
 namespace bb
 {
-class ErrorManager
-{
-public:
-  using ErrorCallback = std::function<void(const ErrorInfo &)>;
+using ErrorSignal = boost::signals2::signal<void(const ErrorInfo& info)>;
 
-  static ErrorManager &getInstance() {
-    static ErrorManager instance;
-    return instance;
-  }
+  class ErrorManager {
+  public:
 
-  void registerCallback(const ErrorCallback &callback) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    callbacks.push_back(callback);
-  }
-
-  void reportError(const ErrorInfo &error) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    for (const auto &callback: callbacks) {
-      callback(error);
+    static ErrorManager& instance()
+    {
+      static ErrorManager instance;
+      return instance;
     }
-  }
 
-  ErrorManager(const ErrorManager &) = delete;
-  ErrorManager &operator=(const ErrorManager &) = delete;
-private:
-  ErrorManager() = default;
-  std::vector<ErrorCallback> callbacks;
-  std::mutex mutex_;
-};
+    boost::signals2::connection subscribe(const std::function<void(const ErrorInfo& info)>& subscriber)
+    {
+      std::lock_guard<std::mutex> lock(_mutex);
+      return _errorSignal.connect(subscriber);
+    }
 
+    void notify(const ErrorInfo& info)
+    {
+      std::lock_guard<std::mutex> lock(_mutex);
+      _errorSignal(info);
+    }
+
+    ErrorManager(const ErrorManager&) = delete;
+    ErrorManager& operator=(const ErrorManager&) = delete;
+
+  private:
+    ErrorManager() = default;
+    ErrorSignal _errorSignal;
+    std::mutex _mutex;
+  };
 }
 #endif //BEAST_BOYS_ERRORMANAGER_H

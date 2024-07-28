@@ -3,12 +3,26 @@
 //
 
 #include "TestHelpers.h"
+#include "Logger.h"
 
 void errorCallback(const bb::ErrorInfo& error)
 {
-  std::cerr << "Error Code: " << error.errorCode
-            << " | Error Message: " << error.errorMessage
-            << " | File: " << error.file << "(" << error.line << ")\n";
+  std::stringstream stm;
+  stm << "Error Code: " << error.errorCode
+      << " | Error Message: " << error.errorMessage
+      << " | File: " << error.file << "(" << error.line << ")\n";
+
+  LOG_ERROR(stm.str());
+}
+
+void infoCallback(const bb::ErrorInfo& error)
+{
+  std::stringstream stm;
+  stm << "Error Code: " << error.errorCode
+      << " | Error Message: " << error.errorMessage
+      << " | File: " << error.file << "(" << error.line << ")\n";
+
+  LOG_INFO(stm.str());
 }
 
 void handleServerMessages(bb::network::rs::server::RawServer& server, const std::string& message)

@@ -7,10 +7,13 @@
 #include "RawServer.h"
 #include "catch2/catch.hpp"
 #include "TestHelpers.h"
+#include "ErrorManager.h"
 
 TEST_CASE("Socket Connection Tests", "[socket]")
 {
-  bb::ErrorManager::getInstance().registerCallback(errorCallback);
+// Subscribe to error events
+  auto &errorManager = bb::ErrorManager::instance();
+  boost::signals2::connection errorConnection;
 
   bb::network::rs::server::RawServer server;
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
@@ -18,15 +21,22 @@ TEST_CASE("Socket Connection Tests", "[socket]")
   std::string message;
 
   std::thread serverThread([&]()
-                           {
-                             server.start(1234);
-                           });
+  {
+   server.start(1234);
+  });
 
   // Give the server some time to start
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
   SECTION("Test invalid Server")
   {
+    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
+    {
+      infoCallback(error);
+      // expected error here is 1 and 89 (cient and server respectively)
+      REQUIRE(error.errorCode == 1);
+    });
+
     auto stream = streamer->openStream("zxcvzxcvz ","1234","", nullptr);
     auto streamPtr = stream.lock();
     std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
@@ -35,6 +45,9 @@ TEST_CASE("Socket Connection Tests", "[socket]")
 
   SECTION("Test Basic Connection Success")
   {
+    // no error expected
+    errorConnection = errorManager.subscribe(&errorCallback);
+
     auto stream = streamer->openStream("127.0.0.1","1234","", nullptr);
     auto streamPtr = stream.lock();
     std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
@@ -43,6 +56,7 @@ TEST_CASE("Socket Connection Tests", "[socket]")
 
   SECTION("Test Connection Resolving Success")
   {
+    errorConnection = errorManager.subscribe(&errorCallback);
     auto stream = streamer->openStream("localhost","1234","", nullptr);
     auto streamPtr = stream.lock();
     std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
@@ -51,36 +65,32 @@ TEST_CASE("Socket Connection Tests", "[socket]")
 
   SECTION("Test Forced Disconnection by Server")
   {
+    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
+    {
+      infoCallback(error);
+      // expected error here is 2 and 89 (cient and server respectively)
+      auto condition = error.errorCode == 2 || error.errorCode == 89;
+      REQUIRE(condition);
+    });
+
     bool finalResponse = false;
     auto stream = streamer->openStream("localhost", "1234", "",
-                                       [&](bool success, const std::string& data, auto stream)
-                                       {
-                                         if (!success)
-                                         {
-                                           REQUIRE(!success);
-                                           REQUIRE(data == "End of file");
-                                           finalResponse= true;
-                                         }
-                                       });
+    [&](bool success, const std::string& data, auto stream)
+    {
+     if (!success)
+     {
+       REQUIRE(!success);
+       REQUIRE(data == "End of file");
+       finalResponse= true;
+     }
+    });
 
     auto streamPtr = stream.lock();
-
-
     if (!streamPtr)
     {
       std::cerr << "Failed to lock stream." << std::endl;
       REQUIRE(false);
     }
-
-//    // sleep with small chucks to improve waiting time
-//    auto wait_for_open = [&, streamPtr](auto lamb)
-//    {
-//      for (int i = 0; i < 200; ++i) {
-//        if (lamb())
-//          break;
-//        std::this_thread::sleep_for(std::chrono::milliseconds(50));
-//      }
-//    };
 
     waitForCondition([streamPtr]() -> bool
     {
@@ -88,6 +98,7 @@ TEST_CASE("Socket Connection Tests", "[socket]")
     });
 
     auto messenger = std::make_unique<bb::RawMessenger>();
+
     std::string testMessage = "close";
 
     messenger->sendMessage(streamPtr, testMessage, [](bool success)
@@ -107,6 +118,7 @@ TEST_CASE("Socket Connection Tests", "[socket]")
     });
   }
 
+  errorConnection.disconnect();
   server.stop();
   serverThread.join();
 }

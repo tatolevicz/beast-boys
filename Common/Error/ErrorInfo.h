@@ -4,6 +4,7 @@
 
 #ifndef BEAST_BOYS_ERRORINFO_H
 #define BEAST_BOYS_ERRORINFO_H
+
 #include <string>
 
 namespace bb

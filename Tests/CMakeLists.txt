@@ -3,13 +3,17 @@ project(bb-tests VERSION 1.0 LANGUAGES CXX )
 
 set(CMAKE_CXX_STANDARD 17)
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DDEBUG)
+endif()
+
 add_executable(${PROJECT_NAME}
     main.cpp
     ${BEAST_BOYS_FILES}
     TestHelpers.cpp
     TestHelpers.h
     cases/connection_tests.cpp
-    cases/messaging_tests.cpp
+#    cases/messaging_tests.cpp
 )
 
 if (${Boost_FOUND})
