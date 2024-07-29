@@ -1,13 +1,13 @@
 set(BEAST_BOYS_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Streamer.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Messenger.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Messenger.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketTypes.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common/WebsocketResponse.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/WebsocketImpl.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Streamer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Streamer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Messenger.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Messenger.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Common/WebsocketTypes.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Common/WebsocketResponse.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Common/WebsocketResponse.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/WebsocketImpl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/WebsocketImpl.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawMessenger.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawMessenger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/RawStreamer.h
@@ -30,20 +30,24 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawStream.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl/RawStream.cpp
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Client.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Client.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Doorman.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/Doorman.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawConnection.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawConnection.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawServer.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/RawServer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/ServerState.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer/ServerState.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Client.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Client.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Doorman.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Doorman.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Server.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Server.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/ServerState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/ServerState.cpp
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RawDoorman.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RawDoorman.cpp
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SharedState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WebSocketDoorman.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WebSocketDoorman.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SharedState.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SharedState.h
+
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.h
@@ -51,20 +55,20 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorInfo.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorManager.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Resolver.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Resolver.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Stream.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Stream.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Connector.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Connector.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SSLHandShaker.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/SSLHandShaker.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/TargetHandShaker.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/TargetHandShaker.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Receiver.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Receiver.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Sender.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl/Sender.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Resolver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Resolver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Stream.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Stream.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Connector.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Connector.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SSLHandShaker.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SSLHandShaker.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/TargetHandShaker.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/TargetHandShaker.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Receiver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Receiver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Sender.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Sender.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/RestApi.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/NetworkRequestSettings.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/NetworkRequestSettings.cpp
@@ -86,14 +90,18 @@ set(BEAST_BOYS_FOLDERS
     ${CMAKE_CURRENT_SOURCE_DIR}/fmt/include
     ${CMAKE_CURRENT_SOURCE_DIR}/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Common
-    ${CMAKE_CURRENT_SOURCE_DIR}/SocketApi/Impl
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Common
+        ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Impl
-    ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketServer
+        Server/RawSocketServer
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Common
     ${CMAKE_CURRENT_SOURCE_DIR}/RawSocketApi/Impl
+    ${CMAKE_CURRENT_SOURCE_DIR}/Server
+    ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common
+    ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer
+    ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer
 )

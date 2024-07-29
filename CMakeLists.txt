@@ -60,7 +60,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 
 # SETUP EXAMPLES | TESTS -----------------------------------
 if (${BUILD_BB_EXAMPLES})
-    add_subdirectory(Examples/Streamer)
+    add_subdirectory(Examples/WebSocketStreamer)
     add_subdirectory(Examples/RestBinance)
     add_subdirectory(Examples/RawSocketMessenger)
     add_subdirectory(Examples/RawSock)

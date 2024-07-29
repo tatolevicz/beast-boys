@@ -6,7 +6,7 @@
 #include "ServerState.h"
 #include "RawConnection.h"
 
-namespace bb::network::rs::server
+namespace bb::network::server
 {
   Client::Client(Connection *connection):
   _connection(connection)
