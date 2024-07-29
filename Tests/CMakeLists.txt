@@ -12,10 +12,10 @@ add_executable(${PROJECT_NAME}
     ${BEAST_BOYS_FILES}
     TestHelpers.cpp
     TestHelpers.h
-#        cases/raw_connections.cpp
-        cases/raw_messaging.cpp
-#    cases/ws_connections.cpp
-#    cases/ws_messaging.cpp
+    cases/raw_connections.cpp
+    cases/raw_messaging.cpp
+    cases/ws_connections.cpp
+    cases/ws_messaging.cpp
 )
 
 if (${Boost_FOUND})
