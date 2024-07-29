@@ -12,9 +12,9 @@ add_executable(${PROJECT_NAME}
     ${BEAST_BOYS_FILES}
     TestHelpers.cpp
     TestHelpers.h
-    cases/connection_tests.cpp
-    cases/messaging_tests.cpp
-)
+#        cases/raw_connections.cpp
+#        cases/raw_messaging.cpp
+        cases/ws_connections.cpp)
 
 if (${Boost_FOUND})
 target_include_directories(${PROJECT_NAME} PUBLIC

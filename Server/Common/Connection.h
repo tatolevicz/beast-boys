@@ -11,27 +11,16 @@ namespace bb::network::server
 {
   class ServerState;
 
-  class Connection : public std::enable_shared_from_this<Connection>
+  class Connection
   {
   public:
-    Connection(boost::asio::ip::tcp::socket sock,
-               std::shared_ptr<ServerState> serverState);
-
-    ~Connection();
-
-    void run();
-    void send(const std::string& message);
-    void disconnect();
-  private:
-    void callAsyncRead();
-    void callAsyncWrite();
-    void onRead(boost::system::error_code ec, std::size_t bytes);
-    void onWrite(boost::system::error_code ec, std::size_t bytes);
-
+    Connection(std::shared_ptr<ServerState> serverState);
+    virtual ~Connection();
+    virtual void run() = 0;
+    virtual void send(const std::string& message) = 0;
+    virtual void disconnect() = 0;
+  protected:
     std::shared_ptr<ServerState> _serverState{nullptr};
-    boost::asio::ip::tcp::socket _socket;
-    boost::asio::streambuf _buffer;
-    std::vector<std::string> _messageQueue;
   };
 }
 

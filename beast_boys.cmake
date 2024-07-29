@@ -44,6 +44,8 @@ set(BEAST_BOYS_FILES
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RawDoorman.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RawDoorman.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RSConnection.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RSConnection.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WebSocketDoorman.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WebSocketDoorman.cpp
@@ -51,6 +53,8 @@ set(BEAST_BOYS_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/HttpListener.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/HandShaker.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/HandShaker.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WSConnection.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WSConnection.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SharedState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SharedState.h

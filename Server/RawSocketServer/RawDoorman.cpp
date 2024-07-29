@@ -4,7 +4,7 @@
 
 #include "RawDoorman.h"
 #include "ServerState.h"
-#include "Connection.h"
+#include "RSConnection.h"
 #include <iostream>
 
 namespace bb::network::server::rs
@@ -13,7 +13,7 @@ namespace bb::network::server::rs
   {
     if (!ec)
     {
-      std::make_shared<bb::network::server::Connection>(std::move(_sock), _serverState)->run();
+      std::make_shared<bb::network::server::rs::RSConnection>(std::move(_sock), _serverState)->run();
     } else {
       std::cerr << "Error: " << ec.value() << " Msg: " << ec.message() << "\n";
     }

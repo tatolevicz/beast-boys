@@ -5,7 +5,7 @@
 #include "HandShaker.h"
 #include "ServerState.h"
 #include "Logger.h"
-#include "Connection.h"
+#include "WSConnection.h"
 
 namespace bb::network::server::ws
 {
@@ -17,7 +17,7 @@ namespace bb::network::server::ws
   void HandShaker::onHandShake(boost::system::error_code ec)
   {
     RETURN_IF_ASIO_ERROR_(ec)
-    std::make_shared<bb::network::server::Connection>(std::move(_sockStream.next_layer()), _serverState)->run();
+    std::make_shared<WSConnection>(std::move(_sockStream), _serverState)->run();
   }
 
   void HandShaker::run(boost::beast::http::request<boost::beast::http::string_body>& _req)
