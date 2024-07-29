@@ -13,8 +13,10 @@ add_executable(${PROJECT_NAME}
     TestHelpers.cpp
     TestHelpers.h
 #        cases/raw_connections.cpp
-#        cases/raw_messaging.cpp
-        cases/ws_connections.cpp)
+        cases/raw_messaging.cpp
+#    cases/ws_connections.cpp
+#    cases/ws_messaging.cpp
+)
 
 if (${Boost_FOUND})
 target_include_directories(${PROJECT_NAME} PUBLIC
