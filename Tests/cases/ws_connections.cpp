@@ -28,20 +28,20 @@ TEST_CASE("WebSocket Connection Tests", "[socket]")
   // Give the server some time to start
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
-//  SECTION("Test invalid Server")
-//  {
-//    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
-//    {
-//      infoCallback(error);
-//      // expected error here is 1 and 89 (cient and server respectively)
-//      REQUIRE(error.errorCode == 1);
-//    });
-//
-//    auto stream = streamer->openStream("zxcvzxcvz ","1234","", false, nullptr);
-//    auto streamPtr = stream.lock();
-//    std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
-//    REQUIRE(!streamPtr->isOpen());
-//  }
+  SECTION("Test invalid Server")
+  {
+    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
+    {
+      infoCallback(error);
+      // expected error here is 1 and 89 (cient and server respectively)
+      REQUIRE(error.errorCode == 1);
+    });
+
+    auto stream = streamer->openStream("zxcvzxcvz ","1234","", false, nullptr);
+    auto streamPtr = stream.lock();
+    std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
+    REQUIRE(!streamPtr->isOpen());
+  }
 
 //  SECTION("Test Client On Postman")
 //  {
