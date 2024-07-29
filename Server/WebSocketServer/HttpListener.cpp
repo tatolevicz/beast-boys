@@ -31,11 +31,11 @@ void HttpListener::onRead(boost::system::error_code ec, std::size_t bytes){
 
 void HttpListener::run() {
     boost::beast::http::async_read(
-            _sock,
-            _buffer,
-            _req,
-        [self = shared_from_this()](boost::system::error_code ec,std::size_t bytes){
-            self->onRead(ec, bytes);
+      _sock,
+      _buffer,
+      _req,
+      [self = shared_from_this()](boost::system::error_code ec,std::size_t bytes){
+          self->onRead(ec, bytes);
     });
 }
 

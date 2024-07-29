@@ -14,6 +14,8 @@ namespace bb::network::server::rs
   class RawDoorman : public bb::network::server::Doorman
   {
   public:
+    using bb::network::server::Doorman::Doorman;
+
   protected:
     void onAccept(boost::system::error_code ec) override;
   };

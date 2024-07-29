@@ -17,14 +17,14 @@ TEST_CASE("Socket Messaging Tests", "[socket]")
   auto &errorManager = bb::ErrorManager::instance();
   boost::signals2::connection errorConnection;
 
-  bb::network::rs::server::Server server;
+  bb::network::server::Server server;
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
 
   std::string message;
 
   std::thread serverThread([&]()
   {
-   server.start(1234);
+   server.start<bb::network::server::rs::RawDoorman>(1234);
   });
 
   // Give the server some time to start

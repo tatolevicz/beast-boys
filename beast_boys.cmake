@@ -32,6 +32,8 @@ set(BEAST_BOYS_FILES
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Client.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Client.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Connection.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Connection.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Doorman.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Doorman.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/Server.h
@@ -39,11 +41,16 @@ set(BEAST_BOYS_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/ServerState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/Common/ServerState.cpp
 
+
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RawDoorman.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/RawSocketServer/RawDoorman.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WebSocketDoorman.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/WebSocketDoorman.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/HttpListener.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/HttpListener.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/HandShaker.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Server/WebSocketServer/HandShaker.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SharedState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/SharedState.h

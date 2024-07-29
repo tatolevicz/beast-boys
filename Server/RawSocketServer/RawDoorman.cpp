@@ -6,6 +6,7 @@
 #include "ServerState.h"
 #include "Connection.h"
 #include <iostream>
+
 namespace bb::network::server::rs
 {
   void RawDoorman::onAccept(boost::system::error_code ec)

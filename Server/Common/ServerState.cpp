@@ -3,7 +3,7 @@
 //
 
 #include "ServerState.h"
-#include "Server/Common/Client.h"
+#include "Client.h"
 #include "Connection.h"
 #include "Logger.h"
 

@@ -12,6 +12,8 @@
 #include "NetworkTypes.h"
 #include "WebsocketTypes.h"
 #include "RawSocketTypes.h"
+#include "RawDoorman.h"
+#include "WebSocketDoorman.h"
 #include "Streamer.h"
 #include "RawStreamer.h"
 #include "Messenger.h"

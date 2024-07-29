@@ -16,14 +16,15 @@ namespace bb::network::server
 
   using OnSendMessageCallback = std::function<void(const std::string& message)>;
 
-  class Server : public std::enable_shared_from_this<Server> {
+  class Server : public std::enable_shared_from_this<Server>
+  {
   public:
     Server() = default;
 
     template<class DOORMAN_TYPE>
     void start(uint32_t port)
     {
-      static_assert(std::is_base_of<Doorman, DOORMAN_TYPE>::value, "DOORMAN_TYPE must be derived from Doorman");
+      static_assert(std::is_base_of<bb::network::server::Doorman, DOORMAN_TYPE>::value, "DOORMAN_TYPE must be derived from Doorman");
 
       _endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v4::any(), port);
       _serverState = std::make_shared<ServerState>();

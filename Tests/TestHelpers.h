@@ -10,7 +10,7 @@
 
 void errorCallback(const bb::ErrorInfo& error);
 void infoCallback(const bb::ErrorInfo& error);
-void handleServerMessages(bb::network::rs::server::Server& server, const std::string& message);
+void handleServerMessages(bb::network::server::Server& server, const std::string& message);
 
 template<typename Condition>
 

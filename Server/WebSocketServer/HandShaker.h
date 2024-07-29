@@ -15,22 +15,14 @@ namespace bb::network::server
 
 namespace bb::network::server::ws
 {
-  class HandShaker : public std::enable_shared_from_this<HandShaker> {
+  class HandShaker : public std::enable_shared_from_this<HandShaker>
+  {
   public:
     HandShaker(boost::asio::ip::tcp::socket sock, std::shared_ptr<bb::network::server::ServerState> serverState);
-    ~HandShaker();
-
     void run(boost::beast::http::request<boost::beast::http::string_body>& _req);
 
   private:
-
-    void callAsyncRead();
-    void callAsyncWrite();
-
-    void onRead(boost::system::error_code ec, std::size_t bytes);
-    void onWrite(boost::system::error_code ec, std::size_t bytes);
     void onHandShake(boost::system::error_code ec);
-
     std::shared_ptr<bb::network::server::ServerState> _serverState{nullptr};
     boost::beast::websocket::stream<boost::asio::ip::tcp::socket> _sockStream;
     boost::beast::flat_buffer _buffer;

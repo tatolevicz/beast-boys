@@ -4,7 +4,7 @@
 
 #include "Client.h"
 #include "ServerState.h"
-#include "RawConnection.h"
+#include "Connection.h"
 
 namespace bb::network::server
 {

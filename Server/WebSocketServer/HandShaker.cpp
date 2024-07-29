@@ -22,7 +22,8 @@ namespace bb::network::server::ws
 
   void HandShaker::run(boost::beast::http::request<boost::beast::http::string_body>& _req)
   {
-    _sockStream.async_accept(_req, [self = shared_from_this()](boost::system::error_code ec)
+    _sockStream.async_accept(_req,
+    [self = shared_from_this()](boost::system::error_code ec)
     {
       self->onHandShake(ec);
     });
