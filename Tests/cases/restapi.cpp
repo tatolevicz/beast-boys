@@ -76,7 +76,8 @@ TEST_CASE("RestApi HTTP and HTTPS test") {
     settings.setFullUrl("https://jsonplaceholder.typicode.com/posts/1")
         .setContentType(bb::network::rest::ContentType::JSON);
 
-    api_https->get(settings, [&](const bb::network::rest::NetworkResponse &response) {
+    api_https->get(settings, [&](const bb::network::rest::NetworkResponse &response)
+    {
       bool success = response.isOk();
       std::string msg = response.message;
       std::cout << msg << "\n";
@@ -115,7 +116,8 @@ TEST_CASE("RestApi HTTP and HTTPS test") {
     document.Parse(postData.c_str());
     settings.setBody(document);
 
-    api_https->post(settings, [&](const bb::network::rest::NetworkResponse &response) {
+    api_https->post(settings, [&](const bb::network::rest::NetworkResponse &response)
+    {
       bool success = response.isOk();
       std::string msg = response.message;
       std::cout << msg << "\n";

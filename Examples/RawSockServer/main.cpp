@@ -8,14 +8,14 @@ int main()
 {
   std::string message;
 
-  bb::network::rs::server::Server s;
+  bb::network::server::Server s;
 
   s.setOnSendMessageCB([&](const std::string& msg){
     message = msg;
   });
 
   std::thread worker([&](){
-    s.start(1234);
+    s.start<bb::network::server::rs::RawDoorman>(1234);
   });
 
   worker.detach();
