@@ -4,9 +4,10 @@
 #include <beastboys>
 #include <thread>
 #include <string>
-#include "RawServer.h"
+#include "Server.h"
 #include "catch2/catch.hpp"
 #include "TestHelpers.h"
+#include "RawDoorman.h"
 
 TEST_CASE("Socket Connection Tests", "[socket]")
 {
@@ -14,14 +15,14 @@ TEST_CASE("Socket Connection Tests", "[socket]")
   auto &errorManager = bb::ErrorManager::instance();
   boost::signals2::connection errorConnection;
 
-  bb::network::rs::server::RawServer server;
+  bb::network::server::Server server;
   std::shared_ptr<bb::RawStreamer> streamer(new bb::RawStreamer());
 
   std::string message;
 
   std::thread serverThread([&]()
   {
-   server.start(1234);
+   server.start<bb::network::server::rs::RawDoorman>(1234);
   });
 
   // Give the server some time to start

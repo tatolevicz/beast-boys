@@ -4,9 +4,9 @@
 
 #include "Client.h"
 #include "ServerState.h"
-#include "RawConnection.h"
+#include "Connection.h"
 
-namespace bb::network::rs::server
+namespace bb::network::server
 {
   Client::Client(Connection *connection):
   _connection(connection)

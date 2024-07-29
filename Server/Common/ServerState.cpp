@@ -4,10 +4,10 @@
 
 #include "ServerState.h"
 #include "Client.h"
-#include "RawConnection.h"
+#include "Connection.h"
 #include "Logger.h"
 
-namespace bb::network::rs::server
+namespace bb::network::server
 {
   std::shared_ptr<Client> ServerState::join(Connection *connection)
   {

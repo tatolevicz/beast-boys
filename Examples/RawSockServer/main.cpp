@@ -8,7 +8,7 @@ int main()
 {
   std::string message;
 
-  bb::network::rs::server::RawServer s;
+  bb::network::rs::server::Server s;
 
   s.setOnSendMessageCB([&](const std::string& msg){
     message = msg;

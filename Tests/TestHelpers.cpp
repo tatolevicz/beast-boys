@@ -25,7 +25,7 @@ void infoCallback(const bb::ErrorInfo& error)
   LOG_INFO(stm.str());
 }
 
-void handleServerMessages(bb::network::rs::server::RawServer& server, const std::string& message)
+void handleServerMessages(bb::network::server::Server& server, const std::string& message)
 {
   if (message.empty())
     return;

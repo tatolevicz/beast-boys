@@ -7,7 +7,7 @@
 
 #include <boost/asio.hpp>
 
-namespace bb::network::rs::server
+namespace bb::network::server
 {
   class ServerState;
   class Connection;

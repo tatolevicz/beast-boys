@@ -8,7 +8,7 @@
 #include <boost/asio.hpp>
 #include <iostream>
 
-namespace bb::network::rs::server
+namespace bb::network::server
 {
   class ServerState;
   class Client;

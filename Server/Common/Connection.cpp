@@ -1,18 +1,18 @@
 //
-// Created by Arthur Motelevicz on 26/02/23.
+// Created by Arthur Motelevicz on 29/07/24.
 //
 
-#include "RawConnection.h"
-#include "ServerState.h"
+#include "Connection.h"
+#include "Server/Common/ServerState.h"
 #include "Logger.h"
 
 #define BUFFER_SIZE 2048
 
-namespace bb::network::rs::server
+namespace bb::network::server
 {
   Connection::Connection(boost::asio::ip::tcp::socket sock, std::shared_ptr<ServerState> serverState):
-  _socket(std::move(sock)),
-  _serverState(std::move(serverState))
+      _socket(std::move(sock)),
+      _serverState(std::move(serverState))
   {}
 
   Connection::~Connection()
@@ -49,11 +49,11 @@ namespace bb::network::rs::server
   void Connection::callAsyncRead()
   {
 
-      _socket.async_read_some(_buffer.prepare(BUFFER_SIZE),
-      [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
-      {
-        self->onRead(ec, bytes);
-      });
+    _socket.async_read_some(_buffer.prepare(BUFFER_SIZE),
+                            [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes)
+                            {
+                              self->onRead(ec, bytes);
+                            });
 //    boost::asio::async_read(
 //      _socket,_buffer,
 //      boost::asio::transfer_at_least(1), // Read at least 1 byte to call the callback
@@ -66,10 +66,10 @@ namespace bb::network::rs::server
   void Connection::callAsyncWrite()
   {
     boost::asio::async_write(_socket, boost::asio::buffer(_messageQueue.front()),
-    [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes_transferred)
-    {
-      self->onWrite(ec, bytes_transferred);
-    });
+                             [self = shared_from_this()](boost::system::error_code ec, std::size_t bytes_transferred)
+                             {
+                               self->onWrite(ec, bytes_transferred);
+                             });
   }
 
   void Connection::onWrite(boost::system::error_code ec, std::size_t bytes)
@@ -103,4 +103,3 @@ namespace bb::network::rs::server
     });
   }
 }
-

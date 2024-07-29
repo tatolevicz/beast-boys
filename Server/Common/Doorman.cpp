@@ -4,10 +4,10 @@
 
 #include "Doorman.h"
 #include "ServerState.h"
-#include "RawConnection.h"
+#include "Connection.h"
 #include <iostream>
 
-namespace bb::network::rs::server
+namespace bb::network::server
 {
   Doorman::Doorman(boost::asio::io_context &ioc,
                    boost::asio::ip::tcp::endpoint &endpoint,
@@ -41,17 +41,6 @@ namespace bb::network::rs::server
 
     if (ec)
       return;
-  }
-
-  void Doorman::onAccept(boost::system::error_code ec) {
-
-    if (!ec) {
-      std::make_shared<Connection>(std::move(_sock), _serverState)->run();
-    } else {
-      std::cerr << "Error: " << ec.value() << " Msg: " << ec.message() << "\n";
-    }
-
-    run();
   }
 
   void Doorman::run() {
