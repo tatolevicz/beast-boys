@@ -16,6 +16,7 @@ add_executable(${PROJECT_NAME}
     cases/raw_messaging.cpp
     cases/ws_connections.cpp
     cases/ws_messaging.cpp
+    cases/restapi.cpp
 )
 
 if (${Boost_FOUND})
