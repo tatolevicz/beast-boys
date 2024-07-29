@@ -1,0 +1,24 @@
+//
+// Created by Arthur Motelevicz on 26/02/23.
+//
+
+#include "WebSocketDoorman.h"
+#include "ServerState.h"
+#include "HttpListener.h"
+#include <iostream>
+
+namespace bb::network::server::ws
+{
+  void WebSocketDoorman::onAccept(boost::system::error_code ec)
+  {
+    if(!ec) {
+      std::make_shared<HttpListener>(std::move(_sock), _serverState)->run();
+    }
+    else{
+      std::cerr << "Error: " << ec.value() << " Msg: " << ec.message() << "\n";
+    }
+
+    run();
+  }
+}
+

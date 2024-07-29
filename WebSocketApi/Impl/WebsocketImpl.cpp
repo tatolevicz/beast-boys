@@ -26,37 +26,40 @@ _sslContext(boost::asio::ssl::context::sslv23_client){
 
 //this is due to the app bundle paths on macos
 #ifdef __APPLE__
-    _sslContext.load_verify_file("../Resources/cacert.pem",ec);
+    _sslContext.load_verify_file("./cacert.pem",ec);
 #elif
     _sslContext.load_verify_file("./cacert.pem",ec);
 #endif
 
 //    _sslContext.add_certificate_authority(boost::asio::buffer(cacert_data, std::strlen(cacert_data)), ec);
 //    _sslContext.use_certificate(boost::asio::buffer(cacert_data,std::strlen(cacert_data)),boost::asio::ssl::context_base::pem, ec);
-    CHECK_ASIO_ERROR_(ec)
+    REPORT_ASIO_ERROR_(ec)
+
     _sslContext.set_verify_mode(boost::asio::ssl::verify_peer);
 
     startContext();
 }
 
 void WebsocketImpl::startContext(){
-    _work = std::make_shared<boost::asio::io_context::work>(_ioc);
-    _worker = std::thread([&]() {
+  _work = std::make_shared<boost::asio::io_context::work>(_ioc);
+  _worker = std::thread([&]() {
 
 #ifdef __APPLE__
-        pthread_setname_np("Binance-beast-WebsockApi-Worker");
+  pthread_setname_np("Binance-beast-WebsockApi-Worker");
 #endif
 
-        while(!_destructorCalled) {
-            try {
-                _ioc.run();
-            }
-            catch (const boost::system::system_error &e) {
-                REPORT_ASIO_ERROR_(e.code())
-                restartContext();
-            }
-        }
-    });
+    while(!_destructorCalled)
+    {
+      try
+      {
+        _ioc.run();
+      }
+      catch (const boost::system::system_error &e) {
+          REPORT_ASIO_ERROR_(e.code())
+          restartContext();
+      }
+    }
+  });
 }
 
 

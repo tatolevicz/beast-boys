@@ -11,12 +11,22 @@
 
 #include "NetworkTypes.h"
 #include "WebsocketTypes.h"
+#include "RawSocketTypes.h"
+#include "RawDoorman.h"
+#include "WebSocketDoorman.h"
 #include "Streamer.h"
+#include "RawStreamer.h"
 #include "Messenger.h"
+#include "RawMessenger.h"
 #include "Stream.h"
+#include "RawStream.h"
 #include "RestApi.h"
 #include "NetworkRequestSettings.h"
 #include "CryptoHelper.h"
+#include "Server.h"
+#include "ErrorInfo.h"
+#include "ErrorManager.h"
+#include "Logger.h"
 
 
 #endif //BEAST_BOYS_BEASTBOYS_H

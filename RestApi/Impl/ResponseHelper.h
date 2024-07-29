@@ -2,8 +2,8 @@
 // Created by Arthur Motelevicz on 16/02/23.
 //
 
-#ifndef BROKERAPP_RESPONSEHELPER_H
-#define BROKERAPP_RESPONSEHELPER_H
+#ifndef BEASTBOYS_RESPONSEHELPER_H
+#define BEASTBOYS_RESPONSEHELPER_H
 
 #include <memory>
 #include "Json.h"
@@ -65,77 +65,77 @@
 
 
 
-namespace bb {
-    namespace network {
-        namespace rest {
+namespace bb::network::rest
+{
 
-            class ResponseHelper {
-            public:
-                bool isApiError(const rapidjson::Value &json, const std::string &codeKey, const std::string &msgKey);
+  class ResponseHelper {
+  public:
+      bool isApiError(const rapidjson::Value &json, const std::string &codeKey, const std::string &msgKey);
 
-                std::pair<int, std::string>
-                constructError(const rapidjson::Value &json, const std::string &codeKey, const std::string &msgKey);
+      std::pair<int, std::string>
+      constructError(const rapidjson::Value &json, const std::string &codeKey, const std::string &msgKey);
 
-                bool is_valid_value(const valType &v);
+      bool is_valid_value(const valType &v);
 
-                const char *to_string(char *buf, std::size_t bufsize, const valType &v);
+      const char *to_string(char *buf, std::size_t bufsize, const valType &v);
 
-                bool is_html(const char *str);
+      bool is_html(const char *str);
 
-                bool isXML(const std::string &data);
-            };
+      bool isXML(const std::string &data);
+  };
+  /*************************************************************************************************/
 
+  struct invoker_base {
+      virtual bool
+      invoke(const char *fl, int ec, std::string errmsg, std::string data, int http_result_code) = 0;
+  };
 
-            /*************************************************************************************************/
-
-
-            struct invoker_base {
-                virtual bool
-                invoke(const char *fl, int ec, std::string errmsg, std::string data, int http_result_code) = 0;
-            };
-
-            using invoker_ptr = std::shared_ptr<invoker_base>;
-
+  using invoker_ptr = std::shared_ptr<invoker_base>;
 /*************************************************************************************************/
 
-            template<typename R, typename T, typename F>
-            struct invoker : invoker_base {
-                invoker(F f) :
-                        m_cb(std::move(f)) {
-                    _responseHelper = std::make_unique<ResponseHelper>();
-                }
-
-                virtual ~invoker() = default;
-
-                bool
-                invoke(const char *fl, int ec, std::string errmsg, std::string data, int http_result_code) override {
-                    try {
-                        if (data.empty() || ec) {
-                            T arg{};
-                            return m_cb(fl, ec, std::move(errmsg), std::move(arg), http_result_code);
-                        } else {
-                            if (!data.empty() && _responseHelper->is_html(data.c_str())) {
-                                return m_cb(__MAKE_FILELINE, -1, std::move(errmsg), std::move(data), http_result_code);
-                            }
-
-                            return m_cb(__MAKE_FILELINE, 0, std::move(errmsg), std::move(data), http_result_code);
-                        }
-                    }
-                    catch (const std::exception &ex) {
-                        std::fprintf(stderr, "%s: ex=%s\n", __MAKE_FILELINE, ex.what());
-                        std::fprintf(stderr, "size=%u, ptr=%s\n", (unsigned) data.size(), data.c_str());
-                        std::fflush(stderr);
-                    }
-
-                    return true;
-                }
-
-                std::unique_ptr<ResponseHelper> _responseHelper{nullptr};
-                F m_cb;
-            };
-        }
+  template<typename R, typename T, typename F>
+  struct invoker : invoker_base
+  {
+    invoker(F f) :
+    m_cb(std::move(f))
+    {
+      _responseHelper = std::make_unique<ResponseHelper>();
     }
+
+    virtual ~invoker() = default;
+
+    bool
+    invoke(const char *fl, int ec, std::string errmsg, std::string data, int http_result_code) override
+    {
+        try
+        {
+          if (data.empty() || ec)
+          {
+            T arg{};
+            return m_cb(fl, ec, std::move(errmsg), std::move(arg), http_result_code);
+          }
+          else
+          {
+            if (!data.empty() && _responseHelper->is_html(data.c_str()))
+            {
+              return m_cb(__MAKE_FILELINE, -1, std::move(errmsg), std::move(data), http_result_code);
+            }
+
+            return m_cb(__MAKE_FILELINE, 0, std::move(errmsg), std::move(data), http_result_code);
+          }
+        }
+        catch (const std::exception &ex)
+        {
+            std::fprintf(stderr, "%s: ex=%s\n", __MAKE_FILELINE, ex.what());
+            std::fprintf(stderr, "size=%u, ptr=%s\n", (unsigned) data.size(), data.c_str());
+            std::fflush(stderr);
+        }
+        return true;
+    }
+
+    std::unique_ptr<ResponseHelper> _responseHelper{nullptr};
+    F m_cb;
+  };
 }
 
-
-#endif //BROKERAPP_RESPONSEHELPER_H
+#endif //BEASTBOYS_RESPONSEHELPER_H

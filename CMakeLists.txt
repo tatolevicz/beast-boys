@@ -6,6 +6,8 @@ project(beast_boys VERSION 1.0 LANGUAGES CXX )
 set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_SHARED_LIBS OFF)
+set(BUILD_BB_EXAMPLES ON)
+set(BUILD_BB_TESTS ON)
 
 # Check if dependencies are installed
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external)
@@ -25,7 +27,7 @@ add_subdirectory(external/rapidjson)
 
 include(beast_boys.cmake)
 
-add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES} Common/cacert_data.h)
+add_library(${PROJECT_NAME} STATIC  ${BEAST_BOYS_FILES} Common/cacert_data.h Common/Error/ErrorInfo.h Common/Error/ErrorManager.h)
 
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 
@@ -56,7 +58,16 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         OpenSSL::Crypto
         )
 
-# SETUP EXAMPLES -----------------------------------
-add_subdirectory(Examples/Streamer)
-add_subdirectory(Examples/RestBinance)
-# -------------------------------------------------
+# SETUP EXAMPLES | TESTS -----------------------------------
+if (${BUILD_BB_EXAMPLES})
+    add_subdirectory(Examples/WebSocketStreamer)
+    add_subdirectory(Examples/RestBinance)
+    add_subdirectory(Examples/RawSocketMessenger)
+    add_subdirectory(Examples/RawSock)
+    add_subdirectory(Examples/RawSockServer)
+endif()
+
+if (${BUILD_BB_TESTS})
+    add_subdirectory(Tests)
+endif()
+# ----------------------------------------------------------

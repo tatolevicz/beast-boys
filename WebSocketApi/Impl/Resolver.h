@@ -15,7 +15,7 @@ namespace ws {
     public:
         Resolver(std::shared_ptr<SharedState> state, std::shared_ptr<Stream> stream, boost::asio::io_context &ioc);
         void run();
-        void onResolve(boost::system::error_code ec, boost::asio::ip::tcp::resolver::results_type res);
+        void onResolve(boost::system::error_code ec, const boost::asio::ip::tcp::resolver::results_type& res);
     private:
         std::shared_ptr<Stream> _stream{nullptr};
         boost::asio::ip::tcp::resolver _resolver;

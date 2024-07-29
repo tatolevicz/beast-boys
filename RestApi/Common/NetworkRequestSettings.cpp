@@ -4,115 +4,136 @@
 
 #include "NetworkRequestSettings.h"
 
-namespace bb {
-    namespace network {
-        namespace rest {
+namespace bb::network::rest
+{
 
-            NetworkRequestSettings &NetworkRequestSettings::setHost(const std::string &url) {
-                _host = url;
+NetworkRequestSettings &
+NetworkRequestSettings::setHost(const std::string &url, bool isHttps)
+{
+  _host = url;
+  _isHttps = isHttps;
+  return (*this);
+}
 
-                return (*this);
-            }
+NetworkRequestSettings &
+NetworkRequestSettings::setEndPoint(const std::string &endPoint)
+{
+  _endPoint = endPoint;
+  return (*this);
+}
 
-            NetworkRequestSettings &
-            NetworkRequestSettings::setEndPoint(const std::string &endPoint) {
-                _endPoint = endPoint;
+NetworkRequestSettings &
+NetworkRequestSettings::setContentType(const ContentType contentType)
+{
+  _contentType = contentType;
+  return (*this);
+}
 
-                return (*this);
-            }
+NetworkRequestSettings &
+NetworkRequestSettings::setFullUrl(const std::string url)
+{
+  assert(url.size() > 5);
 
-            NetworkRequestSettings &
-            NetworkRequestSettings::setContentType(const ContentType contentType) {
-                _contentType = contentType;
+  _isHttps = url.substr(0, 5) == "https";
 
-                return (*this);
-            }
+  std::string res = url;
+  auto id = res.find("//");
+  if (id != std::string::npos)
+  {
+    res = res.substr(id + 2);
+  }
 
-            NetworkRequestSettings &
-            NetworkRequestSettings::setFullUrl(const std::string url) {
-                std::string res = url;
-                auto id = res.find("//");
-                if (id != std::string::npos) {
-                    res = res.substr(id + 2);
-                }
+  id = res.find("/");
+  if (id != std::string::npos) {
+    _endPoint = res.substr(id);
+    res = res.substr(0, id);
+  }
 
-                id = res.find("/");
-                if (id != std::string::npos) {
-                    _endPoint = res.substr(id);
-                    res = res.substr(0, id);
-                }
+  _host = res;
 
-                _host = res;
+  return (*this);
+}
 
-                return (*this);
-            }
+NetworkRequestSettings &
+NetworkRequestSettings::setBody(const std::string &data)
+{
+  _body = data;
+  return (*this);
+}
 
-            NetworkRequestSettings &
-            NetworkRequestSettings::setBody(const std::string &data) {
-                _body = data;
-                return (*this);
-            }
+NetworkRequestSettings &
+NetworkRequestSettings::setBody(const ListData &list)
+{
+  std::string data;
+  for (const auto &it: list)
+  {
+    if (!data.empty()) {
+      data += "&";
+    }
+    data += it.first;
+    data += "=";
+    data += it.second;
+  }
 
-            NetworkRequestSettings &NetworkRequestSettings::setBody(const ListData &list) {
-                std::string data;
-                for (const auto &it: list) {
-                    if (!data.empty()) {
-                        data += "&";
-                    }
-                    data += it.first;
-                    data += "=";
-                    data += it.second;
-                }
+  _body = data;
 
-                _body = data;
+  return (*this);
+}
 
-                return (*this);
-            }
+NetworkRequestSettings &
+NetworkRequestSettings::setBody(const rapidjson::Document &document)
+{
+  return setBody(bb::Json::toString(document));
+}
 
-            NetworkRequestSettings &
-            NetworkRequestSettings::setBody(const rapidjson::Document &document) {
-                return setBody(bb::Json::toString(document));
-            }
+NetworkRequestSettings &
+NetworkRequestSettings::addHeaderValue(const HeaderVariant& key, const std::string &value)
+{
+  _headerMap.insert_or_assign(key, value);
+  return (*this);
+}
 
-            NetworkRequestSettings &
-            NetworkRequestSettings::addHeaderValue(const HeaderVariant key, const std::string &value) {
-                _headerMap.insert_or_assign(key, value);
+std::string NetworkRequestSettings::body()
+{
+  return _body;
+}
 
-                return (*this);
-            }
+std::string NetworkRequestSettings::getStringContentType() const
+{
+  switch (_contentType) {
+    case ContentType::FORM:
+      return "application/x-www-form-urlencoded";
+    case ContentType::JSON:
+      return "application/json";
+  }
 
-            std::string NetworkRequestSettings::body() {
-                return _body;
-            }
+  return "";
+}
 
-            std::string NetworkRequestSettings::getStringContentType() const {
-                switch (_contentType) {
-                    case ContentType::FORM:
-                        return "application/x-www-form-urlencoded";
-                    case ContentType::JSON:
-                        return "application/json";
-                }
+ContentType NetworkRequestSettings::getContentType() const
+{
+  return _contentType;
+}
 
-                return "";
-            }
+std::string NetworkRequestSettings::getHost() const
+{
+  return _host;
+}
 
-            ContentType NetworkRequestSettings::getContentType() const {
-                return _contentType;
-            }
+std::string NetworkRequestSettings::getEndPoint() const
+{
+  return _endPoint;
+}
 
-            std::string NetworkRequestSettings::getHost() const {
-                return _host;
-            }
+const std::map<HeaderVariant, std::string> &
+NetworkRequestSettings::getHeaderMap() const
+{
+  return _headerMap;
+}
 
-            std::string NetworkRequestSettings::getEndPoint() const {
-                return _endPoint;
-            }
+bool NetworkRequestSettings::isHttps() const
+{
+  return _isHttps;
+}
 
-            const std::map<HeaderVariant, std::string> &
-            NetworkRequestSettings::getHeaderMap() const {
-                return _headerMap;
-            }
-
-        }//ns network
-    }//ns bb
 }
