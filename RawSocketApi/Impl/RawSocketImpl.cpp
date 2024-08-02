@@ -56,7 +56,8 @@ void RawSocketImpl::restartContext(){
 std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
                               std::string port,
                               std::string endPoint,
-                              StreamCB cb)
+                              StreamCB cb,
+                             char delimiter)
 {
     //safe check to defaults port and target
     if(port.empty())
@@ -72,7 +73,8 @@ std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
                                       std::move(baseUrl),
                                       std::move(port),
                                       std::move(endPoint),
-                                      std::move(cb));
+                                      std::move(cb),
+                                      delimiter);
 
 
 
@@ -84,7 +86,8 @@ std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
   std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
                                                    std::string port,
                                                    std::string endPoint,
-                                                   StreamCB2 cb)
+                                                   StreamCB2 cb,
+                                                   char delimiter)
   {
 
     //safe check to defaults port and target
@@ -101,7 +104,8 @@ std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
                                       std::move(baseUrl),
                                       std::move(port),
                                       std::move(endPoint),
-                                      std::move(cb));
+                                      std::move(cb),
+                                      delimiter);
 
 
 

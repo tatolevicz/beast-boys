@@ -25,12 +25,14 @@ public:
     std::weak_ptr<Stream> openStream( std::string baseUrl,
                                       std::string port,
                                       std::string endPoint,
-                                      StreamCB cb);
+                                      StreamCB cb,
+                                      char delimiter = '\0');
 
     std::weak_ptr<Stream> openStream(std::string baseUrl,
-                                     std::string port,
-                                     std::string endPoint,
-                                     StreamCB2 cb);
+                                   std::string port,
+                                   std::string endPoint,
+                                   StreamCB2 cb,
+                                   char delimiter = '\0');
 
     ~RawSocketImpl();
     boost::asio::io_context _ioc;

@@ -17,14 +17,17 @@ namespace bb::network::rs
            std::string host,
            std::string port,
            std::string target,
-           StreamCB cb
+           StreamCB cb,
+           char delimiter = '\0'
     );
 
     Stream(boost::asio::io_context &ioc,
            std::string host,
            std::string port,
            std::string target,
-           StreamCB2 cb);
+           StreamCB2 cb,
+           char delimiter = '\0'
+    );
 
 
     ~Stream();
@@ -50,7 +53,6 @@ namespace bb::network::rs
     bool wasClosedByClient() const;
     bool isOpen() const;
     char getReadUntilDelimiter() const;
-    void setReadUntilDelimiter(char delimiter);
 
   private:
     void internalStop();

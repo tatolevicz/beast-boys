@@ -37,12 +37,14 @@ public:
   std::weak_ptr<network::rs::Stream> openStream(std::string baseUrl,
                                    std::string port,
                                    std::string endPoint,
-                                   network::rs::StreamCB cb);
+                                   network::rs::StreamCB cb,
+                                   char delimiter = '\0');
 
   std::weak_ptr<network::rs::Stream> openStream(std::string baseUrl,
                                                 std::string port,
                                                 std::string endPoint,
-                                                network::rs::StreamCB2 cb);
+                                                network::rs::StreamCB2 cb,
+                                                char delimiter = '\0');
 
 
 private:

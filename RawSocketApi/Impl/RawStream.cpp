@@ -14,11 +14,13 @@ Stream::Stream(boost::asio::io_context &ioc,
                std::string host,
                std::string port,
                std::string target,
-               StreamCB cb):
+               StreamCB cb,
+               char delimiter):
 _host(std::move(host)),
 _port(std::move(port)),
 _target(std::move(target)),
-_cb(std::move(cb))
+_cb(std::move(cb)),
+_readUntilDelimiter(delimiter)
 {
   _id = ++id;
   _socket = std::make_shared<boost::asio::ip::tcp::socket>(ioc);
@@ -28,11 +30,14 @@ Stream::Stream(boost::asio::io_context &ioc,
                std::string host,
                std::string port,
                std::string target,
-               StreamCB2 cb):
+               StreamCB2 cb,
+               char delimiter):
     _host(std::move(host)),
     _port(std::move(port)),
     _target(std::move(target)),
-    _cb2(std::move(cb))
+    _cb2(std::move(cb)),
+    _readUntilDelimiter(delimiter)
+
 {
   _id = ++id;
   _socket = std::make_shared<boost::asio::ip::tcp::socket>(ioc);
@@ -177,11 +182,5 @@ char Stream::getReadUntilDelimiter() const
 {
   return _readUntilDelimiter;
 }
-
-void Stream::setReadUntilDelimiter(char delimiter)
-{
-  _readUntilDelimiter = delimiter;
-}
-
 
 }

@@ -30,7 +30,7 @@ void Receiver::onReceive(boost::system::error_code ec, std::size_t bytes)
 
   if (!ec)
   {
-    _buffer.commit(bytes);
+    // Extract the received data into a string
     std::istream is(&_buffer);
 
     if(_stream->getReadUntilDelimiter() != '\0')
@@ -38,10 +38,11 @@ void Receiver::onReceive(boost::system::error_code ec, std::size_t bytes)
       std::string line;
       std::getline(is, line, _stream->getReadUntilDelimiter());
       _stream->feedData(line.data(), line.size());
-      _buffer.consume(_buffer.size());
       run();
       return;
     }
+
+    _buffer.commit(bytes);
 
 //    std::string msg((std::istreambuf_iterator<char>(is)), std::istreambuf_iterator<char>());
     char msg[BUFFER_SIZE] = {0};

@@ -15,25 +15,29 @@ RawStreamer::RawStreamer(){
 std::weak_ptr<network::rs::Stream>  RawStreamer::openStream(std::string baseUrl,
                                                          std::string port,
                                                          std::string endPoint,
-                                                         network::rs::StreamCB cb)
+                                                         network::rs::StreamCB cb,
+                                                         char delimiter)
 {
     return _impl->openStream(
             std::move(baseUrl),
             std::move(port),
             std::move(endPoint),
-            std::move(cb));
+            std::move(cb),
+            delimiter);
 }
 
 std::weak_ptr<network::rs::Stream>  RawStreamer::openStream(std::string baseUrl,
                                                             std::string port,
                                                             std::string endPoint,
-                                                            network::rs::StreamCB2 cb)
+                                                            network::rs::StreamCB2 cb,
+                                                            char delimiter)
 {
   return _impl->openStream(
       std::move(baseUrl),
       std::move(port),
       std::move(endPoint),
-      std::move(cb));
+      std::move(cb),
+      delimiter);
 }
 
 }
