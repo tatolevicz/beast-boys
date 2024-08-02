@@ -24,6 +24,20 @@ _cb(std::move(cb))
   _socket = std::make_shared<boost::asio::ip::tcp::socket>(ioc);
 }
 
+Stream::Stream(boost::asio::io_context &ioc,
+               std::string host,
+               std::string port,
+               std::string target,
+               StreamCB2 cb):
+    _host(std::move(host)),
+    _port(std::move(port)),
+    _target(std::move(target)),
+    _cb2(std::move(cb))
+{
+  _id = ++id;
+  _socket = std::make_shared<boost::asio::ip::tcp::socket>(ioc);
+}
+
 uint32_t Stream::getId() const
 {
   return _id;
@@ -54,6 +68,18 @@ void Stream::feedData(const std::string& data)
   if(_cb)
     _cb(true, data, shared_from_this());
 }
+
+void Stream::feedData(const char* data, size_t length)
+{
+  if(_cb2)
+  {
+    _cb2(true, data, length, shared_from_this());
+    return;
+  }
+
+  feedData(std::string(data, length));
+}
+
 
 void Stream::connectionAborted(boost::system::error_code ec){
   if(_cb)
@@ -146,5 +172,16 @@ bool Stream::isOpen() const
 {
   return _socket->is_open();
 }
+
+char Stream::getReadUntilDelimiter() const
+{
+  return _readUntilDelimiter;
+}
+
+void Stream::setReadUntilDelimiter(char delimiter)
+{
+  _readUntilDelimiter = delimiter;
+}
+
 
 }

@@ -22,10 +22,15 @@ class SharedState;
 class RawSocketImpl{
 public:
   RawSocketImpl();
+    std::weak_ptr<Stream> openStream( std::string baseUrl,
+                                      std::string port,
+                                      std::string endPoint,
+                                      StreamCB cb);
+
     std::weak_ptr<Stream> openStream(std::string baseUrl,
-                    std::string port,
-                    std::string endPoint,
-                    StreamCB cb);
+                                     std::string port,
+                                     std::string endPoint,
+                                     StreamCB2 cb);
 
     ~RawSocketImpl();
     boost::asio::io_context _ioc;

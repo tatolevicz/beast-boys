@@ -20,6 +20,7 @@ namespace bb::network::rs {
     using PongStreamCallback = std::function<void(RawSharedStream stream)>;
     using PingStreamCallback = std::function<void(RawSharedStream stream)>;
     using StreamCB = std::function<void(bool success, const std::string& data, RawSharedStream stream)>;
+    using StreamCB2 = std::function<void(bool success, const char* data, size_t length, RawSharedStream stream)>;
     using SendMessageCB = std::function<void(bool success)>;
 
     //Todo:: create other types (bytes, text, html, etc...)

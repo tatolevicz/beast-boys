@@ -56,8 +56,8 @@ void RawSocketImpl::restartContext(){
 std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
                               std::string port,
                               std::string endPoint,
-                              StreamCB cb){
-
+                              StreamCB cb)
+{
     //safe check to defaults port and target
     if(port.empty())
         port = "443";
@@ -80,6 +80,35 @@ std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
 
     return stream;
 }
+
+  std::weak_ptr<Stream>  RawSocketImpl::openStream(std::string baseUrl,
+                                                   std::string port,
+                                                   std::string endPoint,
+                                                   StreamCB2 cb)
+  {
+
+    //safe check to defaults port and target
+    if(port.empty())
+      port = "443";
+
+    if(endPoint.empty())
+      endPoint = "/";
+
+    std::shared_ptr<Stream> stream{nullptr};
+
+
+    stream = std::make_shared<Stream>(_ioc,
+                                      std::move(baseUrl),
+                                      std::move(port),
+                                      std::move(endPoint),
+                                      std::move(cb));
+
+
+
+    std::make_shared<Resolver>(_sharedState, stream, _ioc)->run();
+
+    return stream;
+  }
 
 RawSocketImpl::~RawSocketImpl(){
   _destructorCalled = true;

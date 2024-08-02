@@ -20,6 +20,13 @@ namespace bb::network::rs
            StreamCB cb
     );
 
+    Stream(boost::asio::io_context &ioc,
+           std::string host,
+           std::string port,
+           std::string target,
+           StreamCB2 cb);
+
+
     ~Stream();
 
     uint32_t getId() const;
@@ -28,6 +35,7 @@ namespace bb::network::rs
     std::string target() const;
     boost::asio::ip::tcp::socket& getSocket();
     void feedData(const std::string& data);
+    void feedData(const char* data, size_t length);
     void connectionAborted(boost::system::error_code ec);
     void stop();
     void stopWithCloseCallbackTriggered();
@@ -41,7 +49,8 @@ namespace bb::network::rs
     bool wasClosedByServer() const;
     bool wasClosedByClient() const;
     bool isOpen() const;
-
+    char getReadUntilDelimiter() const;
+    void setReadUntilDelimiter(char delimiter);
 
   private:
     void internalStop();
@@ -52,6 +61,8 @@ namespace bb::network::rs
     std::string _port;
     std::string _target;
     uint32_t _id;
+    char _readUntilDelimiter = '\0';
+
 
     //flag to handle when the stream was closed from control message close properly
     bool _wasClosedByServer = false;
@@ -61,6 +72,7 @@ namespace bb::network::rs
     PongStreamCallback _pongStreamCB{nullptr};
     PingStreamCallback _pingStreamCB{nullptr};
     StreamCB _cb{nullptr};
+    StreamCB2 _cb2{nullptr};
   };
 }
 

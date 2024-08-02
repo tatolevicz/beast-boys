@@ -39,6 +39,11 @@ public:
                                    std::string endPoint,
                                    network::rs::StreamCB cb);
 
+  std::weak_ptr<network::rs::Stream> openStream(std::string baseUrl,
+                                                std::string port,
+                                                std::string endPoint,
+                                                network::rs::StreamCB2 cb);
+
 
 private:
   std::shared_ptr<network::rs::RawSocketImpl> _impl{nullptr};
