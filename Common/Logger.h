@@ -35,34 +35,40 @@
 
 class Logger {
 public:
-    static Logger& instance() {
+    static Logger& instance()
+    {
         static Logger instance;
         return instance;
     }
 
-    void logDebug(const std::string& message) {
+    void logDebug(const std::string& message)
+    {
         #ifdef DEBUG
         std::lock_guard<std::mutex> lock(mutex_);
         std::cout << BOLD_BLUE << "DEBUG: " << message << RESET << "\n";
         #endif
     }
 
-    void logInfo(const std::string& message) {
+    void logInfo(const std::string& message)
+    {
         std::lock_guard<std::mutex> lock(mutex_);
         std::cout << DARK_GRAY << "INFO: " << message << RESET << "\n";
     }
 
-    void logWarning(const std::string& message) {
+    void logWarning(const std::string& message)
+    {
         std::lock_guard<std::mutex> lock(mutex_);
         std::cerr << BOLD_YELLOW << "WARNING: " << message << RESET << "\n";
     }
 
-    void logError(const std::string& message) {
+    void logError(const std::string& message)
+    {
         std::lock_guard<std::mutex> lock(mutex_);
         std::cerr << BOLD_RED << "ERROR: " << message << RESET << "\n";
     }
 
-    void logToFile(const std::string& message) {
+    void logToFile(const std::string& message)
+    {
         std::lock_guard<std::mutex> lock(mutex_);
         std::ofstream logfile("log.txt", std::ios_base::app);
         logfile << message << "\n";
@@ -88,6 +94,12 @@ private:
 #define LOG_INFO(message) Logger::instance().logInfo(message)
 #else
 #define LOG_INFO(message) Logger::instance().logToFile(message)
+#endif
+
+#ifdef DEBUG
+#define LOG_WARN(message) Logger::instance().logWarning(message)
+#else
+#define LOG_WARN(message) Logger::instance().logToFile(message)
 #endif
 
 #define LOG_WARNING(message) Logger::instance().logWarning(message)
