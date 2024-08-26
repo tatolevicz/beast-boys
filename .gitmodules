@@ -1,0 +1,3 @@
+[submodule "mgutils"]
+	path = mgutils
+	url = https://github.com/The-Broker-App/mgutils.git
