@@ -35,11 +35,13 @@ int main()
     else if(message == "quit\n"){
       quit = true;
       s.stop();
-      worker.join();
     }
 
     message = "";
   }
+
+  if(worker.joinable())
+    worker.join();
 
   return EXIT_SUCCESS;
 }
