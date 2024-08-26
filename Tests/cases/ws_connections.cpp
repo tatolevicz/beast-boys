@@ -125,3 +125,84 @@ TEST_CASE("WebSocket Connection Tests", "[websocket]")
   server.stop();
   serverThread.join();
 }
+
+TEST_CASE("WebSocket SSL Tests", "[websocket][ssl]")
+{
+
+  auto &errorManager = mgutils::ErrorManager::instance();
+  boost::signals2::connection errorConnection;
+
+  std::shared_ptr<bb::Streamer> streamer(new bb::Streamer());
+
+  std::promise<bool> sendPromise;
+  std::future<bool> sendFuture = sendPromise.get_future();
+
+  std::promise<std::string> receivePromise;
+  std::future<std::string> receiveFuture = receivePromise.get_future();
+
+  SECTION("Test SSL Connection with Public WebSocket Server")
+  {
+    errorConnection = errorManager.subscribe(&errorCallback);
+
+    bool skippedFirst = false;
+    auto stream = streamer->openStream("ws.ifelse.io", "443", "", true,  // 'true' for SSL
+     [&](bool success, const std::string &data, const auto &stream) {
+       if (!success) {
+         LOG_ERROR("Stream closed with msg: " + data);
+         return;
+       }
+
+       if(skippedFirst)
+        receivePromise.set_value(data);
+
+       skippedFirst = true;
+       LOG_INFO(data);
+     });
+
+    std::this_thread::sleep_for(std::chrono::seconds(1)); // Tempo para o stream ser aberto
+
+    auto streamPtr = stream.lock();
+    if (streamPtr)
+    {
+      REQUIRE(streamPtr->usesSSL());
+
+      std::string testMessage = "Hello, Secure WebSocket!";
+
+      auto messenger = std::make_unique<bb::Messenger>();
+
+      //Client messenger uses the stream to send messages and when it
+      // it queues all the messages and when it finish sending this message (or some error occur) it calls the callback
+      messenger->sendMessage(streamPtr, testMessage,
+        [&sendPromise](bool success)
+        {
+         sendPromise.set_value(success);
+        });
+
+
+      if (sendFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready) {
+        bool success = sendFuture.get();
+        REQUIRE(success);
+      } else {
+        LOG_ERROR("Timeout waiting for sendMessage callback.");
+        REQUIRE(false); // Forçar falha no teste em caso de timeout
+      }
+
+      if (receiveFuture.wait_for(std::chrono::seconds(5)) == std::future_status::ready)
+      {
+        std::string receivedMsg = receiveFuture.get();
+        REQUIRE(receivedMsg == testMessage);
+      } else {
+        LOG_ERROR("Timeout waiting for message from WebSocket server.");
+        REQUIRE(false); // Forçar falha no teste em caso de timeout
+      }
+    } else {
+      LOG_ERROR("Failed to lock stream.");
+      REQUIRE(false); // Forçar falha no teste se o stream não for válido
+    }
+
+  }
+
+  // Outros testes de SSL podem ser adicionados aqui
+
+  errorConnection.disconnect();
+}
