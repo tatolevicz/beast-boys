@@ -7,7 +7,7 @@
 #include "catch2/catch.hpp"
 #include "TestHelpers.h"
 
-TEST_CASE("WebSocket Connection Tests", "[socket]")
+TEST_CASE("WebSocket Connection Tests", "[websocket]")
 {
 // Subscribe to error events
   auto &errorManager = mgutils::ErrorManager::instance();

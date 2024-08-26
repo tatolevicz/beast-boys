@@ -50,7 +50,6 @@ private:
 
 #define LOG_DEBUG(message) Logger::instance().logDebug(message)
 #define LOG_INFO(message) Logger::instance().logInfo(message)
-#define LOG_WARN(message) Logger::instance().logWarning(message)
 
 #define LOG_WARNING(message) Logger::instance().logWarning(message)
 #define LOG_ERROR(message) Logger::instance().logError(message)
