@@ -18,8 +18,6 @@ int main()
     s.start<bb::network::server::rs::RawDoorman>(1234);
   });
 
-  worker.detach();
-
   bool quit = false;
   while(!quit)
   {
@@ -36,6 +34,8 @@ int main()
     }
     else if(message == "quit\n"){
       quit = true;
+      s.stop();
+      worker.join();
     }
 
     message = "";

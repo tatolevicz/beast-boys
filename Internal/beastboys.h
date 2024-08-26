@@ -24,8 +24,6 @@
 #include "NetworkRequestSettings.h"
 #include "CryptoHelper.h"
 #include "Server.h"
-#include "ErrorInfo.h"
-#include "ErrorManager.h"
 #include "Logger.h"
 
 

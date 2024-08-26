@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <mgutils/Json.h>
 #include "NetworkRequestSettings.h"
 #include "RestApi.h"
 
@@ -35,18 +36,18 @@ void signin()
 {
   std::shared_ptr<bb::network::rest::RestApi> api{nullptr};
   api = std::make_shared<bb::network::rest::RestApi>("3000", bb::network::rest::TaskExecutionType::BB_SYNCH, 10000);
-  auto document = bb::Json::document();
+
   auto jsonString = R"({"email":"leviczios@gmail.com", "password":"Tardatordo3*"})";
 
-  if (mgutils::Json::parse(jsonString, document))
+  if (auto document = mgutils::Json::parse(jsonString))
   {
-    assert(document.HasMember("email"));
-    assert(document.HasMember("password"));
+    assert(document->getRoot().hasString("email"));
+    assert(document->getRoot().hasString("password"));
 
     auto settings = bb::network::rest::NetworkRequestSettings();
     settings.setFullUrl("http://localhost/auth/sign-in")
         .setContentType(bb::network::rest::ContentType::JSON)
-        .setBody(document);
+        .setBody(*document);
 
     api->post(settings, [&](const bb::network::rest::NetworkResponse &response)
     {

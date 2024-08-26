@@ -1,4 +1,5 @@
 set(BEAST_BOYS_FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Common/cacert_data.h
     ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Resolver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Resolver.h
     ${CMAKE_CURRENT_SOURCE_DIR}/WebSocketApi/Impl/Stream.cpp
@@ -77,8 +78,6 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.h
-#    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorInfo.h
-#    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorManager.h
 
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/RestApi.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/NetworkRequestSettings.h
