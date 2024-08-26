@@ -11,10 +11,10 @@
 //TEST_CASE("RestApi sign-in test") {
 //  std::shared_ptr<bb::network::rest::RestApi> api =
 //      std::make_shared<bb::network::rest::RestApi>("3000", bb::network::rest::TaskExecutionType::BB_SYNCH, 10000);
-//  auto document = bb::Json::document();
+//  auto document = mgutils::Json::document();
 //  auto jsonString = R"({"email":"leviczios@gmail.com", "password":"Tardatordo3*"})";
 //
-//  REQUIRE(bb::Json::parse(jsonString, document));
+//  REQUIRE(mgutils::Json::parse(jsonString, document));
 //
 //  REQUIRE(document.HasMember("email"));
 //  REQUIRE(document.HasMember("password"));
@@ -53,7 +53,7 @@
 
 TEST_CASE("RestApi HTTP and HTTPS test") {
   auto api = std::make_shared<bb::network::rest::RestApi>("80", bb::network::rest::TaskExecutionType::BB_SYNCH, 10000);
-  auto document = bb::Json::document();
+  auto document = mgutils::Json::createDocument(mgutils::JsonRootType::OBJECT);
 
   SECTION("HTTP GET request to public endpoint") {
     auto settings = bb::network::rest::NetworkRequestSettings();
@@ -93,8 +93,8 @@ TEST_CASE("RestApi HTTP and HTTPS test") {
         .setContentType(bb::network::rest::ContentType::JSON);
 
     std::string postData = R"({"title": "foo", "body": "bar", "userId": 1})";
-    document.Parse(postData.c_str());
-    settings.setBody(document);
+    auto doc = mgutils::Json::parse(postData);
+    settings.setBody(*document);
 
     api->post(settings, [&](const bb::network::rest::NetworkResponse &response) {
       bool success = response.isOk();
@@ -113,8 +113,8 @@ TEST_CASE("RestApi HTTP and HTTPS test") {
         .setContentType(bb::network::rest::ContentType::JSON);
 
     std::string postData = R"({"title": "foo", "body": "bar", "userId": 1})";
-    document.Parse(postData.c_str());
-    settings.setBody(document);
+    auto doc = mgutils::Json::parse(postData);
+    settings.setBody(*doc);
 
     api_https->post(settings, [&](const bb::network::rest::NetworkResponse &response)
     {

@@ -3,7 +3,7 @@
 //
 
 #include "ResponseHelper.h"
-
+#include "Logger.h"
 #include <boost/preprocessor.hpp>
 #include <boost/callable_traits.hpp>
 #include <boost/beast/version.hpp>
@@ -12,31 +12,39 @@
 #include <type_traits>
 #include <thread>
 
-
 namespace bb::network::rest
 {
-  bool ResponseHelper::isApiError(const rapidjson::Value &json,
+  bool ResponseHelper::isApiError(const mgutils::JsonValue &json,
                                   const std::string &codeKey,
                                   const std::string &msgKey)
   {
-    return (json.HasMember(codeKey.c_str()) && json.HasMember(msgKey.c_str()));
+
+    return (json.hasString(codeKey) && json.hasString(msgKey));
   };
 
   std::pair<int, std::string>
-  ResponseHelper::constructError(const rapidjson::Value &json,
+  ResponseHelper::constructError(const mgutils::JsonValue &json,
                                  const std::string &codeKey,
                                  const std::string &msgKey)
   {
-    auto ec = Json::getInt(json, codeKey.c_str());
-    auto msg = Json::getString(json, msgKey.c_str());
 
-    if (msg.empty())
-    {
-      auto vec = Json::getStringVector(json, msgKey.c_str());
-      msg = !vec.empty() ? vec[0] : "";
+    try {
+      auto ec = json.getInt(codeKey).value();
+      auto msg = json.getString(msgKey).value();
+
+      if (msg.empty())
+      {
+        auto vec = json.getArray(msgKey);
+        msg = !vec.empty() ? vec[0].asString().value() : "";
+      }
+
+      return std::make_pair(ec, std::move(msg));
+
+    } catch (const std::bad_optional_access& e) {
+      LOG_ERROR(std::string("Error: Missing value in JSON. Exception: ") + e.what());
     }
 
-    return std::make_pair(ec, std::move(msg));
+    return std::make_pair(-1,"");
   }
 
   bool ResponseHelper::is_valid_value(const valType &v)

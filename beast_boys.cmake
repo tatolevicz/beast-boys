@@ -77,10 +77,8 @@ set(BEAST_BOYS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/Logger.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Common/CryptoHelper.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Json.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorInfo.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorManager.h
+#    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorInfo.h
+#    ${CMAKE_CURRENT_SOURCE_DIR}/Common/Error/ErrorManager.h
 
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/RestApi.h
     ${CMAKE_CURRENT_SOURCE_DIR}/RestApi/Common/NetworkRequestSettings.h

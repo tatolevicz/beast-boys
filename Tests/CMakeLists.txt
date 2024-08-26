@@ -9,7 +9,6 @@ endif()
 
 add_executable(${PROJECT_NAME}
     main.cpp
-    ${BEAST_BOYS_FILES}
     TestHelpers.cpp
     TestHelpers.h
     cases/raw_connections.cpp
@@ -19,19 +18,9 @@ add_executable(${PROJECT_NAME}
     cases/restapi.cpp
 )
 
-if (${Boost_FOUND})
-target_include_directories(${PROJECT_NAME} PUBLIC
-    ${Boost_INCLUDE_DIRS}
-)
-endif()
+target_link_libraries(${PROJECT_NAME} PRIVATE beast_boys)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    OpenSSL::SSL
-    OpenSSL::Crypto
-)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ./
-        ../external/catch2/single_include
-    ${BEAST_BOYS_FOLDERS}
 )

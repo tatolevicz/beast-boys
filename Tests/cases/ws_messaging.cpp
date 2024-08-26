@@ -5,14 +5,13 @@
 #include <beastboys>
 #include <thread>
 #include <string>
-#include "Server.h"
 #include "catch2/catch.hpp"
 #include "TestHelpers.h"
 
 TEST_CASE("WebSocket Messaging Tests", "[socket]")
 {
   // Subscribe to error events
-  auto &errorManager = bb::ErrorManager::instance();
+  auto &errorManager = mgutils::ErrorManager::instance();
   boost::signals2::connection errorConnection;
 
   bb::network::server::Server server;

@@ -38,7 +38,7 @@ void signin()
   auto document = bb::Json::document();
   auto jsonString = R"({"email":"leviczios@gmail.com", "password":"Tardatordo3*"})";
 
-  if (bb::Json::parse(jsonString, document))
+  if (mgutils::Json::parse(jsonString, document))
   {
     assert(document.HasMember("email"));
     assert(document.HasMember("password"));

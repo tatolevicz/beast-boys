@@ -4,15 +4,13 @@
 #include <beastboys>
 #include <thread>
 #include <string>
-#include "Server.h"
 #include "catch2/catch.hpp"
 #include "TestHelpers.h"
-#include "RawDoorman.h"
 
 TEST_CASE("Socket Connection Tests", "[socket]")
 {
 // Subscribe to error events
-  auto &errorManager = bb::ErrorManager::instance();
+  auto &errorManager = mgutils::ErrorManager::instance();
   boost::signals2::connection errorConnection;
 
   bb::network::server::Server server;
@@ -30,14 +28,14 @@ TEST_CASE("Socket Connection Tests", "[socket]")
 
   SECTION("Test invalid Server")
   {
-    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
+    errorConnection = errorManager.subscribe([&](const mgutils::ErrorInfo& error)
     {
       infoCallback(error);
       // expected error here is 1 and 89 (cient and server respectively)
       REQUIRE(error.errorCode == 1);
     });
 
-    auto stream = streamer->openStream("zxcvzxcvz ","1234","", nullptr);
+    auto stream = streamer->openStream("zxcvzxcvz ","1234","", [](bool success, const std::string& data, RawSharedStream stream){});
     auto streamPtr = stream.lock();
     std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
     REQUIRE(!streamPtr->isOpen());
@@ -48,7 +46,7 @@ TEST_CASE("Socket Connection Tests", "[socket]")
     // no error expected
     errorConnection = errorManager.subscribe(&errorCallback);
 
-    auto stream = streamer->openStream("127.0.0.1","1234","", nullptr);
+    auto stream = streamer->openStream("127.0.0.1","1234","", [](bool success, const std::string& data, RawSharedStream stream){});
     auto streamPtr = stream.lock();
     std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
     REQUIRE(streamPtr->isOpen());
@@ -57,7 +55,7 @@ TEST_CASE("Socket Connection Tests", "[socket]")
   SECTION("Test Connection Resolving Success")
   {
     errorConnection = errorManager.subscribe(&errorCallback);
-    auto stream = streamer->openStream("localhost","1234","", nullptr);
+    auto stream = streamer->openStream("localhost","1234","", [](bool success, const std::string& data, RawSharedStream stream){});
     auto streamPtr = stream.lock();
     std::this_thread::sleep_for(std::chrono::seconds(1)); // time to stream be opened
     REQUIRE(streamPtr->isOpen());
@@ -65,7 +63,7 @@ TEST_CASE("Socket Connection Tests", "[socket]")
 
   SECTION("Test Forced Disconnection by Server")
   {
-    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
+    errorConnection = errorManager.subscribe([&](const mgutils::ErrorInfo& error)
     {
       infoCallback(error);
       // expected error here is 2 and 89 (cient and server respectively)

@@ -7,9 +7,10 @@
 
 #include <beastboys>
 #include <string>
+#include <mgutils/ErrorManager.h>
 
-void errorCallback(const bb::ErrorInfo& error);
-void infoCallback(const bb::ErrorInfo& error);
+void errorCallback(const mgutils::ErrorInfo& error);
+void infoCallback(const mgutils::ErrorInfo& error);
 void handleServerMessages(bb::network::server::Server& server, const std::string& message);
 
 template<typename Condition>

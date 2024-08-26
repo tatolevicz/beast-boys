@@ -5,7 +5,6 @@
 #ifndef BEASTBOYS_NETWORKTYPES_H
 #define BEASTBOYS_NETWORKTYPES_H
 
-#include "Json.h"
 #include <boost/variant.hpp>
 #include <boost/beast.hpp>
 #include "RestApiResponse.h"
@@ -13,7 +12,6 @@
 
 namespace bb::network::rest
 {
-
   enum TaskExecutionType
   {
       BB_SYNCH,

@@ -4,15 +4,13 @@
 #include <beastboys>
 #include <thread>
 #include <string>
-#include "Server.h"
 #include "catch2/catch.hpp"
 #include "TestHelpers.h"
-#include "WebSocketDoorman.h"
 
 TEST_CASE("WebSocket Connection Tests", "[socket]")
 {
 // Subscribe to error events
-  auto &errorManager = bb::ErrorManager::instance();
+  auto &errorManager = mgutils::ErrorManager::instance();
   boost::signals2::connection errorConnection;
 
   bb::network::server::Server server;
@@ -30,7 +28,7 @@ TEST_CASE("WebSocket Connection Tests", "[socket]")
 
   SECTION("Test invalid Server")
   {
-    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
+    errorConnection = errorManager.subscribe([&](const mgutils::ErrorInfo& error)
     {
       infoCallback(error);
       // expected error here is 1 and 89 (cient and server respectively)
@@ -70,7 +68,7 @@ TEST_CASE("WebSocket Connection Tests", "[socket]")
 
   SECTION("Test Forced Disconnection by Server")
   {
-    errorConnection = errorManager.subscribe([&](const bb::ErrorInfo& error)
+    errorConnection = errorManager.subscribe([&](const mgutils::ErrorInfo& error)
     {
       infoCallback(error);
       // expected error here is 2 and 89 (cient and server respectively)

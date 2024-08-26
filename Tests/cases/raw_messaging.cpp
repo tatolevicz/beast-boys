@@ -14,7 +14,7 @@
 TEST_CASE("Socket Messaging Tests", "[socket]")
 {
   // Subscribe to error events
-  auto &errorManager = bb::ErrorManager::instance();
+  auto &errorManager = mgutils::ErrorManager::instance();
   boost::signals2::connection errorConnection;
 
   bb::network::server::Server server;

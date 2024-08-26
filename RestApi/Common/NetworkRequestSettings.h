@@ -5,6 +5,7 @@
 #ifndef BEASTBOYS_NETWORKREQUESTSETTINGS_H
 #define BEASTBOYS_NETWORKREQUESTSETTINGS_H
 
+#include <mgutils/Json.h>
 #include <string>
 #include "NetworkTypes.h"
 #include <map>
@@ -20,7 +21,7 @@ public:
   NetworkRequestSettings &setFullUrl(const std::string url);
   NetworkRequestSettings &setBody(const std::string &data);
   NetworkRequestSettings &setBody(const ListData &list);
-  NetworkRequestSettings &setBody(const rapidjson::Document &document);
+  NetworkRequestSettings &setBody(const mgutils::JsonDocument &document);
   NetworkRequestSettings &addHeaderValue(const HeaderVariant& key, const std::string &value);
 
   std::string body();

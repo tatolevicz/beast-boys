@@ -5,8 +5,8 @@
 #ifndef BEASTBOYS_RESPONSEHELPER_H
 #define BEASTBOYS_RESPONSEHELPER_H
 
+#include <mgutils/Json.h>
 #include <memory>
-#include "Json.h"
 #include "NetworkTypes.h"
 
 #define __STRINGIZE_I(x) #x
@@ -70,10 +70,10 @@ namespace bb::network::rest
 
   class ResponseHelper {
   public:
-      bool isApiError(const rapidjson::Value &json, const std::string &codeKey, const std::string &msgKey);
+      bool isApiError(const mgutils::JsonValue &json, const std::string &codeKey, const std::string &msgKey);
 
       std::pair<int, std::string>
-      constructError(const rapidjson::Value &json, const std::string &codeKey, const std::string &msgKey);
+      constructError(const mgutils::JsonValue &json, const std::string &codeKey, const std::string &msgKey);
 
       bool is_valid_value(const valType &v);
 

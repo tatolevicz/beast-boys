@@ -81,9 +81,9 @@ NetworkRequestSettings::setBody(const ListData &list)
 }
 
 NetworkRequestSettings &
-NetworkRequestSettings::setBody(const rapidjson::Document &document)
+NetworkRequestSettings::setBody(const mgutils::JsonDocument &document)
 {
-  return setBody(bb::Json::toString(document));
+  return setBody(document.toString());
 }
 
 NetworkRequestSettings &

@@ -3,9 +3,8 @@
 //
 
 #include "TestHelpers.h"
-#include "Logger.h"
 
-void errorCallback(const bb::ErrorInfo& error)
+void errorCallback(const mgutils::ErrorInfo& error)
 {
   std::stringstream stm;
   stm << "Error Code: " << error.errorCode
@@ -15,7 +14,7 @@ void errorCallback(const bb::ErrorInfo& error)
   LOG_ERROR(stm.str());
 }
 
-void infoCallback(const bb::ErrorInfo& error)
+void infoCallback(const mgutils::ErrorInfo& error)
 {
   std::stringstream stm;
   stm << "Error Code: " << error.errorCode
