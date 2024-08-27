@@ -48,7 +48,7 @@
 #ifdef __APPLE__
 #include <pthread.h>
 #endif
-#include "cacert_data.h" // Assumindo que cacert_data é uma string ou array de bytes contendo o certificado
+#include "cacert_data.h"
 
 namespace bb::network::ws
   {
@@ -64,7 +64,7 @@ namespace bb::network::ws
         boost::asio::buffer(cacert_data, std::strlen(cacert_data)), ec);
     if (ec) {
       std::cerr << "Error adding certificate authority: " << ec.message() << std::endl;
-      return; // ou use um mecanismo de erro apropriado
+      return;
     }
 
     _sslContext.set_verify_mode(boost::asio::ssl::verify_peer);

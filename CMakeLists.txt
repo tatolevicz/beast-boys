@@ -13,7 +13,8 @@ set(BUILD_BB_TESTS ON)
 add_subdirectory(mgutils)
 # ----------------------------------------------
 
-include(beast_boys.cmake)
+include(cmake/beast_boys.cmake)
+include(cmake/generate_cacert_data.cmake)
 
 add_library(${PROJECT_NAME} STATIC
     ${BEAST_BOYS_FILES}
