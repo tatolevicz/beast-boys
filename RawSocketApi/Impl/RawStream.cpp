@@ -97,7 +97,7 @@ void Stream::internalStop()
   {
 //    _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
 //        if(_wasClosedByServer) return;
-//        std::cout << "Stream " << id << " stopped by user!\n";
+//        lg(mgutils::Info) << "Stream " << id << " stopped by user!\n";
 //    });
 
     boost::asio::post(_socket->get_executor(),
@@ -117,7 +117,7 @@ void Stream::internalStop()
       if(_wasClosedByServer)
         return;
 
-      std::cout << "Stream " << id << " stopped by user!\n";
+      lg(mgutils::Info)<< "Stream " << id << " stopped by user!\n";
     });
   }
 }
@@ -144,7 +144,7 @@ void Stream::stopWithCloseCallbackTriggered() {
 
 Stream::~Stream()
 {
-  std::cout << "Destructor stream!" << "\n";
+  lg(mgutils::Info) << "Destructor stream!" << "\n";
 }
 
 

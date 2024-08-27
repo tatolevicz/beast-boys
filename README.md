@@ -47,12 +47,12 @@ int main(){
                                         true, //uses SSL
     [](bool success, const std::string& data, auto stream){
         if(!success) {
-            std::cout << "Stream1 closed with msg: " << data << "\n\n";
+            lg(mgutils::Info) << "Stream1 closed with msg: " << data << "\n\n";
             return;
         }
 
         //Work with your streamed data here
-        std::cout << data << "\n\n";
+        lg(mgutils::Info) << data << "\n\n";
 
     });
     

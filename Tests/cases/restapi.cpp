@@ -22,7 +22,7 @@ TEST_CASE("RestApi HTTP test","[rest][http]")
     {
       bool success = response.isOk();
       std::string msg = response.message;
-      std::cout << msg << "\n";
+      lg(mgutils::Info) << msg << "\n";
       REQUIRE(success == true);
       REQUIRE(response.http_result_code == 200);
       REQUIRE(!response.data.empty());
@@ -42,7 +42,7 @@ TEST_CASE("RestApi HTTP test","[rest][http]")
     {
       bool success = response.isOk();
       std::string msg = response.message;
-      std::cout << msg << "\n";
+      lg(mgutils::Info) << msg << "\n";
       REQUIRE(success == true);
       REQUIRE(response.http_result_code == 201);
       REQUIRE(!response.data.empty());
@@ -64,7 +64,7 @@ TEST_CASE("RestApi HTTPS test","[rest][https]")
     {
       bool success = response.isOk();
       std::string msg = response.message;
-      std::cout << msg << "\n";
+      lg(mgutils::Info) << msg << "\n";
       REQUIRE(success == true);
       REQUIRE(response.http_result_code == 200);
       REQUIRE(!response.data.empty());
@@ -84,7 +84,7 @@ TEST_CASE("RestApi HTTPS test","[rest][https]")
     {
       bool success = response.isOk();
       std::string msg = response.message;
-      std::cout << msg << "\n";
+      lg(mgutils::Info) << msg << "\n";
       REQUIRE(success == true);
       REQUIRE(response.http_result_code == 201);
       REQUIRE(!response.data.empty());

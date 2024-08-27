@@ -7,4 +7,6 @@ add_executable(${PROJECT_NAME}
     main.cpp
 )
 
-target_link_libraries(raw-server beast_boys)
+target_link_libraries(${PROJECT_NAME}
+    beast_boys
+)

@@ -8,6 +8,7 @@
 #include <mgutils/Logger.h>
 
 #define lg mgutils::Logger::instance().log
+#define lgs mgutils::Logger::instance().log(mgutils::Info)
 
 class Logger {
 public:
@@ -56,15 +57,13 @@ private:
 
 #define RETURN_IF_ASIO_ERROR_(ec) \
   if (ec.value() != 0) { \
-      mgutils::ErrorInfo error(ec.value(), ec.message(), __FILE__, __LINE__); \
-      mgutils::ErrorManager::instance().notify(error); \
+      NOTIFY_ERROR(ec.value(), ec.message()); \
       return; \
   }
 
 #define REPORT_ASIO_ERROR_(ec) \
   if (ec.value() != 0) { \
-      mgutils::ErrorInfo error(ec.value(), ec.message(), __FILE__, __LINE__); \
-      mgutils::ErrorManager::instance().notify(error); \
+    NOTIFY_ERROR(ec.value(), ec.message()); \
   }
 
 #endif // BEASTBOYS_LOGGER_H

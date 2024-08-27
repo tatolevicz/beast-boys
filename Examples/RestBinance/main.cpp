@@ -3,35 +3,8 @@
 //
 
 #include <iostream>
-#include <mgutils/Json.h>
-#include "NetworkRequestSettings.h"
-#include "RestApi.h"
+#include <beastboys>
 
-//void exampleGettingUserListenKey(){
-//
-//    std::string testSpotApiKey = "kovHrnxpU0PsCAGSTnPUvxdBX1ZGYgAqTtmLLniO2aMmTq4i0wwAXgLundvb6fiU";
-//    auto _restApi = std::make_unique<bb::network::rest::RestApi>("443",60000);
-//
-//    std::string resp = "";
-//
-//    auto settings = bb::network::rest::NetworkRequestSettings();
-//
-//    settings.addHeaderValue("X-MBX-APIKEY", testSpotApiKey)
-//            .setContentType(bb::network::rest::ContentType::FORM)
-//            .setFullUrl("https://testnet.binance.vision/api/v3/userDataStream");
-//
-//    _restApi->post(settings, [](const bb::network::rest::NetworkResponse& response) {
-//        if(response.isOk()){
-//            std::cout << "Data user: " << response.data <<  "\n";
-//        }
-//        else{
-//            std::cout << "Data user OK error!" << "\n";
-//        }
-//    });
-//}
-//
-
-// magia api tests
 void signin()
 {
   std::shared_ptr<bb::network::rest::RestApi> api{nullptr};
@@ -53,7 +26,7 @@ void signin()
     {
       bool success = response.isOk();
       std::string msg = response.message;
-      std::cout << msg << "\n";
+      lg(mgutils::Info) << msg << "\n";
 //      if (success) {
 //        user.reset(UserParser::parse(response.data));
 //      }
@@ -66,7 +39,6 @@ void signin()
 }
 
 int main() {
-//    exampleGettingUserListenKey();
   signin();
     return EXIT_SUCCESS;
 }

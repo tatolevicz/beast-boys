@@ -25,11 +25,11 @@ int main()
       continue;
 
     if(message == "stop\n"){
-      std::cout << "Stop all streams!!\n";
+      lg(mgutils::Info) << "Stop all streams!!\n";
       s.stop();
     }
     if(message == "close\n"){
-      std::cout << "Close all streams!!\n";
+      lg(mgutils::Info) << "Close all streams!!\n";
       s.disconnectAll();
     }
     else if(message == "quit\n"){
