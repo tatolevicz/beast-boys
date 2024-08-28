@@ -81,7 +81,7 @@ int main()
 //       if (success)
 //         lg(mgutils::Info) << "Msg enviada com sucesso!\n";
 //       else
-//         std::cerr << "Msg nao enviada!\n";
+//         lg(mgutils::Error) << "Msg nao enviada!\n";
 //     });
 //
 //      sent = true;

@@ -15,7 +15,7 @@ namespace bb::network::server::ws
       std::make_shared<HttpListener>(std::move(_sock), _serverState)->run();
     }
     else{
-      std::cerr << "Error: " << ec.value() << " Msg: " << ec.message() << "\n";
+      lg(mgutils::Error)<< "Error: " << ec.value() << " Msg: " << ec.message();
     }
 
     run();

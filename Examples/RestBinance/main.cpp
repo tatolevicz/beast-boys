@@ -26,7 +26,7 @@ void signin()
     {
       bool success = response.isOk();
       std::string msg = response.message;
-      lg(mgutils::Info) << msg << "\n";
+      lg(mgutils::Info) << msg;
 //      if (success) {
 //        user.reset(UserParser::parse(response.data));
 //      }

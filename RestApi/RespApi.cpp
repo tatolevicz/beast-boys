@@ -128,7 +128,7 @@ namespace bb::network::rest
 
       if (ec != 0)
       {
-        std::cerr << fl << " - Error message: " << errmsg << "\n";
+        lg(mgutils::Error) << fl << " - Error message: " << errmsg;
       } else
       {
         validateResponse(http_result_code, response);

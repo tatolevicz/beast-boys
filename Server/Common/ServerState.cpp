@@ -51,7 +51,7 @@ namespace bb::network::server
   ServerState::~ServerState()
   {
     if(!_clients.empty())
-      std::cerr << "Clients not empty on ServerState destructor!\n";
+      lg(mgutils::Error) << "Clients not empty on ServerState destructor!\n";
   }
 
 }

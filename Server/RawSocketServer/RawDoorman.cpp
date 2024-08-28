@@ -15,7 +15,7 @@ namespace bb::network::server::rs
     {
       std::make_shared<bb::network::server::rs::RSConnection>(std::move(_sock), _serverState)->run();
     } else {
-      std::cerr << "Error: " << ec.value() << " Msg: " << ec.message() << "\n";
+      lg(mgutils::Error) << "Error: " << ec.value() << " Msg: " << ec.message();
     }
     run();
   }

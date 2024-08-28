@@ -91,7 +91,7 @@ TEST_CASE("WebSocket Connection Tests", "[websocket]")
     auto streamPtr = stream.lock();
     if (!streamPtr)
     {
-      std::cerr << "Failed to lock stream." << std::endl;
+      lg(mgutils::Error) << "Failed to lock stream.";
       REQUIRE(false);
     }
 

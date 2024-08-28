@@ -8,7 +8,6 @@
 #include <mgutils/Logger.h>
 
 #define lg mgutils::Logger::instance().log
-#define lgs mgutils::Logger::instance().log(mgutils::Info)
 
 class Logger {
 public:

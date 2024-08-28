@@ -86,7 +86,7 @@ TEST_CASE("Socket Connection Tests", "[socket]")
     auto streamPtr = stream.lock();
     if (!streamPtr)
     {
-      std::cerr << "Failed to lock stream." << std::endl;
+      lg(mgutils::Error) << "Failed to lock stream.";
       REQUIRE(false);
     }
 

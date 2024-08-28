@@ -144,7 +144,7 @@ void Stream::stopWithCloseCallbackTriggered() {
 
 Stream::~Stream()
 {
-  lg(mgutils::Info) << "Destructor stream!" << "\n";
+  lg(mgutils::Info) << "Destructor stream!";
 }
 
 

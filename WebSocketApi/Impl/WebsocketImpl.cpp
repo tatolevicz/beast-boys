@@ -63,7 +63,7 @@ namespace bb::network::ws
     _sslContext.add_certificate_authority(
         boost::asio::buffer(cacert_data, std::strlen(cacert_data)), ec);
     if (ec) {
-      std::cerr << "Error adding certificate authority: " << ec.message() << std::endl;
+      lg(mgutils::Error) << "Error adding certificate authority: " << ec.message() << std::endl;
       return;
     }
 
