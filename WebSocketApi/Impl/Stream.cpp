@@ -103,7 +103,7 @@ void Stream::internalStop(){
         if(_socketSSL->is_open()) {
             _socketSSL->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
                 if(_wasClosedByServer) return;
-                std::cout << "Stream " << id << " stopped by user!\n";
+              lg(mgutils::Info) << "Stream " << id << " stopped by user!\n";
             });
         }
 
@@ -113,7 +113,7 @@ void Stream::internalStop(){
     if(_socket->is_open()) {
         _socket->async_close(boost::beast::websocket::close_code::normal, [&](boost::system::error_code ec) {
             if(_wasClosedByServer) return;
-            std::cout << "Stream " << id << " stopped by user!\n";
+          lg(mgutils::Info) << "Stream " << id << " stopped by user!\n";
         });
     }
 }
@@ -143,7 +143,7 @@ void Stream::ping(const std::string& payload) {
 }
 
 Stream::~Stream(){
-    std::cout << "Destructor stream!";
+  lg(mgutils::Debug) << "Destructor stream!";
 }
 
 void Stream::setWatchControlMessages() {

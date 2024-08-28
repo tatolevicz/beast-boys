@@ -5,7 +5,7 @@
 #include "RawDoorman.h"
 #include "ServerState.h"
 #include "RSConnection.h"
-#include <iostream>
+#include "Logger.h"
 
 namespace bb::network::server::rs
 {

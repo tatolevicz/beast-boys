@@ -122,7 +122,7 @@ namespace bb::network::rest
     if (!SSL_set_tlsext_host_name(ssl_stream.native_handle(), host.c_str()))
     {
       boost::system::error_code ec{static_cast<int>(::ERR_get_error()), boost::asio::error::get_ssl_category()};
-      lg(mgutils::Error) << __MESSAGE("msg=" + ec.message()) << std::endl;
+      lg(mgutils::Error) << __MESSAGE("msg=" + ec.message()) ;
       __MAKE_ERRMSG(res, ec.message());
       return res;
     }
@@ -131,7 +131,7 @@ namespace bb::network::rest
     auto const results = m_resolver.resolve(host, m_port, ec);
     if (ec)
     {
-      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message()) << std::endl;
+      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message());
       __MAKE_ERRMSG(res, ec.message());
       return res;
     }
@@ -139,7 +139,7 @@ namespace bb::network::rest
     boost::asio::connect(ssl_stream.next_layer(), results.begin(), results.end(), ec);
     if (ec)
     {
-      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message()) << std::endl;
+      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message());
         __MAKE_ERRMSG(res, ec.message());
         return res;
     }
@@ -147,7 +147,7 @@ namespace bb::network::rest
     ssl_stream.handshake(boost::asio::ssl::stream_base::client, ec);
     if (ec)
     {
-      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message()) << std::endl;
+      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message());
       __MAKE_ERRMSG(res, ec.message());
       return res;
     }
@@ -180,7 +180,7 @@ namespace bb::network::rest
     boost::beast::http::write(ssl_stream, req, ec);
     if (ec)
     {
-      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message()) << std::endl;
+      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message()) ;
       __MAKE_ERRMSG(res, ec.message());
       return res;
     }
@@ -191,7 +191,7 @@ namespace bb::network::rest
     boost::beast::http::read(ssl_stream, buffer, bres, ec);
     if (ec)
     {
-      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message()) << std::endl;
+      lg(mgutils::Error) << __MESSAGE("msg=" << ec.message());
 
       __MAKE_ERRMSG(res, ec.message());
       return res;
@@ -262,7 +262,7 @@ namespace bb::network::rest
     res.data = std::move(bres.body());
 
     // Write the message to standard out
-    lg(mgutils::Info) << bres << std::endl;
+    lg(mgutils::Info) << bres ;
 
     // Gracefully close the socket
     boost::system::error_code ec;
@@ -290,7 +290,7 @@ namespace bb::network::rest
       auto action = front.action;
       std::string data = std::move(front.data);
       std::string target = front.settings.getEndPoint();
-      //lg(mgutils::Info) << "async_post(): target=" << target << std::endl;
+      //lg(mgutils::Info) << "async_post(): target=" << target ;
 
       auto req = std::make_unique<request_type>();
       req->version(11);
@@ -317,7 +317,7 @@ namespace bb::network::rest
           req->set(std::get<HeaderType>(item.first), item.second);
       }
 
-      //lg(mgutils::Info) << target << " REQUEST:\n" << m_req << std::endl;
+      //lg(mgutils::Info) << target << " REQUEST:\n" << m_req ;
 
       // Look up the domain name
       m_resolver.async_resolve(
@@ -346,7 +346,7 @@ namespace bb::network::rest
       if (!SSL_set_tlsext_host_name(ssl_socket->native_handle(), host.c_str())) {
           boost::system::error_code ec2{static_cast<int>(::ERR_get_error()),
                                         boost::asio::error::get_ssl_category()};
-        lg(mgutils::Error) << __MESSAGE("msg=" << ec2.message()) << std::endl;
+        lg(mgutils::Error) << __MESSAGE("msg=" << ec2.message()) ;
 
           return;
       }
@@ -484,7 +484,7 @@ namespace bb::network::rest
       const auto item = std::move(m_async_requests.front());
       m_async_requests.pop();
 
-      //lg(mgutils::Info) << "process_reply(): target=" << item.target << std::endl;
+      //lg(mgutils::Info) << "process_reply(): target=" << item.target ;
       item.invoker->invoke(fl, ec, std::move(errmsg), body, http_result_code);
     }
     catch (std::exception &e)

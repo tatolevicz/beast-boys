@@ -34,7 +34,7 @@ namespace bb::network::rest
         _worker.join();
     }
 
-    std::cout << "Destructor RestApi\n";
+    lg(mgutils::Debug) << "Destructor RestApi\n";
   }
 
   void RestApi::startAsyncContext()

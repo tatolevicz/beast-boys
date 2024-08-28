@@ -5,7 +5,7 @@
 #include "WebSocketDoorman.h"
 #include "ServerState.h"
 #include "HttpListener.h"
-#include <iostream>
+#include "Logger.h"
 
 namespace bb::network::server::ws
 {
