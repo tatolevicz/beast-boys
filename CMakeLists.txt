@@ -6,8 +6,9 @@ project(beast_boys VERSION 1.0 LANGUAGES CXX )
 set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_SHARED_LIBS OFF)
-set(BUILD_BB_EXAMPLES ON)
-set(BUILD_BB_TESTS ON)
+
+option(BUILD_BB_EXAMPLES "Build the tests" ON)
+option(BUILD_BB_TESTS "Build the examples" ON)
 
 # -- MGUTILS --------------------
 add_subdirectory(mgutils)
