@@ -2,10 +2,10 @@
 set(CACERT_URL "https://curl.se/ca/cacert.pem")
 
 # Define the output file name
-set(OUTPUT_FILE "${CMAKE_SOURCE_DIR}/Common/cacert_data.h")
+set(OUTPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Common/cacert_data.h")
 
 # Define the temporary file to store cacert.pem
-set(TEMP_FILE "${CMAKE_BINARY_DIR}/cacert.pem")
+set(TEMP_FILE "${CMAKE_CURRENT_BINARY_DIR}/cacert.pem")
 
 # Download the latest cacert.pem
 message(STATUS "Downloading cacert.pem from ${CACERT_URL}...")
